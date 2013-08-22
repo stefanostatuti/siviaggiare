@@ -7,13 +7,13 @@
 global $config;
 //sono da modificare con i vostri percorsi!!!
 $config['smarty']['template_dir'] =
-'C:\\xampp\\htdocs\\progetto_siviaggiare\\siviaggiare\\templates\\main\\template\\';
+'C:\\xampp\\htdocs\\siviaggiare\\siviaggiare\\templates\\main\\template\\';
 $config['smarty']['compile_dir'] =
-'C:\\xampp\\htdocs\\progetto_siviaggiare\\siviaggiare\\templates\\main\\templates_c\\';
+'C:\\xampp\\htdocs\\siviaggiare\\siviaggiare\\templates\\main\\templates_c\\';
 $config['smarty']['config_dir'] =
-'C:\\xampp\\htdocs\\progetto_siviaggiare\\siviaggiare\\templates\\main\\configs\\';
+'C:\\xampp\\htdocs\\siviaggiare\\siviaggiare\\templates\\main\\configs\\';
 $config['smarty']['cache_dir'] =
-'C:\\xampp\\htdocs\\progetto_siviaggiare\\siviaggiare\\templates\\main\\cache\\';
+'C:\\xampp\\htdocs\\siviaggiare\\siviaggiare\\templates\\main\\cache\\';
 
 $config['debug']=true;
 $config['mysql']['user'] = 'root';
