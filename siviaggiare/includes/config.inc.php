@@ -5,7 +5,7 @@
  */
 
 global $config;
-//sono da modificare con i vostri percorsi!!! CIAO STUPIDILLU
+//sono da modificare con i vostri percorsi!!! CIAO STUPIDILLU ciao
 $config['smarty']['template_dir'] =
 'C:\\xampp\\htdocs\\siviaggiare\\siviaggiare\\templates\\main\\template\\';
 $config['smarty']['compile_dir'] =
