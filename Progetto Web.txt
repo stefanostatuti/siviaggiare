@@ -1,0 +1,33 @@
+Nome dell'applicazione : SiViaggiare (YesYouTravel)
+
+Componenti : Antonini Francesco, Poscente Riccardo, Statuti Stefano
+
+Obiettivo : fornire uno strumento di ricerca e condivisione di mete turistiche attraverso recensioni frutto dell'esperienze degli utenti.
+	    Questa applicazione non vuole essere una guida turistica ma si pone lo scopo di fornire soluzioni ai problemi che comunemente le persone incontrano quando
+	    progettano un viaggio (costi dei mezzi di trasporto,orari di ingresso nei musei,sconti per studenti,....) e allo stesso tempo dare risalto ai luoghi d'interesse
+	    meno noti.
+
+Utenti: 
+
+	Non Registrati: 
+			-Può effettuare ricerche su una città e consultare le recensioni inserite dagli utenti registrati.
+			-Non può visualizzare i profili degli utenti registrati
+			-Non può rilasciare feedback sulle recensioni
+			-Può effettuare la registrazione tramite un nickname, un indirizzo e-mail e una form di iscrizione.
+
+	Registrato:
+			-Può effettuare ricerche, consultare le recensioni e rilasciare feedback.
+			-Può inserire recensioni sui luoghi visitati
+			-Possiede un proprio profilo personale
+			-Ha accesso ai profili degli altri utenti
+
+	Amministratore:
+			-Ha accesso totale all'applicazione
+			-Gestisce gli utenti
+			-Controlla i contenuti delle recensioni inserite
+
+
+Feedback = è rilasciato, da parte di un utente, ad una recensione quando questa risulta essere dettagliata e veritiera.
+	   Tramite questo strumento gli utenti con recensioni migliori avranno maggior risalto nella comunità.
+
+Profilo  = Scheda dettagliata di un utente in cui vengono riportate: tutte le recensioni create, un indice di popolarità, classifiche delle città (3 posti)
