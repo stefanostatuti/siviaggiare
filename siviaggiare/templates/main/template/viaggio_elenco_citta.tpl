@@ -1,6 +1,7 @@
 <html>
 <body>
 <title>YesYouTravel - Visualizzazione Citta inserite(Table)</title>
+
 <br>
 <b>Citta inseriti da te:</b>
 <br><br>
