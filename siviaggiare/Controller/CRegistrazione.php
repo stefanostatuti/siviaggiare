@@ -14,7 +14,7 @@ class CRegistrazione {
     private $_errore = '';
     //end
     public function smista() {
-        //$registrato=$this->getUtenteRegistrato();
+        $registrato=$this->getUtenteRegistrato();
         $view=USingleton::getInstance('VRegistrazione');
         switch ($view->getTask()) {
             case 'recupera_password':
