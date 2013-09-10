@@ -1,5 +1,5 @@
 Nome dell'applicazione : SiViaggiare (YesYouTravel)
-PORCO IL CORANO!!!
+
 Componenti : Antonini Francesco, Poscente Riccardo, Statuti Stefano
 
 Obiettivo : fornire uno strumento di ricerca e condivisione di mete turistiche attraverso recensioni frutto dell'esperienze degli utenti.
