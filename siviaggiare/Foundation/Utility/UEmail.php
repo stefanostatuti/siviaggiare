@@ -24,7 +24,7 @@ class UEmail {
         //$this->_mail->Sender = 'bookstore@lamjex.com';
         //$this->_mail->FromName = 'BookStore';
         $this->_mail->AddAddress($email_destinatario, $nome_destinatario);
-        $this->_mail->SetFrom('bookstore@lamjex.com','BookStore');
+        $this->_mail->SetFrom('yesyoutravel@lamjex.com','YesYouTravel');
         $this->_mail->WordWrap = 50;                                 // set word wrap to 50 characters
         //$this->_mail->AddAttachment("/var/tmp/file.tar.gz");         // add attachments
         //$this->_mail->AddAttachment("/tmp/image.jpg", "new.jpg");    // optional name

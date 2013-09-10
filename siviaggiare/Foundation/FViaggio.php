@@ -12,7 +12,7 @@ class FViaggio extends FDatabase{
         $this->tabella='viaggio';
         $this->chiave='id'; //verificare che la chiave sia ID
         $this->classe='EViaggio';
-        $this->_auto_increment=true;
+        $this->auto_incremento=true;
         USingleton::getInstance('FDatabase');
     }
 
@@ -21,5 +21,18 @@ class FViaggio extends FDatabase{
         $id = parent::store($object);
         $object->id=$id;
     }
+
+    public function loadViaggio($id)
+    {
+        $query='SELECT * ' .
+            'FROM `'.$this->tabella.'` ' .
+            'WHERE `'.$this->chiave.'` = \''.$id.'\'';
+        $obj=parent::getObject(parent::query($query));
+        //debug("query fatta!");
+        //var_dump($obj);
+        //debug("ecco l'oggetto ricevuto".$obj);
+        return $obj;
+    }
+
 
 }

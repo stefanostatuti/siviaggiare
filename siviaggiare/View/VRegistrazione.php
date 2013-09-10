@@ -9,10 +9,12 @@
 
 class VRegistrazione extends View {
 
+    private $_layout='default';
+
     public function show($layout)
     {
         $this->display($layout);
-    }
+    }       //è deprecabile!!!
 
     /**
      * Imposta i dati nel template identificati da una chiave ed il relativo valore
@@ -83,6 +85,24 @@ class VRegistrazione extends View {
             return $_REQUEST['mail'];
         else
             return false;
+    }
+
+    public function processaTemplate() {
+        $contenuto=$this->fetch('registrazione_'.$this->_layout.'.tpl');
+        return $contenuto;
+    }
+
+    public function setLayout($layout){
+        $this->_layout=$layout;
+    }
+
+    /**
+     * Imposta l'eventuale errore nel template
+     *
+     * @param string $errore
+     */
+    public function impostaErrore($errore){
+        $this->assign('errore',$errore);
     }
 
 }

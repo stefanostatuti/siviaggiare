@@ -26,7 +26,7 @@ class CHome {
                 $CViaggio=USingleton::getInstance('CViaggio');
                 return $CViaggio->smista();
             default:
-                return $view->mostraPaginaIniziale();
+                return $view->mostraESEMPIOCSS();  ///QUA CI ANDRA LA BARRA DI RICERCA X DEFAULT
             }
         }
 
@@ -37,14 +37,19 @@ class CHome {
     {
         $CRegistrazione=USingleton::getInstance('CRegistrazione');
         $registrato=$CRegistrazione->getUtenteRegistrato();
-		var_dump($registrato);
         $VHome= USingleton::getInstance('VHome');
-        var_dump($VHome->getController());
-        if ($registrato==false && $VHome->getController()==false)
+        $contenuto=$this->smista();
+        $VHome->impostaContenuto($contenuto);
+        if ($registrato==false)
         {
-             $VHome->mostraPaginaIniziale();
-        } else
-            $this->smista();
+             $VHome->impostaPaginaOspite();
+             $VHome->mostraPagina();
+        }
+        elseif ($registrato==true)
+        {
+            $VHome->impostaPaginaAutenticato();
+            $VHome->mostraPagina();
+        }
     }
 }
 

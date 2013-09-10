@@ -25,12 +25,11 @@ class CRegistrazione {
                 return $this->creaUtente();
             case 'attivazione':
                 return $this->attivazione();
-            case 'autentica':
-                return $this->verificaLogin();
             case 'verifica_dati':
                 return $this->verificaRinvioPassword();
-            /*default:
-                return $this->getUtenteRegistrato();*/
+            default:
+                $VHome=USingleton::getInstance('VHome');
+                return $VHome->mostraESEMPIOCSS();
         }
     }
 
@@ -45,45 +44,68 @@ class CRegistrazione {
         $utente=new EUtente();
         $FUtente=new FUtente();
         $confronto = $FUtente->load($dati_registrazione['username']);
-        $registrato=false;
-        if ($confronto==false) {
-            //utente non esiste
-            if($dati_registrazione['password_1']==$dati_registrazione['password']) {
-                unset($dati_registrazione['password_1']);
-                $keys=array_keys($dati_registrazione);
-                $i=0;
-                foreach ($dati_registrazione as $dato) {
-                    $utente->$keys[$i]=$dato;
-                    $i++;
-                }
-                $utente->generaCodiceAttivazione();
-                $FUtente->store($utente);
-                //$this->emailAttivazione($utente);
-                $registrato=true;
-            } else {
-                return $view->show('errore_password.tpl');
+        $dati_registrazione['confronto']=$confronto;
+        $valida=USingleton::getInstance('Vvalidazione');
+        $dati_validazione=$valida->validacampi($dati_registrazione);
+        if(!$valida->getErrors())
+        {
+            unset($dati_registrazione['password_1']);
+            unset($dati_registrazione['confronto']);//serve solo per la validazione
+            $keys=array_keys($dati_registrazione);
+            $i=0;
+            foreach ($dati_registrazione as $dato)
+            {
+                $utente->$keys[$i]=$dato;
+                $i++;
             }
-        } else {
-            //utente esistente
-            return $view->show('username_utilizzato.tpl');
-        }
-        /*if (!$registrato) {
+            $utente->generaCodiceAttivazione();
+            $FUtente->store($utente);
+            $email = $this->emailAttivazione($utente);
+            if($email)
+            {
+                $view->setLayout('conferma');
+                return $view->processaTemplate();
+            }
+            else
+            {
+                $view->setLayout('modulo');
+                $dati=$valida->getErrors();
+                //var_dump($dati);
+                $view->impostaDati('messaggi' , $dati);
+                $datiutente=$valida->getdatipersonali();
+                $view->impostaDati('persona', $datiutente);
+                $this->_errore='email non inviata';
+                $view->impostaErrore($this->_errore);
+                $this->_errore='';
+                $return = $view->processaTemplate();
+                $view->impostaErrore('');
+                return $return;
+            }
+
+            $view->setLayout('conferma');
+            return $view->processaTemplate();
+        }else
+        {
+            $view->setLayout('modulo');
+            $dati=$valida->getErrors();
+            //var_dump($dati);
+            $view->impostaDati('messaggi' , $dati);
+            $datiutente=$valida->getdatipersonali();
+            $view->impostaDati('persona', $datiutente);
+            $this->_errore='DATI ERRATI';
             $view->impostaErrore($this->_errore);
             $this->_errore='';
-            $view->setLayout('problemi');
-            $result=$view->processaTemplate();
-            $view->setLayout('modulo');
-            $result.=$view->processaTemplate();
+            $return = $view->processaTemplate();
             $view->impostaErrore('');
-            return $result;
-        } else {*/
-            return $view->show('conferma_registrazione.tpl');
+            return $return;
         }
+    }
 
     public function impostaPaginaRegistrazione()
     {
         $VRegistrazione=USingleton::getInstance('VRegistrazione');
-        $VRegistrazione->show('registrazione_esempio.tpl');
+        $VRegistrazione->setLayout('modulo');
+        return $VRegistrazione->processaTemplate();
     }
 
     /**
@@ -99,29 +121,19 @@ class CRegistrazione {
         $controller=$VRegistrazione->getController();
         $this->_username=$VRegistrazione->getUsername();
         $this->_password=$VRegistrazione->getPassword();
-        if ($session->leggi_valore('username')!=false) {
+        if ($session->leggi_valore('username')!=false)
             $autenticato=true;
-            //$VRegistrazione->impostaDati('nome',$session->leggi_valore('username'));
-            //$VRegistrazione->show('Gia_Autenticato.tpl');
-            //autenticato
-        } elseif ($task=='autentica' && $controller='registrazione') {
-            //controlla autenticazione
-            //debug("controllo pwd");
+        elseif ($task=='autentica' && $controller='registrazione') {
             $autenticato=$this->autentica($this->_username, $this->_password);
-            var_dump($autenticato);
-            if ($autenticato==true){
-                $VRegistrazione->show('Benvenuto.tpl');
-           }
         }
         if ($task=='esci' && $controller='registrazione') {
             //logout
             $this->logout();
             $autenticato=false;
             $VHome=USingleton::getInstance('VHome');
-            $VHome->mostraPaginaIniziale();
         }
-        //$VRegistrazione->impostaErrore($this->_errore);
-        //$this->_errore='';
+        $VRegistrazione->impostaErrore($this->_errore);
+        $this->_errore='';
         return $autenticato;
     }
 
@@ -135,9 +147,8 @@ class CRegistrazione {
     public function autentica($username, $password) {
         $FUtente=new FUtente();
         $utente=$FUtente->load($username);
-        //var_dump($utente);
         if ($utente!=false) {
-            //if ($utente->getAccountAttivo()) {
+            if ($utente->getAccountAttivo()) {
                 //account attivo
                 if ($username==$utente->username && $password==$utente->password) {
                     //debug("Sto nell'IF");
@@ -145,16 +156,17 @@ class CRegistrazione {
                     $session->imposta_valore('username',$username);
                     $session->imposta_valore('nome_cognome',$utente->nome.' '.$utente->cognome);
                     return true;
-                } else {
-                    $this->_errore='Username o password errati';
+                } else
+                {
+                    $this->_errore='Password errata';
                     //username password errati
                 }
-            //} else {
-                //$this->_errore='L\'account non &egrave; attivo';
+            } else {
+                $this->_errore='L\'account non &egrave; attivo';
                 //account non attivo
-           // }
+            }
         } else {
-            $this->_errore='L\'account non esiste';
+            $this->_errore='Username e/o password errati';
             //account non esiste
         }
         return false;
@@ -164,48 +176,21 @@ class CRegistrazione {
      * EfFettua il logout
      */
     public function logout() {
-        debug("Sto in logout");
+        //debug("Sto in logout");
         $session=USingleton::getInstance('USession');
         //unset($_POST);
         //var_dump($_REQUEST);
         $session->cancella_valore('username');
         $session->cancella_valore('nome_cognome');
         $session->chiudi();
-        //$VHome=USingleton::getInstance('VHome');
-        //$VHome->mostraPaginaIniziale();
-    }
-
-    public function verificaLogin()
-    {
-        $view=USingleton::getInstance('VRegistrazione');
-        $password=$view->getPassword();
-        $username=$view->getUsername();
-        $FUtente=new FUtente();
-        $utente=$FUtente->load($username);
-        if($utente!=false)
-        {
-            if($utente->password==$password)
-            {
-                $this->impostaPaginaLogout();
-            }
-            else $view->show('login_errore_password.tpl');
-        }
-        else $view->show('login_errore_username.tpl');
-    }
-
-    public function impostaPaginaLogout()
-    {
-        $VRegistrazione=USingleton::getInstance('VRegistrazione');
-        $session=USingleton::getInstance('USession');
-        $VRegistrazione->impostaDati('nome',$session->leggi_valore('username'));
-        $VRegistrazione->show('Gia_Autenticato.tpl');
     }
 
     public function recuperaPassword()
     {
         //debug("recpass");
         $VRegistrazione=USingleton::getInstance('VRegistrazione');
-        $VRegistrazione->show('recupera_password.tpl');
+        $VRegistrazione->setLayout('recupero_password');
+        return $VRegistrazione->processaTemplate();
     }
 
     public function verificaRinvioPassword()
@@ -219,13 +204,86 @@ class CRegistrazione {
         {
             if($utente->mail==$mail)
             {
-                //inviaMail()----------------------Da Fare (Riccardo)
-                $view->show('Invio_mail.tpl');
+                $this->emailRecuperoPassword($utente);
+                $view->setLayout('conferma_mail_recupero_password');
+                return $view->processaTemplate();
             }
-            else $view->show('Recupero_password_Mail_errata.tpl');
+            else $this->_errore='Email errata';
         }
-        else $view->show('Recupero_password_Username_non_trovato.tpl');
+        else $this->_errore='Username non esistente';
+        $view->impostaErrore($this->_errore);
+        $this->_errore='';
+        $view->setLayout('recupero_password');
+        $result=$view->processaTemplate();
+        $view->impostaErrore('');
+        return $result;
     }
 
+    public function emailRecuperoPassword(EUtente $utente) {
+        global $config;
+        $view=USingleton::getInstance('VRegistrazione');
+        $view->setLayout('email_recupero_password');
+        $view->impostaDati('username',$utente->username);
+        $view->impostaDati('nome_cognome',$utente->nome.' '.$utente->cognome);
+        $view->impostaDati('password',$utente->password);
+        $view->impostaDati('email_webmaster',$config['email_webmaster']);
+        //$view->impostaDati('url',$config['url_bookstore']);
+        $corpo_email=$view->processaTemplate();
+        $email=USingleton::getInstance('UEmail');
+        return $email->invia_email($utente->mail,$utente->nome.' '.$utente->cognome,'Recupero Password YesYouTravel',$corpo_email);
+    }
+
+    /**
+     * Attiva un utente che inserisce un codice di attivazione valido oppure clicca sul link di autenticazione nell'email
+     *
+     * @return string
+     */
+    public function attivazione() //questa parte, quando la precedente esegue il tpl email_att. e nel tpl c'e il controller e il task autentica
+    {
+        $view = USingleton::getInstance('VRegistrazione');
+        $dati_attivazione=$view->getDatiAttivazione();//getdatiattiv. è in vregistra.
+        $FUtente=new FUtente();
+        $utente=$FUtente->load($dati_attivazione['username']);
+        if ($dati_attivazione!=false)
+        {
+            if ($utente->getCodiceAttivazione()==$dati_attivazione['codice'])
+            {
+                $utente->stato='attivo';
+                $FUtente->update($utente);//funzione del file fdatabase
+                $view->setLayout('attivato');
+                $view->impostaDati('ok sei attivato');
+
+            } else
+            {
+                //$view->impostaErrore('Il codice di attivazione &egrave; errato');
+                $view->setLayout('attivato');
+                $view->impostaDati('errore attivazione');
+            }
+        }
+
+        return $view->processaTemplate();
+    }
+
+    /**
+     * Invia un email contenente il codice di attivazione per un utente appena registrato
+     *
+     * @global array $config
+     * @param EUtente $utente
+     * @return boolean
+     */
+    public function emailAttivazione(EUtente $utente)
+    {
+        global $config;//il $config e relativo alle directory di smarty:es smarty template_c
+        $view=USingleton::getInstance('VRegistrazione');
+        $view->setLayout('email_attivazione');//setlayaout fa parte del file vregistrazione
+        $view->impostaDati('username',$utente->username);//impostadati serve per impostare i template da vregistrazione
+        $view->impostaDati('nome_cognome',$utente->nome.' '.$utente->cognome);
+        $view->impostaDati('codice_attivazione',$utente->getCodiceAttivazione());//getcodiceattiva. deriva dal file Eutente
+        $view->impostaDati('email_webmaster',$config['email_webmaster']);
+        $view->impostaDati('url',$config['url_yesyoutravel']);
+        $corpo_email=$view->processaTemplate();//da provare!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        $email=USingleton::getInstance('UEmail');
+        return $email->invia_email($utente->mail,$utente->nome.' '.$utente->cognome,'Attivazione account YesYoutravel',$corpo_email);
+    }
 }
 ?>

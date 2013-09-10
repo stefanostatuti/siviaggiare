@@ -16,16 +16,25 @@ class EViaggio {
     public $mezzotrasporto;
     public $costotrasporto;
     public $budget;
-    public $_elenco_luoghi = array();//tiene l'elenco dei POI
+    public $_elenco_citta = array();//tiene l'elenco dei POI
 
 
 
-    public function addLuogo(ELuogo $luogo) {
-        $this->_elenco_luoghi[] = $luogo;
+    public function addCitta(ECitta $citta) {
+        $this->_elenco_citta[] = $citta;
     }
 
-    public function getElencoLuoghi() {
-        return $this->_elenco_luoghi;
+    public function getElencoCitta()
+    {
+        $FCitta=new FCitta();
+        $this->_elenco_citta=$FCitta->loadRicerca('idviaggio',$this->id);
+        //debug($this->_elenco_luoghi);
+        return $this->_elenco_citta;
     }
+
+    /*public function getID()//
+    {
+        return $this->id;
+    }*/
 
 }

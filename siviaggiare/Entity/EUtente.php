@@ -51,6 +51,9 @@ class EUtente {
     }
 
     public function getElencoViaggi() {
+        $FViaggio=new FViaggio();
+        $this->_elenco_viaggi=$FViaggio->loadRicerca('utenteusername',$this->username);
+        //debug($this->_elenco_viaggi);
         return $this->_elenco_viaggi;
     }
 

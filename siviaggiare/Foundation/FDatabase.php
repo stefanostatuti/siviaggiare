@@ -32,7 +32,7 @@ class FDatabase {
         if (!$db) {
             die ("Impossibile utilizzare $database: " . mysql_error());
         }
-        debug('Connessione al database avvenuta correttamente');
+        //debug('Connessione al database avvenuta correttamente');
         $this->query('SET names \'utf8\'');                         //CHE FA????-----vedere
         return true;
     }
@@ -40,8 +40,8 @@ class FDatabase {
     public function query($query)
     {
         $this->risultato=mysql_query($query);
-        debug($query);
-        debug(mysql_error());
+        //debug($query);
+        //debug(mysql_error());
         if (!$this->risultato)
             return false;
         else
@@ -53,7 +53,7 @@ class FDatabase {
         if($this->risultato != false)
         {
             $righe = mysql_num_rows($this->risultato);
-            debug('Numero risultati:'. $righe);
+            //debug('Numero risultati:'. $righe);
             $array_ris = array();
             for($i=0;$i<$righe;$i++)
             {
@@ -70,7 +70,7 @@ class FDatabase {
         if($this->risultato != false)
         {
             $righe = mysql_num_rows($this->risultato);
-            debug('Numero risultati:'. $righe);
+            //debug('Numero risultati:'. $righe);
             $array_ris = array();
             for ($i=0; $i<$righe; $i++)
             {
@@ -85,7 +85,7 @@ class FDatabase {
     public function close()
     {
         mysql_close($this->connessione);
-        debug('Connessione al database terminata');
+        //debug('Connessione al database terminata');
     }
 
     /**
@@ -98,7 +98,7 @@ class FDatabase {
         if($this->risultato != false)
         {
             $righe=mysql_num_rows($this->risultato);
-            debug('Numero risultati:'. $righe);
+            //debug('Numero risultati:'. $righe);
             if($righe>0)
             {
                 $oggetto = mysql_fetch_object($this->risultato, $this->classe);
@@ -130,13 +130,17 @@ class FDatabase {
                 $i++;
             }
         }
+        //debug($campi);
+        //debug($valori);
         $query = 'INSERT INTO '. $this->tabella.' ('.$campi.') VALUES ('.$valori.')';
         $return = $this->query($query);
+        //var_dump($return);
         if ($this->auto_incremento) {
             $query='SELECT LAST_INSERT_ID() AS `id`';
             $this->query($query);
             $risID=$this->getQueryInArray();
-            return $risID['id'];
+            //var_dump($risID[0]['id']);
+            return $risID[0]['id'];
         } else {
             return $return;
         }
@@ -173,15 +177,6 @@ class FDatabase {
         'WHERE `'.$key.'` = \''.$value.'\'';
         $this->query($query);
         $ris = $this->getObjectInArray();
-
-
-        //test righe in stampa
-        $keys=array_keys($ris);
-        /*for($i=0;$i<count($ris);$i++){
-            debug("questo è l'oggetto: ");
-            debug($ris[$i].'\n');
-        }*/
-
         return $ris;
     }
 

@@ -1,33 +1,89 @@
-        <a id="anchor-contact-1"></a>
-        <div class="corner-content-1col-top"></div>        
-        <div class="content-1col-nobox">
-          <h1 class="contact">Modulo di registrazione</h1>
-          <div class="contactform">
-            <form method="post" action="index.php">
-              <fieldset><legend>&nbsp;CREDENZIALI DI ACCESSO&nbsp;</legend>
-                <p><label for="username" class="left">Nome utente:</label>
-                   <input type="text" name="username" id="username" class="field" value="" tabindex="5" /></p>
-                <p><label for="password" class="left">Password:</label>
-                   <input type="password" name="password" id="password" class="field" value="" tabindex="6" /></p>
-                <p><label for="password_1" class="left">Ripeti password:</label>
-                   <input type="password" name="password_1" id="password_1" class="field" value="" tabindex="7" /></p>
-              </fieldset>
-              <fieldset><legend>&nbsp;DETTAGLI ANAGRAFICI&nbsp;</legend>
-                <p><label for="nome" class="left">Nome:</label>
-                   <input type="text" name="nome" id="nome" class="field" value="" tabindex="8" /></p>
-                <p><label for="cognome" class="left">Cognome:</label>
-                   <input type="text" name="cognome" id="cognome" class="field" value="" tabindex="9" /></p>
-                <p><label for="città" class="left">Citt&agrave;:</label>
-                   <input type="text" name="citta" id="citta" class="field" value="" tabindex="10" /></p>
-                <p><label for="stato" class="left">Stato:</label>
-                   <input type="text" name="stato" id="stato" class="field" value="" tabindex="11" /></p>
-                <p><label for="email" class="left">Email:</label>
-                   <input type="text" name="email" id="email" class="field" value="" tabindex="12" /></p>
-                <input type="hidden" name="controller" value="registrazione" />
-                <input type="hidden" name="task" value="salva" />
-                <p><input type="submit" name="submit" id="submit_1" class="button" value="Registrati" tabindex="13" /></p>
-               </fieldset>
+<div class="content">
+    <div class="form_settings">
+        <div class="error">{$errore}
+            <legend><h4>Inserisci i seguenti dati: </h4></legend>
+
+            <table>
+                <form method="post" action="index.php">
+                    <tr>
+                        <td> Username: </td>
+                        <td> <input type="text" name="username"  maxlength="20" value="{$persona.user}"/> </td>
+                        {if $messaggi !=false || $messaggi.userdata !=false }
+                            <td class="error">
+                                {if $messaggi != 'false'} {$messaggi.user}  {/if}
+                                {if $messaggi.userdata != 'false'} {$messaggi.userdata}  {/if}
+                            </td>
+                        {/if}
+                    </tr>
+                    <tr>
+                        <td> Cognome: </td>
+                        <td> <input type="text" name="cognome" maxlength="20" value="{$persona.cognome}"/> </td>
+                        {if $messaggi.cognome != false}
+                        <td class="error">
+                            {$messaggi.cognome}
+                        </td>
+                            {/if}
+                    </tr>
+                    <tr>
+                        <td > Nome: </td>
+                        <td> <input type="text" name="nome" maxlength="20" value="{$persona.nome}"/></td>
+                        {if $messaggi.nome != false}
+                        <td class="error">
+                            {$messaggi.nome}
+                            {/if}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> Citt&agrave: </td>
+                        <td> <input type="text" name="residenza" maxlength="20" value="{$persona.residenza}"/></td>
+                        {if $messaggi.residenza != false}
+                        <td class="error">
+                            {$messaggi.residenza}
+                            {/if}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> Nazione: </td>
+                        <td> <input type="text" name="nazione" maxlength="20" value="{$persona.nazione}"/></td>
+                        {if $messaggi.nazione != false}
+                        <td class="error">
+                            {$messaggi.nazione}
+                            {/if}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> Email: </td>
+                        <td> <input type="text" name="mail" maxlength="30" value="{$persona.mail}" /></td>
+                        {if $messaggi.mail != false}
+                        <td class="error">
+                            {$messaggi.mail}
+                            {/if}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> Password: </td>
+                        <td> <input type="password" name="password" maxlength="20" value="{$persona.password}" /></td>
+                        {if $messaggi.password != false}
+                        <td class="error">
+                            {$messaggi.password}
+                            {/if}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> Conferma Password: </td>
+                        <td> <input type="password" name="password_1" maxlength="20" value="{$persona.password_1}" /></td>
+                        {if $messaggi.password != false || $messaggi.password2 != false}
+                        <td class="error">
+                            {if $messaggi.password != 'false'} {$messaggi.password}  {/if}
+                            {if $messaggi.password2 != 'false'} {$messaggi.password2}  {/if}
+                        </td>
+                            {/if}
+                    </tr>
+            </table>
+            <input type="hidden" name="controller" value="registrazione" />
+            <input type="hidden" name="task" value="salva" />
+            <input type="submit" class="submit" value="invia dati" />
             </form>
-          </div>
         </div>
-        <div class="corner-content-1col-bottom"></div>
+    </div>
+</div>

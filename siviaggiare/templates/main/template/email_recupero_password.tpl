@@ -1,6 +1,6 @@
 Ciao {$nome_cognome},
 
-questa email ti è stata inviata dopo che hai richiesto di recuperare la password.
+questa email ti e' stata inviata dopo che hai richiesto di recuperare la password.
 
 Questi sono i dati con i quali potrai nuovamente accedere a YesYouTravel:
 
