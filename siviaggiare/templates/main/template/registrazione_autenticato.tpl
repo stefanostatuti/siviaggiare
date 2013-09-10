@@ -15,7 +15,7 @@
     <ul>
         <li><a href="?controller=aggiunta_viaggio&task=inserimento_viaggio">Inserisci nuovo viaggio</a></li>
         <li><a href="?controller=aggiunta_viaggio&task=visualizza_viaggi_inseriti">I tuoi viaggi</a></li>
-        <li><a href="#">Le tue citt&agrave;</a></li>
+        <li><a href="?controller=aggiunta_viaggio&task=visualizza_citta_inserite"">Le tue citt&agrave;</a></li>
         <li><a href="?controller=aggiunta_viaggio&task=visualizza_luoghi_inseriti">I tuoi luoghi</a></li>
     </ul>
 </div>

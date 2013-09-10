@@ -374,15 +374,15 @@ class CViaggio {
 
 
     public function visualizzaCitta()
-    {   $VViaggio=USingleton::getInstance('VViaggio');
+    {
+        $VViaggio=USingleton::getInstance('VViaggio');
         $FCitta=new FCitta();
         $key=array('idviaggio'=>$VViaggio->getIdViaggio(),'nome'=>$VViaggio->getNomeCitta());
         //debug($key);
         $citta=$FCitta->loadCitta($key);
-        $view=USingleton::getInstance('VViaggio');
-        $view->setLayout('dettagli_citta');
-        $view->impostaDati('results',$citta);
-        return $view->processaTemplate();
+        $VViaggio->setLayout('dettagli_citta');
+        $VViaggio->impostaDati('citta',$citta);
+        return $VViaggio->processaTemplate();
 
         /*debug("ci entro?");
         //$session=USingleton::getInstance('USession');

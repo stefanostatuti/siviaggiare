@@ -102,6 +102,8 @@ class VViaggio extends View {
     {
         if (isset($_REQUEST['nomecitta']))
             return $_REQUEST['nomecitta'];
+        elseif (isset($_REQUEST['nome']))
+            return $_REQUEST['nome'];
         else
             return false;
     }
