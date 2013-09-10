@@ -1,9 +1,7 @@
 <html>
 <body>
 <title>YesYouTravel - Visualizzazione Citta inserite(Table)</title>
- prova
 <br>
-altra prova
 <b>Citta inseriti da te:</b>
 <br><br>
 
