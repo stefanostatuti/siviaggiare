@@ -1,5 +1,3 @@
-<?php /* Smarty version 2.6.26, created on 2013-09-02 15:19:30
-         compiled from viaggio_conferma_inserimento_viaggio.tpl */ ?>
 <<div class="content">
     <h3>Il tuo viaggio &egrave; stato inserito</h3>
     <br>
