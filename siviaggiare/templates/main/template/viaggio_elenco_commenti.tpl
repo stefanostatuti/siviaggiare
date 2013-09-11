@@ -35,7 +35,7 @@
                 {$results[nr]->voto}
             </td>
             <td>
-                <p><a href="?controller=aggiunta_viaggio&task=visualizza_commento&id={$results[nr]->idcommento}">Vedi commento</a></p>
+                <p><a href="?controller=aggiunta_viaggio&task=visualizza_commento&idcommento={$results[nr]->idcommento}">Vedi commento</a></p>
             </td>
         </tr>
             {sectionelse}

@@ -466,11 +466,14 @@ class CViaggio {
     {
         $VViaggio=USingleton::getInstance('VViaggio');
         $FCommento=new FCommento();
-        //$id=array('idviaggio'=>$VViaggio->getIdViaggio(),'nome'=>$VViaggio->getNomeLuogo(),'nomecitta'=>$VViaggio->getNomeCitta());
-        $id=$VViaggio->getIDCommento();
-        debug('Questo è id del viaggio'.$id);
-        $commento=$FCommento->loadCommento($id);
-        $VViaggio->compilaTemplateLuogo($commento);//da sistemare
+        $idcommento=$VViaggio->getIDCommento();
+        debug('Questo è id del viaggio'.$idcommento);
+        $commento=$FCommento->loadCommento($idcommento);//qua copio in commento il risultato della query
+        debug($commento);
+        $VViaggio->setLayout('dettagli_commento');
+        $VViaggio->impostaDati('commento',$commento);
+        //debug($viaggio);
+        return $VViaggio->processaTemplate();
     }
 
     public function salvaCommento()
