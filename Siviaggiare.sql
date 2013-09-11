@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 30, 2013 at 11:03 AM
+-- Generation Time: Sep 11, 2013 at 10:13 AM
 -- Server version: 5.6.11
 -- PHP Version: 5.5.1
 
@@ -50,7 +50,7 @@ INSERT INTO `citta` (`idviaggio`, `nome`, `stato`, `datainizio`, `datafine`, `ti
 (1, 'roma', 'italia', '2003-08-08', '2013-08-09', 'hotel', 1, 9),
 (2, 'borgo', 'italia', '2003-08-08', '2013-08-10', 'in strada', 5000, 1),
 (7, 'Casa del diablo', 'EIRE', '2013-08-07', '2013-08-17', 'ponte', 300, 3),
-(7, 'Rieti', 'Italia', '2013-08-06', '2013-08-08', 'Casa', 20, 2),
+(7, 'Rieti', 'Italia', '2013-08-06', '2013-08-08', 'casa', 20, 2),
 (8, 'Roma', 'Italia', '2013-08-04', '2013-08-10', 'Casa', 500, 8),
 (9, 'Casa del diablo', 'EIRE', '2013-08-07', '2013-08-17', 'ponte', 300, 3);
 
@@ -61,26 +61,28 @@ INSERT INTO `citta` (`idviaggio`, `nome`, `stato`, `datainizio`, `datafine`, `ti
 --
 
 CREATE TABLE IF NOT EXISTS `commento` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `idviaggioc` varchar(13) NOT NULL,
-  `nomec` varchar(40) NOT NULL,
-  `cittac` varchar(30) NOT NULL,
+  `idcommento` int(11) NOT NULL AUTO_INCREMENT,
+  `idviaggio` varchar(13) NOT NULL,
+  `nomeluogo` varchar(40) NOT NULL,
+  `nomecitta` varchar(30) NOT NULL,
   `autore` varchar(20) NOT NULL,
   `testo` varchar(1024) DEFAULT NULL,
   `voto` float NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `luogo` (`idviaggioc`,`nomec`,`cittac`),
+  PRIMARY KEY (`idcommento`),
+  KEY `luogo` (`idviaggio`,`nomeluogo`,`nomecitta`),
   KEY `utente` (`autore`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `commento`
 --
 
-INSERT INTO `commento` (`id`, `idviaggioc`, `nomec`, `cittac`, `autore`, `testo`, `voto`) VALUES
+INSERT INTO `commento` (`idcommento`, `idviaggio`, `nomeluogo`, `nomecitta`, `autore`, `testo`, `voto`) VALUES
 (1, '1', 'colosseo', 'roma', 'stef', 'Bella recensione', 9),
 (2, '1', 'torre eiffel', 'parigi', 'riccio', 'Buono recensione', 6),
-(3, '2', 'casa brunetto', 'borgo', 'kekko', 'Brutta recensione', 3);
+(3, '2', 'casa brunetto', 'borgo', 'kekko', 'Brutta recensione', 3),
+(4, '1', 'torre eiffel', 'parigi', 'pippo', 'prova', 3),
+(5, '1', 'colosseo', 'roma', 'pippo', 'bello schifo', 0);
 
 -- --------------------------------------------------------
 
@@ -112,7 +114,10 @@ INSERT INTO `luogo` (`idviaggio`, `nome`, `nomecitta`, `sitoweb`, `percorso`, `c
 (1, 'colosseo', 'roma', 'www.colosseo.it', 'metro+auto', 5, 'utile', 'alta', '03:00:00', 'kjwqkl fkjf'),
 (1, 'torre eiffel', 'parigi', 'www.torreeiffel.it', 'metro', 2, 'non utile', 'minima', '02:00:00', 'uedfòk fwlfhl fwwelhwe'),
 (2, 'casa brunetto', 'borgo', 'www.brunetto.it', 'metro+auto', 5, 'utile', 'alta', '23:40:00', 'hjgsdfklsdfh kfgdsg'),
-(7, 'casa', 'htredjhrh', 'tdrjhdhrdsh', NULL, 456, 'si', 'media', '03:00:00', 'rhsjhdrj');
+(7, '5tdhdrh', 'fdbdrfh', 'fdshbsdrhbred', 'gsrdhbxdshb', 345, 'si', 'media', NULL, 'sdfbhewsgewsg'),
+(7, 'casa', 'htredjhrh', 'tdrjhdhrdsh', NULL, 456, 'si', 'media', '03:00:00', 'rhsjhdrj'),
+(8, 'Colosseo', 'Roma', 'www.colosseo.it', 'per strada', 3000, 'si', 'alta', '03:00:00', 'bellissimo'),
+(9, 'U burgu', 'Rieti', 'www.èsemprefesta.burgu', 'tutti lo sanno', 0, 'si', 'minima', '00:00:02', 'bellissima');
 
 -- --------------------------------------------------------
 
@@ -160,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `viaggio` (
   `budget` float DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `utente` (`utenteusername`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `viaggio`
@@ -178,7 +183,12 @@ INSERT INTO `viaggio` (`id`, `utenteusername`, `datainizio`, `datafine`, `mezzot
 (9, 'pippo', '2013-02-03', '2013-05-06', 'Moto', '234', 1232),
 (10, 'pippo', '2013-02-09', '2013-02-01', 'Autobus', '236', 13242),
 (11, 'pippo', '2013-02-03', '2013-05-06', 'Moto', '234', 1232),
-(12, 'pippo', '2013-12-02', '2013-03-02', 'Nave', '254235', 32423);
+(12, 'pippo', '2013-12-02', '2013-03-02', 'Nave', '254235', 32423),
+(13, 'pippo', '0000-00-00', '0000-00-00', 'Autobus', '', 0),
+(14, 'pippo', '2013-09-02', '2013-09-02', 'Autobus', '100', 12),
+(15, 'pippo', '2012-02-02', '2012-02-02', 'Macchina', '23', 12),
+(16, 'pippo', '2013-02-01', '2013-02-01', 'Autobus', '456', 345),
+(17, 'pippo', '2013-02-01', '2013-02-01', 'Autobus', '456', 345);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
