@@ -4,6 +4,8 @@
 
 <br>
 
+
+<b>DA SISTEMARE I CSS!!!!!!!!!!!!!!!<b/>
 <b>Commenti inseriti da te:</b>
 <br><br>
 
