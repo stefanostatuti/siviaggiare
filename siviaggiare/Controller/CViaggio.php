@@ -20,6 +20,8 @@ class CViaggio {
                 return $this->impostaPaginaCompilazioneLuogo();
             case 'inserimento_viaggio':
                 return $this->impostaPaginaCompilazioneViaggio();
+            case 'inserimento_citta':
+                return $this->impostaPaginaCompilazioneCitta();
 
             //salvataggi
             case 'salva_viaggio'://1-2
@@ -46,9 +48,6 @@ class CViaggio {
                 return $this->VisualizzaCommentiTable();
             case 'visualizza_commento':
                 return $this->VisualizzaCommento();
-            case 'inserimento_citta':
-                //debug("lancio imposta pagina compilazione");
-                return $this->impostaPaginaCompilazioneCitta('Citta.tpl');
         }
     }
 
@@ -71,14 +70,15 @@ class CViaggio {
         return $VViaggio->processaTemplate();
     }
 
-    public function impostaPaginaCompilazioneCitta($a)   //DA SISTEMARE!!!!!!!!!
+    public function impostaPaginaCompilazioneCitta()
     {
         $VViaggio=USingleton::getInstance('VViaggio');
         $session=USingleton::getInstance('USession');
+        $VViaggio->setLayout('inserimento_citta');
         $VViaggio->impostaDati('autore',$session->leggi_valore('username'));
-        $VViaggio->show($a);//da sistemare
+        $VViaggio->impostaDati('idviaggio',$session->leggi_valore('idviaggio'));
+        return $VViaggio->processaTemplate();
     }
-
 
     public function salvaViaggio()
     {
@@ -503,3 +503,4 @@ class CViaggio {
         return $view->show('conferma_inserimento_luogo.tpl'); //verifica
     }//da sistemare
 }
+?>

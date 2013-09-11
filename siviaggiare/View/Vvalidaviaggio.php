@@ -73,7 +73,7 @@ class Vvalidaviaggio extends View
        if ( in_array("true", $this->wrong_fields ) )
           return false; // esiste almeno un campo di input errato
        else
-          return $fields;
+          return $this->fields;
           
     }
     

@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class Vvalidaluogo extends View
+class Vvalidacitta extends View
 {
 
       private $fields =
