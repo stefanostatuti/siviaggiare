@@ -130,7 +130,7 @@ class CRegistrazione {
             //logout
             $this->logout();
             $autenticato=false;
-            $VHome=USingleton::getInstance('VHome');
+            //$VHome=USingleton::getInstance('VHome');
         }
         $VRegistrazione->impostaErrore($this->_errore);
         $this->_errore='';
