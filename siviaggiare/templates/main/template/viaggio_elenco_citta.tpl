@@ -28,7 +28,7 @@
                         {$results[nr]->datafine}
                     </td>
                     <td>
-                        <a href="?controller=aggiunta_viaggio&task=visualizza_citta&idviaggio={$results[nr]->idviaggio}&nome={$results[nr]->nome}">Vedi dettagli</a>
+                        <p><a href="?controller=aggiunta_viaggio&task=visualizza_citta&idviaggio={$results[nr]->idviaggio}&nome={$results[nr]->nome}">Vedi dettagli</a></p>
                     </td>
                 </tr>
                 {sectionelse}

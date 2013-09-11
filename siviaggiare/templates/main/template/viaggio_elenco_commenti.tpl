@@ -1,24 +1,16 @@
-<html>
-<body>
-<title>YesYouTravel - Visualizzazione Commenti inseriti(Table)</title>
-
-<br>
-
-
-<b>DA SISTEMARE I CSS!!!!!!!!!!!!!!!<b/>
-<b>Commenti inseriti da te:</b>
-<br><br>
-
-<table cellpadding=1 cellspacing=0 border=2 width=60%>
-    <tr bgcolor="#6495ed">
-        <td><b>IdCommento</b></td>
-        <td><b>IdViaggio</b></td>
-        <td><b>Nome Luogo</b></td>
-        <td><b>Citta</b></td>
-        <td><b>Autore</b></td>
-        <td><b>Testo</b></td>
-        <td><b>Voto</b></td>
-    </tr>
+<div class="content">
+    <div class="form_settings">
+        <h3>Commenti inseriti da te:</h3>
+        <table>
+            <tr>
+                <td><h5>IdCommento</h5></td>
+                <td><h5>IdViaggio</h5></td>
+                <td><h5>Nome Luogo</h5></td>
+                <td><h5>Citta</h5></td>
+                <td><h5>Autore</h5></td>
+                <td><h5>Testo</h5></td>
+                <td><h5>Voto</h5></td>
+            </tr>
     {section name=nr loop=$results}
         <tr {if $smarty.section.nr.iteration is odd} bgcolor="#ccc" {/if}>
             <td>
@@ -46,16 +38,13 @@
                 <p><a href="?controller=aggiunta_viaggio&task=visualizza_commento&id={$results[nr]->idcommento}">Vedi commento</a></p>
             </td>
         </tr>
-
-        {sectionelse}
-        <tr>
-            <td align="center">
-                <b> nessun risultato </b>
-            <td>
-        </tr>
-    {/section}
-
-</table>
-
-</body>
-</html> 
+            {sectionelse}
+                <tr>
+                <td  class="center">
+                    <h5> nessun risultato </h5>
+                <td>
+                </tr>
+            {/section}
+        </table>
+    </div>
+</div>
