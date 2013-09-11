@@ -7,7 +7,7 @@
 global $config;
 //                        WINDOWS
 //sono da modificare con i vostri percorsi!!!
-/*$config['smarty']['template_dir'] =
+$config['smarty']['template_dir'] =
 'C:\\xampp\\htdocs\\siviaggiare\\siviaggiare\\templates\\main\\template\\';
 $config['smarty']['compile_dir'] =
 'C:\\xampp\\htdocs\\siviaggiare\\siviaggiare\\templates\\main\\templates_c\\';
@@ -15,7 +15,7 @@ $config['smarty']['config_dir'] =
 'C:\\xampp\\htdocs\\siviaggiare\\siviaggiare\\templates\\main\\configs\\';
 $config['smarty']['cache_dir'] =
 'C:\\xampp\\htdocs\\siviaggiare\\siviaggiare\\templates\\main\\cache\\';
-*/
+
 
 //                          LINUX
 /*$config['smarty']['template_dir'] =

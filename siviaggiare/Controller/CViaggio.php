@@ -79,6 +79,7 @@ class CViaggio {
         $VViaggio->show($a);//da sistemare
     }
 
+
     public function salvaViaggio()
     {
         $view=USingleton::getInstance('VViaggio');
@@ -372,6 +373,43 @@ class CViaggio {
 
     }
 
+    public function visualizzaCommentiTable()
+    {
+        $session=USingleton::getInstance('USession');
+        $user=$session->leggi_valore('username');
+        //$FUtente=new FUtente();
+        //$EUtente=$FUtente->load($user);
+        $FCommento = new FCommento();
+        //$FCommento = $FCommento->loadCommento($user);
+        $FCommenti = $FCommento->loadCommentiUtente(array($user));
+        //debug("elementi dentro Fcommento: ".count($FCommento));
+
+        $cont=0; //memorizza le posizioni dei commenti inseriti in luoghi risultato
+        $commenti_risultato=array();//è quello che poi mandero in stampa al TPL
+        //var_dump($FCommento);
+        if ($FCommenti !=  false) { //quindi ci sono elementi
+            //debug('ci entro?');
+            foreach($FCommenti as $commento){
+                //debug("------->");
+                //var_dump($commento);
+                $commenti_risultato[$cont]=$commento; //metto in pos $cont il commento testato
+                $cont++; //sposto cont
+                //debug("contatore attuale dopo il test: ".$cont);
+            }
+
+            //debug("contatore attuale dopo il test: ".$cont);
+            //debug("contatore luoghi risultato dopo il test: ".count($commenti_risultato));
+        }
+        //mando in stampa tutto
+        //var_dump($commenti_risultato);
+        $view=USingleton::getInstance('VViaggio');
+        $view->setLayout('elenco_commenti');
+        $view->impostaDati('results',$commenti_risultato);
+        //$view->show('viaggio_elenco_commenti.tpl');
+        return $view->ProcessaTemplate();
+    }
+
+
 
     public function visualizzaCitta()
     {
@@ -422,41 +460,6 @@ class CViaggio {
         $VViaggio->impostaDati('viaggio',$viaggio);
         //debug($viaggio);
         return $VViaggio->processaTemplate();
-    }
-
-
-    public function visualizzaCommentiTable()
-    {
-        $session=USingleton::getInstance('USession');
-        $user=$session->leggi_valore('username');
-        //$FUtente=new FUtente();
-        //$EUtente=$FUtente->load($user);
-        $FCommento = new FCommento();
-        //$FCommento = $FCommento->loadCommento($user);
-        $FCommenti = $FCommento->loadCommentiUtente(array($user));
-        //debug("elementi dentro Fcommento: ".count($FCommento));
-
-        $cont=0; //memorizza le posizioni dei commenti inseriti in luoghi risultato
-        $commenti_risultato=array();//è quello che poi mandero in stampa al TPL
-        //var_dump($FCommento);
-        if ($FCommenti !=  false) { //quindi ci sono elementi
-            //debug('ci entro?');
-            foreach($FCommenti as $commento){
-                //debug("------->");
-                //var_dump($commento);
-                $commenti_risultato[$cont]=$commento; //metto in pos $cont il commento testato
-                $cont++; //sposto cont
-                //debug("contatore attuale dopo il test: ".$cont);
-            }
-
-            //debug("contatore attuale dopo il test: ".$cont);
-            //debug("contatore luoghi risultato dopo il test: ".count($commenti_risultato));
-        }
-        //mando in stampa tutto
-        //var_dump($commenti_risultato);
-        $view=USingleton::getInstance('VViaggio');
-        $view->impostaDati('results',$commenti_risultato);
-        $view->show('viaggio_elenco_commenti_da sistemare con i css.tpl');
     }
 
     public function VisualizzaCommento()
