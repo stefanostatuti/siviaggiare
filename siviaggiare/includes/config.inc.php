@@ -5,7 +5,7 @@
  */
 
 global $config;
-/*                          WINDOWS
+//                        WINDOWS
 //sono da modificare con i vostri percorsi!!!
 $config['smarty']['template_dir'] =
 'C:\\xampp\\htdocs\\siviaggiare\\siviaggiare\\templates\\main\\template\\';
@@ -14,11 +14,11 @@ $config['smarty']['compile_dir'] =
 $config['smarty']['config_dir'] =
 'C:\\xampp\\htdocs\\siviaggiare\\siviaggiare\\templates\\main\\configs\\';
 $config['smarty']['cache_dir'] =
-'C:\\xampp\\htdocs\\siviaggiare\\siviaggiare\\templates\\main\\cache\\';*/
+'C:\\xampp\\htdocs\\siviaggiare\\siviaggiare\\templates\\main\\cache\\';
 
 
 //                          LINUX
-$config['smarty']['template_dir'] =
+/*$config['smarty']['template_dir'] =
     '/opt/lampp/htdocs/siviaggiare_gitHub/siviaggiare/templates/main/template/';
 //'/home/cicerone/public_html/webprog/bookstore/templates/main/template/';
 $config['smarty']['compile_dir'] =
@@ -27,7 +27,7 @@ $config['smarty']['config_dir'] =
     '/opt/lampp/htdocs/siviaggiare_gitHub/siviaggiare/templates/main/configs/';
 $config['smarty']['cache_dir'] =
     '/opt/lampp/htdocs/siviaggiare_gitHub/siviaggiare/templates/main/cache/';
-
+*/
 
 /*                          //Mac
 $config['smarty']['template_dir'] =
