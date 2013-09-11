@@ -31,7 +31,7 @@ class CViaggio {
             case 'salva_citta':
                 return $this->salvaCitta();
 
-            //caricamenti
+            ///caricamenti
             case 'visualizza_viaggi_inseriti':
                 return $this->visualizzaViaggiTable();//return $this->caricaViaggi();
             case 'visualizza_viaggio':
