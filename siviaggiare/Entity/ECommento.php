@@ -9,16 +9,16 @@
 
 class ECommento 
 {
-    public $id;
-    public $idviaggioc;
-    public $nomec;
-    public $cittac;
+    public $idcommento;
+    public $idviaggio;
+    public $nomeluogo;
+    public $nomecitta;
     public $autore;
     public $testo;
     public $voto;
 
-    public function getID()
+    public function getIDCommento()
     {
-        return $this->id;
+        return $this->idcommento;
     }
 }

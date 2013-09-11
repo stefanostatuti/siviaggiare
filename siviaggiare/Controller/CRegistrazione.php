@@ -273,7 +273,7 @@ class CRegistrazione {
      */
     public function emailAttivazione(EUtente $utente)
     {
-        global $config;//il $config e relativo alle directory di smarty:es smarty template_c
+        global $config;//il $config e relativo alle directory di smarty:es smarty templates_c
         $view=USingleton::getInstance('VRegistrazione');
         $view->setLayout('email_attivazione');//setlayaout fa parte del file vregistrazione
         $view->impostaDati('username',$utente->username);//impostadati serve per impostare i template da vregistrazione

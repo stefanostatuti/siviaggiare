@@ -103,7 +103,7 @@ class VHome extends View {
 
     }
 
-    /*QUESTO METODO ANDRA TOLTO PERKE SCI ANDRA IL MODULO PER LA RICERCA (IN ALTRA CLASSE)*/
+    /*QUESTO METODO ANDRA TOLTO PERCHE CI ANDRA IL MODULO PER LA RICERCA (IN ALTRA CLASSE)*/
     public function mostraESEMPIOCSS()
     {
         $VRegistrazione=USingleton::getInstance('VRegistrazione');
