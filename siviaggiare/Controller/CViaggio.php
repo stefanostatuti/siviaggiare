@@ -456,7 +456,7 @@ class CViaggio {
         //var_dump($commenti_risultato);
         $view=USingleton::getInstance('VViaggio');
         $view->impostaDati('results',$commenti_risultato);
-        $view->show('visualizza_commenti_table.tpl');
+        $view->show('viaggio_elenco_commenti_da sistemare con i css.tpl');
     }
 
     public function VisualizzaCommento()
