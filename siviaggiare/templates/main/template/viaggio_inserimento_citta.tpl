@@ -16,9 +16,9 @@
                     <td>
                         <h6>Inizio:</h6><input type="datetime-local" name="datainizio" id="datainizio" value="{$citta.datainizio}"/>
                         <h6>fine:</h6> <input type="datetime" name="datafine" id="datainizio" value="{$citta.datafine}"/>
-                        {if $messaggi.datainizio!= false || $messaggi.datafine!= false || $messaggi.date != false }
+                        {if $messaggi.datainizio != false || $messaggi.datafine != false || $messaggi.date != false }
                     <td class="error">
-                        {if $messaggi.datainizio != 'false'} {$messaggi.datinizio}  {/if}
+                        {if $messaggi.datainizio != 'false'} {$messaggi.datainizio}  {/if}
                         {if $messaggi.datafine != 'false'} {$messaggi.datafine}  {/if}
                         {if $messaggi.date != 'false'} {$messaggi.date}  {/if}
                     </td>
@@ -54,21 +54,17 @@
                     <td>
                         <input type="text" name="tipoalloggio" value="{$citta.tipoalloggio}"/>
                     </td>
-                    {if $messaggi.tipoalloggio != false}
-                        <td class="error">
-                            {if $messaggi.tipoalloggio != 'false'} {$messaggi.tipoalloggio}  {/if}
-                        </td>
-                    {/if}
                 </tr>
                 <tr>
                     <td>
                         <h4>Costo per giorno: </h4></td>
                     <td>
-                        <input type="text" name="costoalloggio" value="{$citta.costoalloggio}"/>
+                        <input type="text" name="costo" value="{$citta.costoalloggio}"/>
                     </td>
-                    {if $messaggi.costoalloggio != false}
+                    {if $messaggi.costoalloggio != false || $messaggi.costo_budget }
                         <td class="error">
-                            {if $messaggi.costoalloggio != 'false'} {$costo.tipoalloggio}  {/if}
+                            {if $messaggi.costoalloggio != 'false'} {$messaggi.costoalloggio}  {/if}
+                            {if $messaggi.costo_budget != 'false'} {$messaggi.costo_budget}  {/if}
                         </td>
                     {/if}
                 </tr>

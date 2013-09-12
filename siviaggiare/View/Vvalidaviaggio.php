@@ -21,12 +21,11 @@ class Vvalidaviaggio extends View
 
   // messaggi in caso di eventuali errori di input
     private $errors_msg =
-      array ( 
-              "datainizio" => "gg/mm/aaaa",
-              "datafine" => "gg/mm/aaaa",
+      array (
+              "data" => "gg/mm/aaaa",
               "date"=> "data fine minore di data inizio!!!!!",
-              "costotrasporto"=> "dato non valido  xxx,xx",
-              "budget" => "dato non valido xxx,xx",
+              "costotrasporto"=> "dato non valido  es. 12",
+              "budget" => "dato non valido es.12 ",
               "costo_budget"=>"budget minore del costo trasporto??"
             );
               
@@ -111,7 +110,7 @@ class Vvalidaviaggio extends View
         if ( !preg_match( $pattern, $this->fields['datainizio'] ) )
         {
             $this->wrong_fields['datainizio'] = "true";
-            $this->messaggi['datainizio']= $this->errors_msg['datainizio'];
+            $this->messaggi['datainizio']= $this->errors_msg['data'];
          }   
         else
         {
@@ -126,7 +125,7 @@ class Vvalidaviaggio extends View
         if ( !preg_match( $pattern, $this->fields['datafine'] ) )
         {
             $this->wrong_fields['datafine'] = "true";
-            $this->messaggi['datadine']= $this->errors_msg['datafine'];
+            $this->messaggi['datafine']= $this->errors_msg['data'];
         }
         else
         {
@@ -138,11 +137,11 @@ class Vvalidaviaggio extends View
    private function validacosto()
    {
      
-        $pattern = '/^[0-9]{1,6},[0-9]{0,2}$/';
-        if ( !preg_match( $pattern, $this->fields['costotrasporto'] )) //or ($val==NULL) )
+        $pattern = '/^[0-9]{1,6}$/';
+        if ( !preg_match( $pattern, $this->fields['costotrasporto'] ))
         {    
              $this->wrong_fields['costotrasporto'] = "true";
-             $this->messaggi['datafine']= $this->errors_msg['datafine'];
+             $this->messaggi['costotrasporto']= $this->errors_msg['costotrasporto'];
          }   
         else 
         { 
@@ -154,7 +153,7 @@ class Vvalidaviaggio extends View
    private function validabudget()
    {
    
-        $pattern = '/^[0-9]{1,6},[0-9]{0,2}$/';
+        $pattern = '/^[0-9]{1,6}$/';
         if ( !preg_match( $pattern, $this->fields['budget'] )) 
         {
             $this->wrong_fields['budget'] = "true";

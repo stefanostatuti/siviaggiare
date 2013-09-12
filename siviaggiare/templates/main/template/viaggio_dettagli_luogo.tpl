@@ -1,6 +1,6 @@
 <div class=content>
     <div class=form_settings>
-        <h3>Viaggio {$luogo->id} </h3>
+        <h3>Luogo: {$luogo->id} </h3>
         <table>
             <tr>
                 <td> Nome:</td><td>{$luogo->nome} </td>

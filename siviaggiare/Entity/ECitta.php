@@ -27,6 +27,7 @@ class ECitta
         $this->_elenco_luoghi[] = $luogo;
     }
 
+
     public function getElencoLuoghi() 
     {
         $FLuogo=new FLuogo();

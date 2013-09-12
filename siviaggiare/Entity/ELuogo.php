@@ -28,6 +28,7 @@ class ELuogo
         $this->_elenco_commenti[] = $commento;
     }
 
+
     public function getElencoCommenti()     //DA VEDERE
     {
         return $this->_elenco_commenti;

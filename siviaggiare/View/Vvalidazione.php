@@ -27,10 +27,10 @@ class Vvalidazione extends View
               "user" => "caratteri non validi",
               "nome" => "da 3 a 20 caratteri alfanumerici",
               "password" => "da 8 a 16 caratteri",
-              "nazione" => "caratteri non valido",
-              "residenza" => "caratteri non valido",
+              "nazione" => "caratteri non validi",
+              "residenza" => "caratteri non validi",
               "cognome" => "da 3 a 20 caratteri alfanumerici",
-              "mail" => "formato email non valido - solo formati username@domain.it" ,
+              "mail" => "formato email non valido - solo formati pippo.pluto@domain.it" ,
               "password2"=> "le password non sono uguali",
               "userdata"=>"utente gia usato"
             );
@@ -83,7 +83,7 @@ class Vvalidazione extends View
        if ( in_array("true", $this->wrong_fields ) )
           return false; // esiste almeno un campo di input errato
        else
-          return $fields;
+          return $this->fields;
           
     }
     
@@ -121,7 +121,7 @@ class Vvalidazione extends View
 
    private function validauser()
    {
-     $pattern = '/^[[:alpha:]]{3,20}$/';
+     $pattern = '/^[a-zA-Z0-9]{3,20}$/';
         if ( !preg_match( $pattern, $this->fields['user'] ) )
         {
             $this->wrong_fields['user'] = "true";
@@ -211,7 +211,7 @@ class Vvalidazione extends View
    private function validamail()
    {
        // solo email del tipo pippo_23@pluto.it
-        $pattern = '/^[_a-z0-9-]{2,10}+(\.[_a-z0-9-]{2,10}+)*@[a-z0-9-]{2,10}+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
+        $pattern = '/^[_a-z0-9-]{2,15}+(\.[_a-z0-9-]{1,15}+)*@[a-z0-9-]{2,10}+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
         if ( !preg_match( $pattern, $this->fields['mail'] ) )
         {
             $this->wrong_fields['mail'] = "true";

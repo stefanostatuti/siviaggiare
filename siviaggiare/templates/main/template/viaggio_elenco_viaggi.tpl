@@ -5,8 +5,8 @@
             <tr>
             <td><h5>IdViaggio</h5></td>
             <td><h5>Utente</h5></td>
-                <td><h5>Data Inizio;</h5></td>
-                <td><h5>Data Fine;</h5></td>
+                <td><h5>Data Inizio</h5></td>
+                <td><h5>Data Fine</h5></td>
                 <td><h5></h5></td>
             </tr>
             {section name=nr loop=$results}

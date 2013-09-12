@@ -7,7 +7,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class EUtente {
+class EUtente
+{
 
     //public poiche in questo è possibile accedere agli attributi dall'esterno
 
@@ -42,29 +43,38 @@ class EUtente {
         $this->stato = $utente['stato'];
     }*/
 
-    public function generaCodiceAttivazione() {
+
+    public function generaCodiceAttivazione()
+    {
         $this->cod_attivazione=mt_rand();
     }
 
-    public function addViaggio(EViaggio $viaggio) {
+
+    public function addViaggio(EViaggio $viaggio)
+    {
         $this->_elenco_viaggi[] = $viaggio;
     }
 
-    public function getElencoViaggi() {
+
+    public function getElencoViaggi()
+    {
         $FViaggio=new FViaggio();
         $this->_elenco_viaggi=$FViaggio->loadRicerca('utenteusername',$this->username);
         //debug($this->_elenco_viaggi);
         return $this->_elenco_viaggi;
     }
 
-    public function getAccountAttivo() {
+
+    public function getAccountAttivo()
+    {
         if ($this->stato=='attivo')
             return true;
         else
             return false;
     }
 
-    public function getCodiceAttivazione() {
+    public function getCodiceAttivazione()
+    {
         return $this->cod_attivazione;
     }
 

@@ -7,7 +7,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class EViaggio {
+class EViaggio
+{
 
     public $id;
     public $utenteusername;
@@ -20,9 +21,11 @@ class EViaggio {
 
 
 
-    public function addCitta(ECitta $citta) {
+    public function addCitta(ECitta $citta)
+    {
         $this->_elenco_citta[] = $citta;
     }
+
 
     public function getElencoCitta()
     {
@@ -31,6 +34,7 @@ class EViaggio {
         //debug($this->_elenco_luoghi);
         return $this->_elenco_citta;
     }
+
 
     /*public function getID()//
     {

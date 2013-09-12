@@ -9,7 +9,8 @@
 
 class FCommento extends FDatabase           //TUTTA DA VEDERE   !!!!
 {
-    public function __construct() 
+
+    public function __construct()
     {
         $this->tabella='commento';
         $this->chiave=array('idcommento','autore');
@@ -18,6 +19,7 @@ class FCommento extends FDatabase           //TUTTA DA VEDERE   !!!!
         $this->auto_incremento=true;
         USingleton::getInstance('FDatabase');
     }
+
 
     public function loadCommento($idcommento)
     {
@@ -32,16 +34,16 @@ class FCommento extends FDatabase           //TUTTA DA VEDERE   !!!!
     }
 
 
-//questo metodo sotto probabilmente è deprecabile richiamando la load in FDatabase
-// e si lascia come chiave SOLO idcommento
+    //questo metodo sotto probabilmente è deprecabile richiamando la load in FDatabase
+    // e si lascia come chiave SOLO idcommento
     public function loadCommentiUtente($array)
     {
         $query='SELECT * ' .
             'FROM `'.$this->tabella.'` ' .
             'WHERE `'.$this->chiave['1'].'` = \''.$array[0].'\''; //chiave ['1'] è l'indice della chiave al posto 1 cioè 'autore'
         $obj=parent::getObjectInArray(parent::query($query));
-        debug("query fatta!");
-        var_dump($obj);
+        //debug("query fatta!");
+        //var_dump($obj);
         //var_dump("ecco l'oggetto ricevuto".$obj);
         return $obj;
     }

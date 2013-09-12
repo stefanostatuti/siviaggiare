@@ -1,5 +1,5 @@
 <div class="content">
-    <h3>La tua citt&agrave; &egrave; stata inserito</h3>
+    <h3>La tua citt&agrave; &egrave; stata inserita</h3>
     <br>
     <div class="form_settings">
     <form method="post" action="index.php">

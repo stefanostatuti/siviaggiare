@@ -7,8 +7,11 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class FUtente extends FDatabase{
-    public function __construct() {
+class FUtente extends FDatabase
+{
+
+    public function __construct()
+    {
         $this->tabella='utente';
         $this->chiave='username';
         $this->classe='EUtente';

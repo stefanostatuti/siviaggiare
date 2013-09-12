@@ -7,8 +7,11 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class FViaggio extends FDatabase{
-    public function __construct() {
+class FViaggio extends FDatabase
+{
+
+    public function __construct()
+    {
         $this->tabella='viaggio';
         $this->chiave='id'; //verificare che la chiave sia ID
         $this->classe='EViaggio';
@@ -17,10 +20,12 @@ class FViaggio extends FDatabase{
     }
 
 
-    public function store( $object ){
+    public function store( $object )
+    {
         $id = parent::store($object);
         $object->id=$id;
     }
+
 
     public function loadViaggio($id)
     {

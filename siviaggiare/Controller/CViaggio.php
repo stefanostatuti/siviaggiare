@@ -7,7 +7,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class CViaggio {
+class CViaggio
+{
 
 
 
@@ -51,6 +52,8 @@ class CViaggio {
         }
     }
 
+
+    //COMPILAZIONI
     public function impostaPaginaCompilazioneViaggio()
     {
             $VViaggio=USingleton::getInstance('VViaggio');
@@ -58,16 +61,6 @@ class CViaggio {
             $VViaggio->setLayout('inserimento_viaggio');
             $VViaggio->impostaDati('autore',$session->leggi_valore('username'));
             return $VViaggio->processaTemplate();
-    }
-
-    public function impostaPaginaCompilazioneLuogo()
-    {
-        $VViaggio=USingleton::getInstance('VViaggio');
-        $session=USingleton::getInstance('USession');
-        $VViaggio->setLayout('inserimento_luogo');
-        $VViaggio->impostaDati('autore',$session->leggi_valore('username'));
-        $VViaggio->impostaDati('idviaggio',$session->leggi_valore('idviaggio'));
-        return $VViaggio->processaTemplate();
     }
 
     public function impostaPaginaCompilazioneCitta()
@@ -80,6 +73,19 @@ class CViaggio {
         return $VViaggio->processaTemplate();
     }
 
+    public function impostaPaginaCompilazioneLuogo()
+    {
+        $VViaggio=USingleton::getInstance('VViaggio');
+        $session=USingleton::getInstance('USession');
+        $VViaggio->setLayout('inserimento_luogo');
+        $VViaggio->impostaDati('autore',$session->leggi_valore('username'));
+        $VViaggio->impostaDati('idviaggio',$session->leggi_valore('idviaggio'));
+        return $VViaggio->processaTemplate();
+    }
+
+
+
+    //salvataggi
     public function salvaViaggio()
     {
         $view=USingleton::getInstance('VViaggio');
@@ -109,6 +115,8 @@ class CViaggio {
             $view->setLayout('inserimento_viaggio');
             $dati=$validaviaggio->getErrors();
             $view->impostaDati('messaggi' , $dati);
+            $session=USingleton::getInstance('USession');
+            $view->impostaDati('autore',$session->leggi_valore('username') );
             $datiutente=$validaviaggio->getdatipersonali();
             $view->impostaDati('viaggio', $datiutente);
             $this->_errore='DATI ERRATI';
@@ -121,16 +129,17 @@ class CViaggio {
     //salva citta non funziona poichè puo essere inserito SOLO se c'è un ID di un viaggio collegato(infatti la sessione
     //da come id viaggio = null
     // il codice sotto pero funzionava sulla mia versione quindi è corretto
-
     public function salvaCitta()
     {
         //debug("ci entro?");
         $view=USingleton::getInstance('VViaggio');
         //debug($view);
         $dati_citta=$view->getDatiCitta();
-        //debug($dati_citta);//$view->getDatiRegistrazione();
+        //var_dump($dati_citta['costo']);
+        //debug($dati_citta['costoalloggio']);//$view->getDatiRegistrazione();
         $validacitta=USingleton::getInstance('Vvalidacitta');
-        if($validacitta->getErrors()==false)
+        $validacitta->validacampi($dati_citta);
+        if(!$validacitta->getErrors())
         {
             $citta=new ECitta();
             $FCitta=new FCitta();
@@ -154,7 +163,11 @@ class CViaggio {
             $view->setLayout('inserimento_citta');
             $dati=$validacitta->getErrors();
             $view->impostaDati('messaggi' , $dati);
+            $session=USingleton::getInstance('USession');
+            $view->impostaDati('autore',$session->leggi_valore('username') );
+            $view->impostaDati('idviaggio',$session->leggi_valore('idviaggio') );
             $datiutente=$validacitta->getdatipersonali();
+
             $view->impostaDati('citta', $datiutente);
             $this->_errore='DATI ERRATI';
             $view->impostaErrore($this->_errore);
@@ -163,23 +176,10 @@ class CViaggio {
         return $view->processaTemplate();
     }
 
-    public function caricaViaggi(){     //è deprecata!!!!!!
-
-        $session=USingleton::getInstance('USession');
-        $user=$session->leggi_valore('username');
-        $FUtente=new FUtente();
-        $EUtente=$FUtente->load($user);
-        $viaggi=$EUtente->getElencoViaggi();
-        //debug($viaggi);
-        $view=USingleton::getInstance('VViaggio');
-        $view->setLayout('elenco_viaggi');
-        $view->impostaDati('results',$viaggi);
-        return $view->processaTemplate();
-    }
-
     //salva Luogo non funziona poichè puo essere inserito SOLO se c'è un ID di un viaggio, e di una citta collegata
     // questa parte l'ha fatta checco.
-    public function salvaLuogo() {
+    public function salvaLuogo()
+    {
         //debug("ci entro?");
         $view=USingleton::getInstance('VViaggio');
         $dati_luogo=$view->getDatiLuogo();
@@ -195,18 +195,22 @@ class CViaggio {
             $validaluogo->validacampi($dati_luogo);
         if(!$validaluogo->getErrors())
         {
-        foreach ($dati_luogo as $dato) {
-            $luogo->$keys[$i]=$dato;
-            $i++;
-        }
-        //debug($luogo);
-        $FLuogo->store($luogo);
-        $view->setLayout('conferma_inserimento_luogo');
+            foreach ($dati_luogo as $dato)
+            {
+                $luogo->$keys[$i]=$dato;
+                $i++;
+            }
+            //debug($luogo);
+            $FLuogo->store($luogo);
+            $view->setLayout('conferma_inserimento_luogo');
         }else
         {
             $view->setLayout('inserimento_luogo');
             $dati=$validaluogo->getErrors();
             $view->impostaDati('messaggi' , $dati);
+            $session=USingleton::getInstance('USession');
+            $view->impostaDati('autore',$session->leggi_valore('username'));
+            $view->impostaDati('idviaggio',$session->leggi_valore('idviaggio'));
             $datiutente=$validaluogo->getdatipersonali();
             $view->impostaDati('luogo', $datiutente);
             $this->_errore='DATI ERRATI';
@@ -215,6 +219,46 @@ class CViaggio {
         }
         return $view->processaTemplate();
     }
+
+    public function salvaCommento()
+    {
+        //debug("ci entro?");
+        $view=USingleton::getInstance('VViaggio');
+        $dati_luogo=$view->getDatiLuogo();
+        //debug($dati_luogo);
+        $luogo=new ELuogo();
+        $FLuogo=new FLuogo();
+        $keys=array_keys($dati_luogo);
+        //debug($keys);
+        $i=0;
+        foreach ($dati_luogo as $dato)
+        {
+            $luogo->$keys[$i]=$dato;
+            $i++;
+        }
+        //debug($luogo);
+        $FLuogo->store($luogo);
+        return $view->show('conferma_inserimento_luogo.tpl'); //verifica
+    }//da sistemare
+
+    /*public function caricaViaggi()
+    {     //è deprecata!!!!!!
+
+        $session=USingleton::getInstance('USession');
+        $user=$session->leggi_valore('username');
+        $FUtente=new FUtente();
+        $EUtente=$FUtente->load($user);
+        $viaggi=$EUtente->getElencoViaggi();
+        //debug($viaggi);
+        $view=USingleton::getInstance('VViaggio');
+        $view->setLayout('elenco_viaggi');
+        $view->impostaDati('results',$viaggi);
+        return $view->processaTemplate();
+    }*/
+
+
+
+
 
 /*    public function visualizzaLuoghiTable()
     {
@@ -242,65 +286,7 @@ class CViaggio {
     }
 */
 
-
-    public function visualizzaLuoghiTable()
-    {   //questa versiona ELIMINA I CLONI
-        $session=USingleton::getInstance('USession');
-        $user=$session->leggi_valore('username');
-        $FUtente=new FUtente();
-        $EUtente=$FUtente->load($user);
-        $lista_viaggi=$EUtente->getElencoViaggi(); //qua recupero i viaggi dell'utente
-        //debug("controllo se gia ho compilato qualche array ".count($lista_viaggi)." viaggi");
-
-        $cont=0; //memorizza le posizioni dei PDI inseriti in luoghi risultato
-        $luoghi_risultato=array();//è quello che poi mandero in stampa al TPL
-
-        foreach($lista_viaggi as $viaggio)
-        {
-            $lista_citta=$viaggio->getElencoCitta(); //qua recupero le citta del viaggio
-
-            //debug("controllo se gia ho compilato qualche array ".count($lista_citta)." citta");
-
-            foreach($lista_citta as $citta)
-            {
-                $lista_luoghi= $citta->getElencoLuoghi(); //qua recupero le citta di un singolo viaggio
-                //debug("controllo se gia ho compilato l'array con ---> ".count($lista_luoghi)." dei luoghi");
-
-                if ($lista_luoghi !=  false) { //quindi ci sono elementi
-
-                    foreach($lista_luoghi as $luogo)
-                    {
-                        //debug("contatore in ingresso: ".$cont);
-                        //debug("quanti elementi in luoghi risultato ".count($luoghi_risultato));
-
-                        $verifica=in_array($luogo,$luoghi_risultato);//verifica se un elemento è presente in un array
-
-                        if ($verifica==true)//quindi è presente
-                        {
-                            //debug("è presente quindi non lo aggiungo");
-                        }
-
-                        else if($verifica==false)  //quindi non è presente
-                        {
-                            //debug("luogo NON presente!!!!");
-                            //debug("-------------------->quindi lo aggiungo");
-                            $luoghi_risultato[$cont]=$luogo; //metto in pos $cont il luogo testato
-                            $cont++; //sposto cont
-                        }
-
-                        //debug("contatore attuale dopo il test: ".$cont);
-                        //debug("contatore luoghi risultato dopo il test: ".count($luoghi_risultato));
-                    }
-                }
-            }
-        }
-        //mando in stampa tutto
-        $view=USingleton::getInstance('VViaggio');
-        $view->setLayout('elenco_luoghi');
-        $view->impostaDati('results',$luoghi_risultato);
-        return $view->processaTemplate();
-    }
-
+    //VISUALIZZAZIONI TABLE
     public function visualizzaViaggiTable()
     {   //questa versiona ELIMINA I CLONI
         $session=USingleton::getInstance('USession');
@@ -373,6 +359,64 @@ class CViaggio {
 
     }
 
+    public function visualizzaLuoghiTable()
+    {   //questa versiona ELIMINA I CLONI
+        $session=USingleton::getInstance('USession');
+        $user=$session->leggi_valore('username');
+        $FUtente=new FUtente();
+        $EUtente=$FUtente->load($user);
+        $lista_viaggi=$EUtente->getElencoViaggi(); //qua recupero i viaggi dell'utente
+        //debug("controllo se gia ho compilato qualche array ".count($lista_viaggi)." viaggi");
+
+        $cont=0; //memorizza le posizioni dei PDI inseriti in luoghi risultato
+        $luoghi_risultato=array();//è quello che poi mandero in stampa al TPL
+
+        foreach($lista_viaggi as $viaggio)
+        {
+            $lista_citta=$viaggio->getElencoCitta(); //qua recupero le citta del viaggio
+
+            //debug("controllo se gia ho compilato qualche array ".count($lista_citta)." citta");
+
+            foreach($lista_citta as $citta)
+            {
+                $lista_luoghi= $citta->getElencoLuoghi(); //qua recupero le citta di un singolo viaggio
+                //debug("controllo se gia ho compilato l'array con ---> ".count($lista_luoghi)." dei luoghi");
+
+                if ($lista_luoghi !=  false) { //quindi ci sono elementi
+
+                    foreach($lista_luoghi as $luogo)
+                    {
+                        //debug("contatore in ingresso: ".$cont);
+                        //debug("quanti elementi in luoghi risultato ".count($luoghi_risultato));
+
+                        $verifica=in_array($luogo,$luoghi_risultato);//verifica se un elemento è presente in un array
+
+                        if ($verifica==true)//quindi è presente
+                        {
+                            //debug("è presente quindi non lo aggiungo");
+                        }
+
+                        else if($verifica==false)  //quindi non è presente
+                        {
+                            //debug("luogo NON presente!!!!");
+                            //debug("-------------------->quindi lo aggiungo");
+                            $luoghi_risultato[$cont]=$luogo; //metto in pos $cont il luogo testato
+                            $cont++; //sposto cont
+                        }
+
+                        //debug("contatore attuale dopo il test: ".$cont);
+                        //debug("contatore luoghi risultato dopo il test: ".count($luoghi_risultato));
+                    }
+                }
+            }
+        }
+        //mando in stampa tutto
+        $view=USingleton::getInstance('VViaggio');
+        $view->setLayout('elenco_luoghi');
+        $view->impostaDati('results',$luoghi_risultato);
+        return $view->processaTemplate();
+    }
+
     public function visualizzaCommentiTable()
     {
         $session=USingleton::getInstance('USession');
@@ -387,9 +431,11 @@ class CViaggio {
         $cont=0; //memorizza le posizioni dei commenti inseriti in luoghi risultato
         $commenti_risultato=array();//è quello che poi mandero in stampa al TPL
         //var_dump($FCommento);
-        if ($FCommenti !=  false) { //quindi ci sono elementi
+        if ($FCommenti !=  false)
+        { //quindi ci sono elementi
             //debug('ci entro?');
-            foreach($FCommenti as $commento){
+            foreach($FCommenti as $commento)
+            {
                 //debug("------->");
                 //var_dump($commento);
                 $commenti_risultato[$cont]=$commento; //metto in pos $cont il commento testato
@@ -410,6 +456,18 @@ class CViaggio {
     }
 
 
+    //VISUALIZZAZIONE IN DETTAGLIO
+
+    public function VisualizzaViaggio()
+    {
+        $VViaggio=USingleton::getInstance('VViaggio');
+        $FViaggio=new FViaggio();
+        $viaggio=$FViaggio->load($VViaggio->getIdViaggio());
+        $VViaggio->setLayout('dettagli_viaggio');
+        $VViaggio->impostaDati('viaggio',$viaggio);
+        //debug($viaggio);
+        return $VViaggio->processaTemplate();
+    }
 
     public function visualizzaCitta()
     {
@@ -451,50 +509,19 @@ class CViaggio {
         return $VViaggio->processaTemplate();
     }
 
-    public function VisualizzaViaggio()
-    {
-        $VViaggio=USingleton::getInstance('VViaggio');
-        $FViaggio=new FViaggio();
-        $viaggio=$FViaggio->load($VViaggio->getIdViaggio());
-        $VViaggio->setLayout('dettagli_viaggio');
-        $VViaggio->impostaDati('viaggio',$viaggio);
-        //debug($viaggio);
-        return $VViaggio->processaTemplate();
-    }
-
     public function VisualizzaCommento()
     {
         $VViaggio=USingleton::getInstance('VViaggio');
         $FCommento=new FCommento();
         $idcommento=$VViaggio->getIDCommento();
-        debug('Questo è id del viaggio'.$idcommento);
+        //debug('Questo è id del viaggio'.$idcommento);
         $commento=$FCommento->loadCommento($idcommento);//qua copio in commento il risultato della query
-        debug($commento);
+        //debug($commento);
         $VViaggio->setLayout('dettagli_commento');
         $VViaggio->impostaDati('commento',$commento);
         //debug($viaggio);
         return $VViaggio->processaTemplate();
     }
 
-    public function salvaCommento()
-    {
-        //debug("ci entro?");
-        $view=USingleton::getInstance('VViaggio');
-        $dati_luogo=$view->getDatiLuogo();
-        //debug($dati_luogo);
-        $luogo=new ELuogo();
-        $FLuogo=new FLuogo();
-        $keys=array_keys($dati_luogo);
-        debug($keys);
-        $i=0;
-        foreach ($dati_luogo as $dato)
-        {
-            $luogo->$keys[$i]=$dato;
-            $i++;
-        }
-        //debug($luogo);
-        $FLuogo->store($luogo);
-        return $view->show('conferma_inserimento_luogo.tpl'); //verifica
-    }//da sistemare
 }
 ?>

@@ -13,8 +13,11 @@ require('lib/smarty/Smarty.class.php');
      * @package View
      */
 
-class View extends Smarty {
-    public function __construct() {
+class View extends Smarty
+{
+
+    public function __construct()
+    {
         $this->Smarty();
         global $config;
         $this->template_dir = $config['smarty']['template_dir'];

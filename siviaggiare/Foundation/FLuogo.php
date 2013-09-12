@@ -7,15 +7,18 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class FLuogo extends FDatabase{
+class FLuogo extends FDatabase
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->tabella='luogo';
         $this->chiave=array('idviaggio','nome','nomecitta');
         $this->classe='ELuogo';
         $this->auto_incremento=false;
         USingleton::getInstance('FDatabase');
     }
+
 
     public function loadLuogo($key)
     {

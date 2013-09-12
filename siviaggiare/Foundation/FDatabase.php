@@ -7,7 +7,8 @@
  * To change this template use File | Settings | File Templates.
  */            ///DA COMPLETARE
 
-class FDatabase {
+class FDatabase
+{
 
     private $connessione;
     private $risultato;
@@ -16,26 +17,31 @@ class FDatabase {
     protected $classe;
     protected $auto_incremento= false;
 
+
     public function __construct()
     {
         global $config;
         $this->connect($config['mysql']['host'], $config['mysql']['password'], $config['mysql']['user'], $config['mysql']['database']);
     }
 
+
     public function connect($host,$user,$password,$database)
     {
         $this->connessione = mysql_connect($host,$password,$user);
-        if (!$this->connessione) {
+        if (!$this->connessione)
+        {
             die('Impossibile connettersi al database: ' . mysql_error());
         }
         $db = mysql_select_db($database,$this->connessione);
-        if (!$db) {
+        if (!$db)
+        {
             die ("Impossibile utilizzare $database: " . mysql_error());
         }
         //debug('Connessione al database avvenuta correttamente');
         $this->query('SET names \'utf8\'');                         //CHE FA????-----vedere
         return true;
     }
+
 
     public function query($query)
     {
@@ -47,6 +53,7 @@ class FDatabase {
         else
             return true;
     }
+
 
     public function getQueryInArray()
     {
@@ -65,6 +72,7 @@ class FDatabase {
         return false;
     }
 
+
     public function getObjectInArray()
     {
         if($this->risultato != false)
@@ -82,11 +90,13 @@ class FDatabase {
         return false;
     }
 
+
     public function close()
     {
         mysql_close($this->connessione);
         //debug('Connessione al database terminata');
     }
+
 
     /**
      * Restituisce un oggetto della classe Entity impostata in _return_class contentente i risultati della query
@@ -111,15 +121,19 @@ class FDatabase {
         else return false;
     }
 
+
     public function store($object)
     {
         $i=0;
         $valori='';
         $campi='';
-        foreach ($object as $key=>$value) {
-            if (!($this->auto_incremento && $key == $this->chiave) && substr($key, 0, 1)!='_') {
+        foreach ($object as $key=>$value)
+        {
+            if (!($this->auto_incremento && $key == $this->chiave) && substr($key, 0, 1)!='_')
+            {
                 //var_dump($object);
-                if ($i==0) {
+                if ($i==0)
+                {
                     $campi.='`'.$key.'`';
                     $valori.='\''.$value.'\'';
                 } else {
@@ -135,7 +149,8 @@ class FDatabase {
         $query = 'INSERT INTO '. $this->tabella.' ('.$campi.') VALUES ('.$valori.')';
         $return = $this->query($query);
         //var_dump($return);
-        if ($this->auto_incremento) {
+        if ($this->auto_incremento)
+        {
             $query='SELECT LAST_INSERT_ID() AS `id`';
             $this->query($query);
             $risID=$this->getQueryInArray();
@@ -146,7 +161,9 @@ class FDatabase {
         }
     }
 
-    public function load($key) {
+
+    public function load($key)
+    {
         $query='SELECT * ' .
             'FROM `'.$this->tabella.'` ' .
             'WHERE `'.$this->chiave.'` = \''.$key.'\'';
@@ -156,13 +173,16 @@ class FDatabase {
         $obj = $this->getObject();
         return $obj;
     }
+
+
     /**
      * Cancella dal database lo stato di un oggetto
      *
      * @param object $object
      * @return boolean
      */
-    public function delete(& $object) {
+    public function delete(& $object)
+    {
         $arrayObject=get_object_vars($object);
         $query='DELETE ' .
             'FROM `'.$this->tabella.'` ' .
@@ -170,6 +190,7 @@ class FDatabase {
         unset($object);
         return $this->query($query);
     }
+
 
     public function loadRicerca($key,$value)//username,valore
     {$query='SELECT * ' .
@@ -179,6 +200,39 @@ class FDatabase {
         $ris = $this->getObjectInArray();
         return $ris;
     }
+
+
+    /**
+     * Aggiorna sul database lo stato di un oggetto
+     *
+     * @param object $object
+     * @return boolean
+     */
+    public function update($object)
+    {
+        $i=0;
+        $fields='';
+        foreach ($object as $key=>$value)
+        {
+            if (!($key == $this->chiave) && substr($key, 0, 1)!='_')
+            {
+                if ($i==0)
+                {
+                    $fields.='`'.$key.'` = \''.$value.'\'';
+                } else
+                {
+                    $fields.=', `'.$key.'` = \''.$value.'\'';
+                }
+                $i++;
+            }
+        }
+
+        $arrayObject=get_object_vars($object);
+        $query='UPDATE `'.$this->tabella.'` SET '.$fields.' WHERE `'.$this->chiave.'` = \''.$arrayObject[$this->chiave].'\'';
+        return $this->query($query);
+    }
+
+
 
 }
 ?>

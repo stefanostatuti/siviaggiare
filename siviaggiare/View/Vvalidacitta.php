@@ -15,18 +15,19 @@ class Vvalidacitta extends View
               "stato" => null,
               "datainizio" =>null,
               "datafine" => null,
-              "costoalloggio"=>null
+              "costoalloggio"=>null,
+              "tipoalloggio"=>null
             );
+
 
   // messaggi in caso di eventuali errori di input
     private $errors_msg =
       array ( 
               "nome" =>"nome non valido",
               "stato" =>" stato non valido",
-              "datainizio" =>"data non valida",
-              "datafine" =>"data non valida",
+              "data" =>"data non valida",
               "date"=>"datafine minore data inizio????",
-              "costoalloggio"=>"costoalloggio errato es. 12,3",
+              "costoalloggio"=>"costoalloggio errato es. 12",
               "costi"=>"costo alloggio maggiore del budget????"
             );
               
@@ -47,12 +48,14 @@ class Vvalidacitta extends View
     {  
        if (!$this->retrivedFields) 
        {
-       		//carico dati  
+       		//carico dati
+         //var_dump($dati['citta']);
          $this->fields['nome']=$dati['nome'];
          $this->fields['stato']=$dati['stato'];
          $this->fields['datainizio']=$dati['datainizio'];
          $this->fields['datafine']=$dati['datafine'];
-         $this->fields['costoalloggio']=$dati['costoalloggio'];
+         $this->fields['costoalloggio']=$dati['costo'];
+         $this->fields['tipoalloggio']=$dati['tipoalloggio'];
          
        }
        		$this->retrivedFields = true;
@@ -82,20 +85,12 @@ class Vvalidacitta extends View
     {
        if ( in_array("true", $this->wrong_fields ) )
        {
+          //var_dump($this->wrong_fields);
           return $this->messaggi;
           
         }
        else
           return false; 
-    }
-    
-    
-    public function show_again()  //da verificare
-    {   
-        $this->setDataIntoTemplate( "luogo", $this->getdatipersonali() );
-        $this->setDataIntoTemplate( "wrong_fields", $this->wrong_fields );
-        $this->setDataIntoTemplate( "errors_msg", $this->errors_msg );
-        $this->showTemplate();//affiche parta il template deve partire qui non fuori
     }
     
     
@@ -106,29 +101,21 @@ class Vvalidacitta extends View
          $arraydata['datainizio']=$this->fields['datainizio'];
          $arraydata['datafine']=$this->fields['datafine'];
          $arraydata['costoalloggio']=$this->fields['costoalloggio'];
+         $arraydata['tipoalloggio']=$this->fields['tipoalloggio'];
          return $arraydata;
      }
     
-      public function setDataIntoTemplate($key,$valore) //davedere
-    {  
-        $this->assign($key,$valore);  
-    }   
-    
-    
-    public function showTemplate() //davedere
-    {
-         $this->display('davedere.tpl'); 
-    }
-    
+
 // -------------------------------------------- private functions
 
 
 
    private function validanome()
    {
-        $pattern = '/^[[:alpha:]]{3,20}$/';
+        $pattern = '/^[[:alpha:] ]{3,20}$/';
         if ( !preg_match( $pattern, $this->fields['nome'] ) )
         {
+            var_dump($this->fields['nome']);
             $this->wrong_fields['nome'] = "true";
             $this->messaggi['nome'] = $this->errors_msg['nome'];
          }   
@@ -141,7 +128,7 @@ class Vvalidacitta extends View
     
     private function validastato()
    {
-        $pattern = '/^[[:alpha:]]{3,20}$/';
+        $pattern = '/^[[:alpha:] ]{3,20}$/';
         if ( !preg_match( $pattern, $this->fields['stato'] ) )
         {
             $this->wrong_fields['stato'] = "true";
@@ -201,7 +188,7 @@ class Vvalidacitta extends View
          if($this->fields['budget']<$this->fields['costoalloggio'])
          {
              $this->wrong_fields['costo_budget'] = "true";
-             $this->messaggi['costo_budget'] = $this->errors_msg['costo_budget'];
+             $this->messaggi['costo_budget'] = $this->errors_msg['costi'];
          }else
          {
              $this->wrong_fields['costo_budget'] = "false";
@@ -210,14 +197,16 @@ class Vvalidacitta extends View
     
     private function validacostoalloggio()
    {
-      $pattern = '/^[0-9]{1,6},[0-9]{0,2}$/';
+      $pattern = '/^[0-9]{1,6}$/';
         if ( !preg_match( $pattern, $this->fields['costoalloggio'] ))
-        {    
-             $this->wrong_fields['costoalloggio'] = "true";
+        {
+            var_dump($this->fields['costoalloggio']);
+            $this->wrong_fields['costoalloggio'] = "true";
             $this->messaggi['costoalloggio'] = $this->errors_msg['costoalloggio'];
          }   
         else 
-        { 
+        {
+
              $this->wrong_fields['costoalloggio'] = "false";
         }  
    }

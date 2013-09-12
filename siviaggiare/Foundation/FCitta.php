@@ -9,6 +9,7 @@
 
 class FCitta extends FDatabase
 {
+
     public function __construct() 
     {
         $this->tabella='citta';
@@ -17,6 +18,7 @@ class FCitta extends FDatabase
         $this->auto_incremento=false;// da verificare se va tolto
         USingleton::getInstance('FDatabase');
     }
+
 
     public function loadCitta($key)
     {

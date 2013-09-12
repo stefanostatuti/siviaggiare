@@ -26,7 +26,7 @@ class Vvalidaluogo extends View
               "nome" =>"nome non valido",
               "citta" =>"citt&agrave; non valida",
               "sito" =>"sito web non valido - es. www.dominio.it",
-              "costobiglietto" =>"es. xxx,xx",
+              "costobiglietto" =>"intero es. 12",
               "guidaturistica" =>"dato non valido",
               "duratavisita"=>"in minuti",
               "biglietto_budget"=>"costo biglietto maggiore costo budget???"
@@ -77,7 +77,7 @@ class Vvalidaluogo extends View
        if ( in_array("true", $this->wrong_fields ) )
           return false; // esiste almeno un campo di input errato
        else
-          return $fields;
+          return $this->fields;
           
     }
     
@@ -162,7 +162,7 @@ class Vvalidaluogo extends View
    {
      if($this->fields['costobiglietto']!=null)
      {
-        $pattern = '/^[0-9]{1,6},[0-9]{0,2}$/';
+        $pattern = '/^[0-9]{1,6}$/';
         if ( !preg_match( $pattern, $this->fields['costobiglietto'] )) 
         {
             $this->wrong_fields['costobiglietto'] = "true";

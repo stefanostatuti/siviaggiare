@@ -7,50 +7,62 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class VHome extends View {
+class VHome extends View
+{
+
     private $_layout='default';
     private $_contenuto_principale;
     private $_contenuto_laterale_destro;
     private $_contenuto_laterale_sinistro;
 
-    public function getController() {
+
+
+           //metodi pubblic:
+
+
+    public function getController()
+    {
         if (isset($_REQUEST['controller']))
             return $_REQUEST['controller'];
         else
             return false;
     }
 
-    /*public function mostraPaginaIniziale() {
+
+    /*public function mostraPaginaIniziale()
+    {
         //$this->assign('right_content',$this->_side_content);
         //$this->assign('tasti_laterali',$this->_side_button);
         $this->display('home_default.tpl');
     }*/
 
+
     /**
      * Assegna il contenuto al template e lo manda in output
      */
-    public function mostraPagina() {
+    public function mostraPagina()
+    {
         $this->assign('contenuto_principale',$this->_contenuto_principale);
         $this->assign('contenuti_menu_destro1',$this->_contenuto_laterale_destro);
         $this->assign('contenuti_menu_sinistro1',$this->_contenuto_laterale_sinistro);
         $this->display('home_'.$this->_layout.'.tpl');
     }
 
-    public function impostaDati($key,$valore){
+
+    public function impostaDati($key,$valore)
+    {
         $this->assign($key,$valore);
     }
+
 
     /**
      * imposta il contenuto principale alla variabile privata della classe
      */
-    public function impostaContenuto($contenuto) {
+    public function impostaContenuto($contenuto)
+    {
         $this->_contenuto_principale=$contenuto;
     }
 
-    public function show($layout)
-    {
-        $this->display($layout);
-    }       //è deprecato
 
     public function impostaPaginaOspite()
     {
@@ -62,13 +74,16 @@ class VHome extends View {
         $this->aggiungiModuloAboutRegistrazione();
     }
 
-    public function aggiungiModuloLogin() {
+
+    public function aggiungiModuloLogin()
+    {
         $VRegistrazione=USingleton::getInstance('VRegistrazione');
         $VRegistrazione->setLayout('login');
         $modulo_login=$VRegistrazione->processaTemplate();
         $this->_contenuto_laterale_destro.=$modulo_login;
 
     }
+
 
     public function aggiungiModuloAboutRegistrazione()
     {
@@ -77,6 +92,7 @@ class VHome extends View {
         $modulo_about=$VRegistrazione->processaTemplate();
         $this->_contenuto_laterale_sinistro.=$modulo_about;
     }
+
 
     /**
      * Imposta la pagina per gli utenti registrati/autenticati
@@ -92,7 +108,9 @@ class VHome extends View {
         $this->aggiungiModuloAutenticato();
     }
 
-    public function aggiungiModuloAutenticato() {
+
+    public function aggiungiModuloAutenticato()
+    {
         $session=USingleton::getInstance('USession');
         $username=$session->leggi_valore('username');
         $VRegistrazione=USingleton::getInstance('VRegistrazione');
@@ -102,6 +120,7 @@ class VHome extends View {
         $this->_contenuto_laterale_destro.=$modulo_logout;
 
     }
+
 
     /*QUESTO METODO ANDRA TOLTO PERCHE CI ANDRA IL MODULO PER LA RICERCA (IN ALTRA CLASSE)*/
     public function mostraESEMPIOCSS()

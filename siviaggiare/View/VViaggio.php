@@ -7,43 +7,23 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class VViaggio extends View {
+class VViaggio extends View
+{
 
     private $_layout='default';
 
-    public function setLayout($layout){
-        $this->_layout=$layout;
-    }
 
-    public function show($layout)
-    {
-        $this->display($layout);
-    }
 
-    public function processaTemplate() {
-        return $this->fetch('viaggio_'.$this->_layout.'.tpl');
-    }
+              //metodi get:
 
-    /**
-     * Imposta i dati nel template identificati da una chiave ed il relativo valore
-     *
-     * @param string $key
-     * @param mixed $valore
-     */
-    public function impostaDati($key,$valore){ //chiave , valore
-        $this->assign($key,$valore);
-    }
 
-    /**
-     * Restituisce l'array contenente i dati di registrazione
-     *
-     * @return array();
-     */
+
     public function getDatiViaggio()
     {
         $dati_viaggio=array('username','datainizio','datafine','mezzotrasporto','costotrasporto','budget');
         $dati=array();
-        foreach ($dati_viaggio as $dato) {
+        foreach ($dati_viaggio as $dato)
+        {
             if (isset($_REQUEST[$dato]))
                 $dati[$dato]=$_REQUEST[$dato];
         }
@@ -51,18 +31,22 @@ class VViaggio extends View {
         $dati['utenteusername']= $session->leggi_valore('username');
         return $dati;
     }
+
+
     public function getDatiLuogo()
     {
         $dati_viaggio=array('idviaggio','nome','nomecitta','sitoweb','percorso','costobiglietto','guida','coda','durata','commentolibero');
         $dati=array();
         $session= USingleton::getInstance('USession');
         $dati['idviaggio']= $session->leggi_valore('idviaggio');
-        foreach ($dati_viaggio as $dato) {
+        foreach ($dati_viaggio as $dato)
+        {
             if (isset($_REQUEST[$dato]))
                 $dati[$dato]=$_REQUEST[$dato];
         }
         return $dati;
     }
+
 
     public function getTask()
     {
@@ -72,6 +56,7 @@ class VViaggio extends View {
             return false;
     }
 
+
     public function getController()
     {
         if (isset($_REQUEST['controller']))
@@ -79,6 +64,7 @@ class VViaggio extends View {
         else
             return false;
     }
+
 
     public function getIdViaggio()
     {
@@ -90,6 +76,7 @@ class VViaggio extends View {
             return false;
     }
 
+
     public function getNomeLuogo()
     {
         if (isset($_REQUEST['nome']))
@@ -97,6 +84,7 @@ class VViaggio extends View {
         else
             return false;
     }
+
 
     public function getNomeCitta()
     {
@@ -108,14 +96,6 @@ class VViaggio extends View {
             return false;
     }
 
-    /**
-     * Imposta l'eventuale errore nel template
-     *
-     * @param string $errore
-     */
-    public function impostaErrore($errore){
-        $this->assign('errore',$errore);
-    }
 
     /**
      * Restituisce l'array contenente i dati di registrazione
@@ -124,7 +104,7 @@ class VViaggio extends View {
      */
     public function getDatiCitta()
     {
-        $dati_citta=array('username','datainizio','datafine','citta','stato','tipoalloggio','costo','voto'); //da verificare
+        $dati_citta=array('username','datainizio','datafine','nome','stato','tipoalloggio','costo','voto'); //da verificare
         debug("questo è quello che ricevo dal TPL");
         debug($dati_citta);
         $dati=array();
@@ -144,6 +124,7 @@ class VViaggio extends View {
         return $dati;
     }
 
+
     public function getIdCommento()
     {
         if (isset($_REQUEST['idcommento']))
@@ -151,6 +132,55 @@ class VViaggio extends View {
         else
             return false;
     }
+
+
+               //metodi set:
+
+
+
+    public function setLayout($layout)
+    {
+        $this->_layout=$layout;
+    }
+
+
+               //altri metodi:
+
+
+
+    public function processaTemplate()
+    {
+        return $this->fetch('viaggio_'.$this->_layout.'.tpl');
+    }
+
+
+    /**
+     * Imposta i dati nel template identificati da una chiave ed il relativo valore
+     *
+     * @param string $key
+     * @param mixed $valore
+     */
+    public function impostaDati($key,$valore){ //chiave , valore
+        $this->assign($key,$valore);
+    }
+
+    /**
+     * Restituisce l'array contenente i dati di registrazione
+     *
+     * @return array();
+     */
+
+
+    /**
+     * Imposta l'eventuale errore nel template
+     *
+     * @param string $errore
+     */
+    public function impostaErrore($errore){
+        $this->assign('errore',$errore);
+    }
+
+
 
     /*public function compilaTemplateViaggio (EViaggio $viaggio)//prendo un oggetto di tipo viaggio
     {

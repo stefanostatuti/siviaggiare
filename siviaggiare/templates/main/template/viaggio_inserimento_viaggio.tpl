@@ -11,10 +11,12 @@
                     <td><h4>Periodo</h4></td>
                     <td>
                         <h6>Inizio:</h6><input type="datetime-local" name="datainizio" id="datainizio" value="{$viaggio.datainizio}"/>
-                        <h6>fine:</h6> <input type="datetime" name="datafine" id="datainizio" value="{$viaggio.datafine}"/>
+                        <br>
+                        <br>
+                        <h6>Fine:</h6> <input type="datetime" name="datafine" id="datainizio" value="{$viaggio.datafine}"/>
                     {if $messaggi.datainizio!= false || $messaggi.datafine!= false || $messaggi.date != false }
                     <td class="error">
-                        {if $messaggi.datainizio != 'false'} {$messaggi.datinizio}  {/if}
+                        {if $messaggi.datainizio != 'false'} {$messaggi.datainizio}  {/if}
                         {if $messaggi.datafine != 'false'} {$messaggi.datafine}  {/if}
                         {if $messaggi.date != 'false'} {$messaggi.date}  {/if}
                     </td>
@@ -24,7 +26,7 @@
                     <td><h4>Mezzo di trasporto: </h4></td>
                     <td>
                         <select name="mezzotrasporto" class="left">
-                            <optgroup label="Tipo di trasporto">
+                            <optgroup label="Tipo di trasporto" >
                                 <option value="Autobus"> Autobus </option>
                                 <option value="Macchina"> Macchina </option>
                                 <option value="Aereo"> Aereo </option>
