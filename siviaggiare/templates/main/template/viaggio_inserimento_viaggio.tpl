@@ -26,7 +26,7 @@
                     <td><h4>Mezzo di trasporto: </h4></td>
                     <td>
                         <select name="mezzotrasporto" class="left">
-                            <optgroup label="Tipo di trasporto" >
+                            <optgroup label="Scegli il tipo di trasporto" >
                                 <option value="Autobus"> Autobus </option>
                                 <option value="Macchina"> Macchina </option>
                                 <option value="Aereo"> Aereo </option>
@@ -43,6 +43,13 @@
                         <h4>Costo del trasporto: </h4></td>
                     <td>
                         <input type="text" name="costotrasporto" value="{$viaggio.costotrasporto}"/>
+                        <select name="Valuta trasporto">
+                            <optgroup label="Scegli il tipo di valuta" >
+                                <option value="Euro"> € </option>
+                                <option value="Yen Giapponese"> ¥ </option>
+                                <option value="Dollaro US"> $ USA </option>
+                                <option value="Dollaro AU"> $ AUS </option>
+                        </select>
                     </td>
                     {if $messaggi.costotrasporto != false}
                     <td class="error">
@@ -52,10 +59,17 @@
                 </tr>
                 <tr>
                     <td>
-                        <h4>Budget: </h4>
+                        <h4>Budget della vacanza: </h4>
                     </td>
                     <td>
                         <input type="text" name="budget" value="{$viaggio.budget}"/>
+                        <select name="Valuta budget">
+                            <optgroup label="Scegli il tipo di valuta" >
+                                <option value="Euro"> € </option>
+                                <option value="Yen Giapponese"> ¥ </option>
+                                <option value="Dollaro US"> $ USA </option>
+                                <option value="Dollaro AU"> $ AUS </option>
+                        </select>
                     </td>
                     {if $messaggi.budget != false || $messaggi.costo_budget != false}
                     <td class="error">

@@ -9,9 +9,11 @@ stampa 2 volte GG/MM/AA se si inseriscono entrambe le date errate
 Quando si rispedisce la form si resetta mezzo di trasporto (torna al default)
 
 Costo del trasporto:
-scrivere il tipo di moneta (EURO o yen ..) in una select e rimpicciolire il campo
+scrivere il tipo di moneta (EURO o yen ..) in una select e rimpicciolire il campo (scritto il menu a tendina, manca di salvarlo sul db, pensavo di inserire
+un campo in visualizzazione che converte automaticamente la valuta in una scelta dall'utente nel menu personale tipo: 500 euro (il costo di una vacanza)corrispondono
+a 456 dollari US (se l'utente imposta di visualizzare i valori nella sua moneta)
 
-Rinominare Budget in Budget vacanza (perche' non se capisce)
+Rinominare Budget in Budget vacanza (perche' non se capisce) //FATTO stefano
 
 ---------------------------------------------------------------------
 
