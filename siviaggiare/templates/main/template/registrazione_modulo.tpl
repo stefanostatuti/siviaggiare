@@ -8,9 +8,9 @@
                     <tr>
                         <td> Username: </td>
                         <td> <input type="text" name="username"  maxlength="20" value="{$persona.user}"/> </td>
-                        {if $messaggi !=false || $messaggi.userdata !=false }
+                        {if $messaggi.user != false || $messaggi.userdata != false }
                             <td class="error">
-                                {if $messaggi != 'false'} {$messaggi.user}  {/if}
+                                {if $messaggi.user != 'false'} {$messaggi.user}  {/if}
                                 {if $messaggi.userdata != 'false'} {$messaggi.userdata}  {/if}
                             </td>
                         {/if}

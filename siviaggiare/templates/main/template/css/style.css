@@ -389,7 +389,7 @@ footer a:hover {
   
 .form_settings input, .form_settings textarea { 
   padding: 5px; 
-  width: 239px;
+  width: 150px;
   font: 80% 'Droid Sans', arial;
   border: 1px solid #E5E5DB; 
   background: #FFF; 
@@ -420,7 +420,7 @@ footer a:hover {
 }
 
 .form_settings select { 
-  width: 210px;
+  width: 150px;
 }
 
 .form_settings .checkbox { 
@@ -429,6 +429,18 @@ footer a:hover {
   width: 14px;
   border: 0;
   background: none;
+}
+
+.form_settings .Valutabudget{
+    padding: 5px;
+    width: 150px;
+    font: 80% 'Droid Sans', arial;
+    border: 1px solid #E5E5DB;
+    background: #FFF;
+    color: #47433F;
+    border-radius: 7px 7px 7px 7px;
+    -moz-border-radius: 7px 7px 7px 7px;
+    -webkit-border: 7px 7px 7px 7px;
 }
 
 .separator { 

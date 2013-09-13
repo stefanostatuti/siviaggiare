@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html>
-
 <head>
     <title>{$titolo}</title>
     <meta name="description" content="website description" />

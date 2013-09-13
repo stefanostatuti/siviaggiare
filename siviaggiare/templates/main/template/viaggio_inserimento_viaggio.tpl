@@ -1,3 +1,18 @@
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css" />
+
+{literal} <!-- literal evita che Smarty provi a compilare  questa parte-->
+    <script type="text/javascript">
+        $(function() {
+            <!--$("#datepicker").datepicker();-->
+            $("#datainizio").datepicker();
+            $("#datafine").datepicker();
+        });
+    </script>
+{/literal}
+
 <div class="content">
     <div class="form_settings">
         <form method="post" action="index.php">
@@ -10,10 +25,18 @@
                 <tr>
                     <td><h4>Periodo</h4></td>
                     <td>
-                        <h6>Inizio:</h6><input type="datetime-local" name="datainizio" id="datainizio" value="{$viaggio.datainizio}"/>
+                        <h6>Inizio:</h6>
+                        <!--
+                        <input type="datetime-local" name="datainizio" id="datainizio" value="{$viaggio.datainizio}"/>
+                        -->
+                        <input type="datetime-local" id="datainizio" />
                         <br>
                         <br>
-                        <h6>Fine:</h6> <input type="datetime" name="datafine" id="datainizio" value="{$viaggio.datafine}"/>
+                        <h6>Fine:</h6>
+                        <!--
+                        <input type="datetime" name="datafine" id="datainizio" value="{$viaggio.datafine}"/>
+                        -->
+                        <input type="datetime-local" id="datafine" />
                     {if $messaggi.datainizio!= false || $messaggi.datafine!= false || $messaggi.date != false }
                     <td class="error">
                         {if $messaggi.datainizio != 'false'} {$messaggi.datainizio}  {/if}
@@ -43,13 +66,16 @@
                         <h4>Costo del trasporto: </h4></td>
                     <td>
                         <input type="text" name="costotrasporto" value="{$viaggio.costotrasporto}"/>
+
                         <select name="Valuta trasporto">
                             <optgroup label="Scegli il tipo di valuta" >
                                 <option value="Euro"> € </option>
                                 <option value="Yen Giapponese"> ¥ </option>
                                 <option value="Dollaro US"> $ USA </option>
                                 <option value="Dollaro AU"> $ AUS </option>
+                                <option value="HUF Ungheria"> Ft HUF </option>
                         </select>
+
                     </td>
                     {if $messaggi.costotrasporto != false}
                     <td class="error">
@@ -63,13 +89,16 @@
                     </td>
                     <td>
                         <input type="text" name="budget" value="{$viaggio.budget}"/>
-                        <select name="Valuta budget">
+
+                        <select name="Valuta budget" class ="Valutabudget">
                             <optgroup label="Scegli il tipo di valuta" >
                                 <option value="Euro"> € </option>
                                 <option value="Yen Giapponese"> ¥ </option>
                                 <option value="Dollaro US"> $ USA </option>
                                 <option value="Dollaro AU"> $ AUS </option>
+                                <option value="HUF Ungheria"> Ft HUF </option>
                         </select>
+
                     </td>
                     {if $messaggi.budget != false || $messaggi.costo_budget != false}
                     <td class="error">

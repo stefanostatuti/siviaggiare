@@ -69,7 +69,8 @@ class CViaggio
         $session=USingleton::getInstance('USession');
         $VViaggio->setLayout('inserimento_citta');
         $VViaggio->impostaDati('autore',$session->leggi_valore('username'));
-        $VViaggio->impostaDati('idviaggio',$session->leggi_valore('idviaggio'));
+        //$VViaggio->impostaDati('idviaggio',$session->leggi_valore('idviaggio'));
+        $VViaggio->impostaDati('idviaggio',$session->leggi_valore('viaggio')->getID());
         return $VViaggio->processaTemplate();
     }
 
@@ -107,7 +108,8 @@ class CViaggio
             }
             $FViaggio->store($viaggio);
             $session=USingleton::getInstance('USession');
-            $session->imposta_valore('idviaggio',$viaggio->id);
+            //$session->imposta_valore('idviaggio',$viaggio->id);
+            $session->imposta_valore('viaggio',$viaggio);
             //$view->show('conferma_inserimento_viaggio.tpl');
             $view->setLayout('conferma_inserimento_viaggio');
         }else
