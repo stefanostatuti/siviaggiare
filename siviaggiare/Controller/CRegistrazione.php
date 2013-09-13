@@ -129,7 +129,7 @@ class CRegistrazione
         $session=USingleton::getInstance('USession');
         $VRegistrazione= USingleton::getInstance('VRegistrazione');
         $task=$VRegistrazione->getTask();
-        $controller=$VRegistrazione->getController();
+        //$controller=$VRegistrazione->getController(); //variabile non usata
         $this->_username=$VRegistrazione->getUsername();
         $this->_password=$VRegistrazione->getPassword();
         if ($session->leggi_valore('username')!=false)
@@ -143,7 +143,7 @@ class CRegistrazione
             //logout
             $this->logout();
             $autenticato=false;
-            $VHome=USingleton::getInstance('VHome');
+            //$VHome=USingleton::getInstance('VHome'); //variabile non usata
         }
         $VRegistrazione->impostaErrore($this->_errore);
         $this->_errore='';
@@ -194,7 +194,7 @@ class CRegistrazione
 
 
     /**
-     * EfFettua il logout
+     * Effettua il logout
      */
     public function logout()
     {

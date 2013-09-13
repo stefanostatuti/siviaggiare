@@ -9,13 +9,13 @@ stampa 2 volte GG/MM/AA se si inseriscono entrambe le date errate
 Quando si rispedisce la form si resetta mezzo di trasporto (torna al default)
 
 Costo del trasporto:
-scrivere il tipo di moneta (€ o yen ..) in una select e rimpicciolire il campo
+scrivere il tipo di moneta (EURO o yen ..) in una select e rimpicciolire il campo
 
-Rinominare Budget in Budget vacanza (perchè non se capisce)
+Rinominare Budget in Budget vacanza (perche' non se capisce)
 
 ---------------------------------------------------------------------
 
 in viaggi inseriti:
 
-rimuovere colonna ID e Utente.
+rimuovere colonna ID e Utente. (utente Ã¨ inutile metterlo perche Ã¨ se stesso)
 Aggiungere la colonna della citta visitata
