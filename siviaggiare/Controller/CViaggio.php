@@ -519,7 +519,6 @@ class CViaggio
         //debug($commento);
         $VViaggio->setLayout('dettagli_commento');
         $VViaggio->impostaDati('commento',$commento);
-        //debug($viaggio);
         return $VViaggio->processaTemplate();
     }
 
