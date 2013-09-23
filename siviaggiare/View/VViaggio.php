@@ -170,11 +170,6 @@ class VViaggio extends View
         $this->assign($key,$valore);
     }
 
-    /**
-     * Restituisce l'array contenente i dati di registrazione
-     *
-     * @return array();
-     */
 
 
     /**
@@ -186,48 +181,5 @@ class VViaggio extends View
         $this->assign('errore',$errore);
     }
 
-
-
-    /*public function compilaTemplateViaggio (EViaggio $viaggio)//prendo un oggetto di tipo viaggio
-    {
-    //debug("scrivo l'array ricevuto");
-    //debug($viaggio);
-    //debug("ok!");
-
-    //scrivo il template
-        //impostaDati('titolo',$array['titolo']);
-        $this->impostaDati('username',$viaggio->utenteusername);
-        $this->impostaDati('datainizio',$viaggio->datainizio);
-        //debug("questo è la data del viaggio".$viaggio->datainizio);
-        $this->impostaDati('datafine',$viaggio->datafine);
-        $this->impostaDati('mezzotrasporto',$viaggio->mezzotrasporto);
-        $this->impostaDati('costotrasporto',$viaggio->costotrasporto);
-        $this->impostaDati('budget',$viaggio->budget);
-        //compilato
-        $this->show('ricerca_dettagli_viaggio.tpl');
-        return $this; //ritorna il template
-    }
-
-    public function compilaTemplateLuogo (ELuogo $luogo)
-    {
-        $this->impostaDati('id',$luogo->idviaggio);
-        $this->impostaDati('nome',$luogo->nome);
-        $this->impostaDati('citta',$luogo->nomecitta);
-        $this->impostaDati('sitoweb',$luogo->sitoweb);
-        $this->impostaDati('percorso',$luogo->percorso);
-        $this->impostaDati('costobiglietto',$luogo->costobiglietto);
-        $this->impostaDati('guida',$luogo->guida);
-        $this->impostaDati('coda',$luogo->coda);
-        $this->impostaDati('durata',$luogo->durata);
-        $this->impostaDati('commento',$luogo->commentolibero);
-        $this->show('viaggio_dettagli_luogo.tpl');
-    }
-
-    /*public function provaTemplateTableLuogo ($array)
-    {
-        $this->impostaDati('id',$luogo->idviaggio);
-        $this->impostaDati('nome',$luogo->nome);
-        $this->impostaDati('citta',$luogo->nomecitta);
-    }*/
 }
 ?>

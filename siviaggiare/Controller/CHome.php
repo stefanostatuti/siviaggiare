@@ -50,25 +50,25 @@ class CHome
         $registrato=null;  //creo $registrato
         $registrato=$CRegistrazione->getAdmin(); //metto in registrato il risultato di getAdmin()
         if ($registrato == 1) //quindi è un admin
-        {
-            $VHome->impostaPaginaAdmin();
-            $VHome->mostraPagina();
-        }
+            {
+                $VHome->impostaPaginaAdmin();
+                $VHome->mostraPagina();
+            }
         elseif($registrato== 0) //se $registrato è 0 (quindi non è un Admin)
-        {
-        $registrato=$CRegistrazione->getUtenteRegistrato(); //qua $registrato viene sovrascritto con false o true
-            if ($registrato==false)
             {
-                $VHome->impostaPaginaOspite();
-                $VHome->mostraPagina();
-            }
-            elseif ($registrato==true)
-            {
-                $VHome->impostaPaginaAutenticato();
-                $VHome->mostraPagina();
+            $registrato=$CRegistrazione->getUtenteRegistrato(); //qua $registrato viene sovrascritto con false o true
+                if ($registrato==false)
+                {
+                    $VHome->impostaPaginaOspite();
+                    $VHome->mostraPagina();
+                }
+                elseif ($registrato==true)
+                {
+                    $VHome->impostaPaginaAutenticato();
+                    $VHome->mostraPagina();
+                }
             }
         }
-    }
 }
 
 ?>

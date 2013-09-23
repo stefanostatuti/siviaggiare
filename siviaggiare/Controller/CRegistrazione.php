@@ -147,7 +147,7 @@ class CRegistrazione
         }
 
         if ($task=='esci' && $controller='registrazione')
-        {//verifico se gia ci sono passato e mi è rimasto il controller
+        {//verifico se gia ci sono passato e mi è rimasto il controller controllando se c'è l'username
             $session=USingleton::getInstance('USession');
             if($session->leggi_valore('username'))
             {
@@ -161,6 +161,7 @@ class CRegistrazione
                 ; //non faccio nulla
             }
         //$VHome=USingleton::getInstance('VHome'); //variabile non usata
+
         }
         $VRegistrazione->impostaErrore($this->_errore);
         $this->_errore='';
@@ -194,33 +195,28 @@ class CRegistrazione
         }
 
 /*
- * FUNZIONA MA RIMANE IL TASK esci e ripassa da CRegistrazione in
- * if ($task=='esci' && $controller='registrazione')
- * come se fa a cancellare i task?
+ * FUNZIONA MA RIMANE
  * inoltre mi carica il tpl amministratore SOLO se faccio aggiorna*/
 
-        elseif ($task=='autentica' && $controller='registrazione')
-        {
-            $autenticato=$this->autentica($this->_username, $this->_password);
-        }
+         elseif ($task=='autentica' && $controller='registrazione')
+              {
+                    $autenticato=$this->autentica($this->_username, $this->_password);
+              }
 
-        if ($task=='esci' && $controller='registrazione')
-        {
-
-
-            //logout
-            $this->logout();
-            $autenticato=false;
-            //$VHome=USingleton::getInstance('VHome'); //variabile non usata
-        }
+              if ($task=='esci' && $controller='registrazione')
+              {
+                    //logout
+                    $this->logout();
+                    $autenticato=false;
+                    //$VHome=USingleton::getInstance('VHome'); //variabile non usata
+              }
         $VRegistrazione->impostaErrore($this->_errore);
         $this->_errore='';
-
         return $autenticato;
     }
 
     /**
-     * Controlla se una coppia username e password corrispondono ad un utente regirtrato ed in tal caso impostano le variabili di sessione relative all'autenticazione
+     * Controlla se una coppia username e password corrispondono ad un utente registrato ed in tal caso impostano le variabili di sessione relative all'autenticazione
      *
      * @param string $username
      * @param string $password

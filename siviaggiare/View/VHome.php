@@ -107,7 +107,7 @@ class VHome extends View
     public function impostaPaginaAdmin()
     {
         //$session=USingleton::getInstance('USession');
-        $this->assign('titolo','YesYouTravel - Home Admin'); //forse si sovrascrive con quella dell'utente
+        $this->assign('titolo','YesYouTravel - Home Admin');
         $this->aggiungiModuloAdmin();
     }
 
