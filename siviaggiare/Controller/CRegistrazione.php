@@ -147,12 +147,20 @@ class CRegistrazione
         }
 
         if ($task=='esci' && $controller='registrazione')
-        {
+        {//verifico se gia ci sono passato e mi è rimasto il controller
+            $session=USingleton::getInstance('USession');
+            if($session->leggi_valore('username'))
+            {
             //logout
             debug("ci entro?");
             $this->logout();
             $autenticato=false;
-            //$VHome=USingleton::getInstance('VHome'); //variabile non usata
+            }
+            else if($session->leggi_valore('username')==false) //quindi sono state cancellate
+            {
+                ; //non faccio nulla
+            }
+        //$VHome=USingleton::getInstance('VHome'); //variabile non usata
         }
         $VRegistrazione->impostaErrore($this->_errore);
         $this->_errore='';
@@ -198,6 +206,8 @@ class CRegistrazione
 
         if ($task=='esci' && $controller='registrazione')
         {
+
+
             //logout
             $this->logout();
             $autenticato=false;
