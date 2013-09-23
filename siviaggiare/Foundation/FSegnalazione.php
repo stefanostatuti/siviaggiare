@@ -7,25 +7,24 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class FCommento extends FDatabase           //TUTTA DA VEDERE   !!!!
+class FSegnalazione extends FDatabase
 {
 
     public function __construct()
     {
-        $this->tabella='commento';
-        $this->chiave=array('idcommento','autore');
-        //$this->chiave='autore';
-        $this->classe='ECommento';
+        $this->tabella='segnalazioni';
+        $this->chiave=array('idsegnalazione');
+        $this->classe='ESegnalazione';
         $this->auto_incremento=true;
         USingleton::getInstance('FDatabase');
     }
 
 
-    public function loadCommento($idcommento)
-    {
+    public function loadSegnalazione($idSegnalazione)
+    {   var_dump($idSegnalazione);
         $query='SELECT * ' .
             'FROM `'.$this->tabella.'` ' .
-            'WHERE `'.$this->chiave[0].'` = \''.$idcommento.'\'';
+            'WHERE `'.$this->chiave[0].'` = \''.$idSegnalazione.'\'';
         $obj=parent::getObject(parent::query($query));
         debug("query fatta!");
         var_dump($obj);
@@ -35,16 +34,14 @@ class FCommento extends FDatabase           //TUTTA DA VEDERE   !!!!
 
 
     //questo metodo sotto probabilmente è deprecabile richiamando la load in FDatabase
-    // e si lascia come chiave SOLO idcommento
-    public function loadCommentiUtente($array)
-    {
+    //
+    public function loadTUTTEleSegnalazioni()
+    {   debug("ci entro in caricatutte le segnalazioni?");
         $query='SELECT * ' .
-            'FROM `'.$this->tabella.'` ' .
-            'WHERE `'.$this->chiave['1'].'` = \''.$array[0].'\''; //chiave ['1'] è l'indice della chiave al posto 1 cioè 'autore'
+            'FROM `'.$this->tabella.'` ';
         $obj=parent::getObjectInArray(parent::query($query));
         //debug("query fatta!");
-        //var_dump($obj);
-        //var_dump("ecco l'oggetto ricevuto".$obj);
+        //var_dump("numero risultati ".count($obj));
         return $obj;
     }
 }

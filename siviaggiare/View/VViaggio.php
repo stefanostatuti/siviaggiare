@@ -84,7 +84,13 @@ class VViaggio extends View
         else
             return false;
     }
-
+    public function getNomeUtente()
+    {
+        if (isset($_REQUEST['username']))
+            return $_REQUEST['username'];
+        else
+            return false;
+    }
 
     public function getNomeCitta()
     {

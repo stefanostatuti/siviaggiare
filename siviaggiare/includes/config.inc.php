@@ -49,14 +49,16 @@ $config['mysql']['host'] = 'localhost';
 $config['mysql']['database'] = 'siviaggiare';
 
 //configurazione server smtp per invio email
-// x ALICE: $config['smtp']['host'] = 'out.aliceposta.it';
-$config['smtp']['host'] = 'smtp.tre.it';//'out.aliceposta.it';
+//$config['smtp']['host'] = 'out.aliceposta.it'; //x ALICE:
+$config['smtp']['host'] = 'out.tecnoadsllazio.it';
+//$config['smtp']['host'] = 'smtp.tre.it';//'out.aliceposta.it';
 $config['smtp']['port'] = '25';
 $config['smtp']['smtpauth'] = false;
 $config['smtp']['username'] = '';
 $config['smtp']['password'] = '';
 
-$config['email_webmaster']='webmaster@yesyoutravel.lamjex.com';
+//$config['email_webmaster']='webmaster@yesyoutravel.lamjex.com';
+$config['email_webmaster']='webmaster@yesyoutravel.com';
 $config['url_siviaggiare']='http://localhost/siviaggiare/siviaggiare/';
 
 function debug($var){

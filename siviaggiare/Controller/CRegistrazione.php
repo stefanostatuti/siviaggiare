@@ -13,6 +13,7 @@ class CRegistrazione
     //sono i campi che arrivano con il post
     private $_username = null;
     private $_password = null;
+    private $_admin = null;
     private $_errore = '';
     //end
 
@@ -20,7 +21,9 @@ class CRegistrazione
     public function smista()
     {
         //$registrato=$this->getUtenteRegistrato();
+        //debug("ci entro qui?");
         $view=USingleton::getInstance('VRegistrazione');
+        //var_dump("->".$view->getTask());
         switch ($view->getTask())
         {
             case 'recupera_password':
@@ -54,7 +57,7 @@ class CRegistrazione
         $confronto = $FUtente->load($dati_registrazione['username']);
         $dati_registrazione['confronto']=$confronto;
         $valida=USingleton::getInstance('Vvalidazione');
-        $dati_validazione=$valida->validacampi($dati_registrazione);
+        //$dati_validazione=$valida->validacampi($dati_registrazione); //variabile non usata
         if(!$valida->getErrors())
         {
             unset($dati_registrazione['password_1']);
@@ -124,23 +127,29 @@ class CRegistrazione
      * @return boolean
      */
     public function getUtenteRegistrato()
-    {
+    {   debug("entro in getUtenteRegistrato");
         $autenticato=false;
         $session=USingleton::getInstance('USession');
         $VRegistrazione= USingleton::getInstance('VRegistrazione');
         $task=$VRegistrazione->getTask();
+        //var_dump("task: ".$task);
         //$controller=$VRegistrazione->getController(); //variabile non usata
         $this->_username=$VRegistrazione->getUsername();
         $this->_password=$VRegistrazione->getPassword();
         if ($session->leggi_valore('username')!=false)
+        {
             $autenticato=true;
+        }
+
         elseif ($task=='autentica' && $controller='registrazione')
         {
             $autenticato=$this->autentica($this->_username, $this->_password);
         }
+
         if ($task=='esci' && $controller='registrazione')
         {
             //logout
+            debug("ci entro?");
             $this->logout();
             $autenticato=false;
             //$VHome=USingleton::getInstance('VHome'); //variabile non usata
@@ -152,6 +161,55 @@ class CRegistrazione
 
 
     /**
+     * Controlla se l'utente è Admin ed autenticato
+     *
+     * @return boolean
+     */
+    public function getAdmin()
+    {
+        $autenticato=0; //metto di default 0
+        $session=USingleton::getInstance('USession');
+        $VRegistrazione= USingleton::getInstance('VRegistrazione');
+        $task=$VRegistrazione->getTask();
+        //$controller=$VRegistrazione->getController(); //variabile non usata
+        //$this->_username=$VRegistrazione->getUsername();
+        //$this->_password=$VRegistrazione->getPassword();
+        $this->_admin=$VRegistrazione->getAdmin();
+        if ($session->leggi_valore('username')!=false)
+        {   //qua controllo se è admin
+            if($session->leggi_valore('admin')!= false){
+                $autenticato=1;
+            }
+            else{
+            $autenticato=0;
+            }
+        }
+
+/*
+ * FUNZIONA MA RIMANE IL TASK esci e ripassa da CRegistrazione in
+ * if ($task=='esci' && $controller='registrazione')
+ * come se fa a cancellare i task?
+ * inoltre mi carica il tpl amministratore SOLO se faccio aggiorna*/
+
+        elseif ($task=='autentica' && $controller='registrazione')
+        {
+            $autenticato=$this->autentica($this->_username, $this->_password);
+        }
+
+        if ($task=='esci' && $controller='registrazione')
+        {
+            //logout
+            $this->logout();
+            $autenticato=false;
+            //$VHome=USingleton::getInstance('VHome'); //variabile non usata
+        }
+        $VRegistrazione->impostaErrore($this->_errore);
+        $this->_errore='';
+
+        return $autenticato;
+    }
+
+    /**
      * Controlla se una coppia username e password corrispondono ad un utente regirtrato ed in tal caso impostano le variabili di sessione relative all'autenticazione
      *
      * @param string $username
@@ -160,6 +218,32 @@ class CRegistrazione
      */
     public function autentica($username, $password)
     {
+        //vedo se è un amministratore
+        debug("controllo se admin");
+        $FAdmin=new FAdmin();
+        $utente=$FAdmin->load($username);
+        if ($utente!=false)
+        {
+            if ($utente->getAccountAmministratore())
+            {
+             //account amministratore
+                if ($username==$utente->username && $password==$utente->password)
+                {
+                    if ($utente->stato=='admin')
+                    {
+                    $session=USingleton::getInstance('USession');
+                    $session->imposta_valore('admin', 'Amministratore');
+                    $session->imposta_valore('username',$username);
+                    $session->imposta_valore('nome_cognome',$utente->nome.' '.$utente->cognome);
+                    return true;
+                    }
+                }
+            }
+        }
+        //fine test
+
+        //non è amministatore vedo se è un utente comune
+        debug("NON e' un admin, controllo se è un utente");
         $FUtente=new FUtente();
         $utente=$FUtente->load($username);
         if ($utente!=false)
@@ -169,7 +253,6 @@ class CRegistrazione
                 //account attivo
                 if ($username==$utente->username && $password==$utente->password)
                 {
-                    //debug("Sto nell'IF");
                     $session=USingleton::getInstance('USession');
                     $session->imposta_valore('username',$username);
                     $session->imposta_valore('nome_cognome',$utente->nome.' '.$utente->cognome);
@@ -193,15 +276,17 @@ class CRegistrazione
     }
 
 
+
     /**
      * Effettua il logout
      */
     public function logout()
     {
-        //debug("Sto in logout");
+        debug("Sto in logout");
         $session=USingleton::getInstance('USession');
         $session->cancella_valore('username');
         $session->cancella_valore('nome_cognome');
+        $session->cancella_valore('admin');
         $session->chiudi();
     }
 

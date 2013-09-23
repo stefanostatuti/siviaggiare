@@ -46,8 +46,8 @@ class FDatabase
     public function query($query)
     {
         $this->risultato=mysql_query($query);
-        //debug($query);
-        //debug(mysql_error());
+        debug($query);
+        debug(mysql_error());
         if (!$this->risultato)
             return false;
         else
@@ -60,7 +60,7 @@ class FDatabase
         if($this->risultato != false)
         {
             $righe = mysql_num_rows($this->risultato);
-            //debug('Numero risultati:'. $righe);
+            debug('Numero risultati:'. $righe);
             $array_ris = array();
             for($i=0;$i<$righe;$i++)
             {
@@ -78,7 +78,7 @@ class FDatabase
         if($this->risultato != false)
         {
             $righe = mysql_num_rows($this->risultato);
-            //debug('Numero risultati:'. $righe);
+            debug('Numero risultati:'. $righe);
             $array_ris = array();
             for ($i=0; $i<$righe; $i++)
             {
@@ -108,7 +108,7 @@ class FDatabase
         if($this->risultato != false)
         {
             $righe=mysql_num_rows($this->risultato);
-            //debug('Numero risultati:'. $righe);
+            debug('Numero risultati:'. $righe);
             if($righe>0)
             {
                 $oggetto = mysql_fetch_object($this->risultato, $this->classe);
@@ -172,6 +172,18 @@ class FDatabase
         //debug($this->getObject());
         $obj = $this->getObject();
         return $obj;
+    }
+
+    public function CaricaTutto()
+    {
+        $query='SELECT * ' .
+            'FROM `'.$this->tabella.'`';
+        $this->query($query);
+        //debug("questo è l'oggetto");
+        //debug($this->getObject());
+        //$obj = $this->getObject();
+        $risultato=$this->getObjectInArray();
+        return $risultato;
     }
 
 

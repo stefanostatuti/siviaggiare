@@ -89,6 +89,18 @@ class VRegistrazione extends View
             return false;
     }
 
+    /**
+     * restituisce la username passata tramite GET o POST
+     *
+     * @return mixed
+     */
+    public function getAdmin()
+    {
+        if (isset($_REQUEST['admin']))
+            return $_REQUEST['admin'];
+        else
+            return false;
+    }
 
     public function getEmail()
     {

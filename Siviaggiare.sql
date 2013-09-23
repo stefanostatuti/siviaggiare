@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 11, 2013 at 10:13 AM
+-- Generation Time: Sep 19, 2013 at 03:37 PM
 -- Server version: 5.6.11
 -- PHP Version: 5.5.1
 
@@ -81,7 +81,7 @@ INSERT INTO `commento` (`idcommento`, `idviaggio`, `nomeluogo`, `nomecitta`, `au
 (1, '1', 'colosseo', 'roma', 'stef', 'Bella recensione', 9),
 (2, '1', 'torre eiffel', 'parigi', 'riccio', 'Buono recensione', 6),
 (3, '2', 'casa brunetto', 'borgo', 'kekko', 'Brutta recensione', 3),
-(4, '1', 'torre eiffel', 'parigi', 'pippo', 'prova', 3),
+(4, '1', 'torre eiffel', 'parigi', 'pippo', 'prova  r6tgaehjvgfowsjghfuwhsoivnjhewsoirgnewso oisnhbgnhvwesorigbnrewsegvneruve', 3),
 (5, '1', 'colosseo', 'roma', 'pippo', 'bello schifo', 0);
 
 -- --------------------------------------------------------
@@ -122,6 +122,34 @@ INSERT INTO `luogo` (`idviaggio`, `nome`, `nomecitta`, `sitoweb`, `percorso`, `c
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `segnalazioni`
+--
+
+CREATE TABLE IF NOT EXISTS `segnalazioni` (
+  `idsegnalazione` int(20) NOT NULL AUTO_INCREMENT,
+  `autore` varchar(20) NOT NULL,
+  `segnalato` varchar(40) DEFAULT NULL,
+  `idviaggio` int(20) DEFAULT NULL,
+  `citta` varchar(30) DEFAULT NULL,
+  `luogo` varchar(30) DEFAULT NULL,
+  `idcommento` int(20) DEFAULT NULL,
+  `motivo` varchar(1024) NOT NULL,
+  PRIMARY KEY (`idsegnalazione`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `segnalazioni`
+--
+
+INSERT INTO `segnalazioni` (`idsegnalazione`, `autore`, `segnalato`, `idviaggio`, `citta`, `luogo`, `idcommento`, `motivo`) VALUES
+(1, 'pippo', 'riccio', 2, NULL, NULL, NULL, 'prova di viaggio segnalato'),
+(2, 'riccio', 'pippo', NULL, NULL, NULL, 4, 'prova di commento segnalato'),
+(3, 'kekko', 'riccio', 2, 'borgo', NULL, NULL, 'prova di citta segnalata'),
+(4, 'pippo', 'kekko', 2, 'borgo', 'casa brunetto', NULL, 'prova di segnalazione luogo');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `utente`
 --
 
@@ -134,7 +162,8 @@ CREATE TABLE IF NOT EXISTS `utente` (
   `mail` varchar(80) DEFAULT NULL,
   `password` varchar(20) DEFAULT NULL,
   `cod_attivazione` varchar(10) DEFAULT NULL,
-  `stato` enum('non_attivo','attivo') DEFAULT NULL,
+  `avvertimenti` int(1) DEFAULT 0,
+  `stato` enum('non_attivo','attivo','admin') DEFAULT 'non_attivo',
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -143,10 +172,11 @@ CREATE TABLE IF NOT EXISTS `utente` (
 --
 
 INSERT INTO `utente` (`username`, `nome`, `cognome`, `residenza`, `nazione`, `mail`, `password`, `cod_attivazione`, `stato`) VALUES
-('Emanuela', 'eghsg', 'egagew', 'Rieti', 'eagas', 'agewg', 'emanuela', '2122454021', 'non_attivo'),
+('Emanuela', 'eghsg', 'egagew', 'Rieti', 'eagas', 'agewg', 'emanuela', '2122454021', 'attivo'),
 ('kekko', 'francesco', 'verzicco', 'casabianca', 'stato proprieta', 'kekko@libero.it', '1234', '1234', 'attivo'),
 ('pippo', 'Pippo', 'Cognome', 'Rieti', 'EmanuelaLand', 'pippo@pippo.it', 'pippo', '1476023205', 'attivo'),
 ('riccio', 'ric', 'verzicco', 'non pervenuta', 'rifugiato politico', 'riccio@libero.it', '1234', '1234', 'attivo'),
+('root', 'admin', 'admin', 'admin', 'admin', 'admin.egrweg@domain.it', 'administrator', '423940770', 'admin'),
 ('stef', 'ste', 'verzicco', 'los burgos', 'italia', 'kekko@libero.it', '1234', '1234', 'attivo');
 
 -- --------------------------------------------------------

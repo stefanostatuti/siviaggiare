@@ -31,7 +31,7 @@ class EViaggio
     {
         $FCitta=new FCitta();
         $this->_elenco_citta=$FCitta->loadRicerca('idviaggio',$this->id);
-        //debug($this->_elenco_luoghi);
+        //debug($this->_elenco_citta);
         return $this->_elenco_citta;
     }
 

@@ -24,9 +24,8 @@ class USession {
     }
 
     function chiudi() {
-        debug("Chiudo sessione");
+        debug("Chiudo sessione ");
         session_destroy();
-
     }
 }
 ?>

@@ -29,6 +29,9 @@ class CHome
             case 'aggiunta_viaggio':
                 $CViaggio=USingleton::getInstance('CViaggio');
                 return $CViaggio->smista();
+            case 'amministrazione':
+                $CAdmin=USingleton::getInstance('CAdmin');
+                return $CAdmin->smista();
             default:
                 return $view->mostraESEMPIOCSS();  ///QUA CI ANDRA LA BARRA DI RICERCA X DEFAULT
         }
@@ -40,19 +43,30 @@ class CHome
         public function impostaPagina ()
         {
         $CRegistrazione=USingleton::getInstance('CRegistrazione');
-        $registrato=$CRegistrazione->getUtenteRegistrato();
         $VHome= USingleton::getInstance('VHome');
         $contenuto=$this->smista();
         $VHome->impostaContenuto($contenuto);
-        if ($registrato==false)
+
+        $registrato=null;  //creo $registrato
+        $registrato=$CRegistrazione->getAdmin(); //metto in registrato il risultato di getAdmin()
+        if ($registrato == 1) //quindi è un admin
         {
-             $VHome->impostaPaginaOspite();
-             $VHome->mostraPagina();
-        }
-        elseif ($registrato==true)
-        {
-            $VHome->impostaPaginaAutenticato();
+            $VHome->impostaPaginaAdmin();
             $VHome->mostraPagina();
+        }
+        elseif($registrato== 0) //se $registrato è 0 (quindi non è un Admin)
+        {
+        $registrato=$CRegistrazione->getUtenteRegistrato(); //qua $registrato viene sovrascritto con false o true
+            if ($registrato==false)
+            {
+                $VHome->impostaPaginaOspite();
+                $VHome->mostraPagina();
+            }
+            elseif ($registrato==true)
+            {
+                $VHome->impostaPaginaAutenticato();
+                $VHome->mostraPagina();
+            }
         }
     }
 }

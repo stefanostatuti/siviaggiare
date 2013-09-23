@@ -99,13 +99,16 @@ class VHome extends View
      */
     public function impostaPaginaAutenticato()
     {
-        $session=USingleton::getInstance('USession');
+        //$session=USingleton::getInstance('USession'); //variabile non usata
         $this->assign('titolo','YesYouTravel - Home Loggato');
-
-        //$this->assign('content_title','Benvenuto '.$nome_cognome);
-        //$this->assign('main_content',$this->_main_content);
-        //$this->assign('menu',$this->_main_button);
         $this->aggiungiModuloAutenticato();
+    }
+
+    public function impostaPaginaAdmin()
+    {
+        //$session=USingleton::getInstance('USession');
+        $this->assign('titolo','YesYouTravel - Home Admin'); //forse si sovrascrive con quella dell'utente
+        $this->aggiungiModuloAdmin();
     }
 
 
@@ -119,6 +122,17 @@ class VHome extends View
         $modulo_logout=$VRegistrazione->processaTemplate();
         $this->_contenuto_laterale_destro.=$modulo_logout;
 
+    }
+
+    public function aggiungiModuloAdmin()
+    {
+        $session=USingleton::getInstance('USession');
+        $username=$session->leggi_valore('username');
+        $VRegistrazione=USingleton::getInstance('VRegistrazione');
+        $VRegistrazione->setLayout('admin_autenticato'); //carica il TPL
+        $VRegistrazione->impostaDati('username',$username);
+        $modulo_logout=$VRegistrazione->processaTemplate();
+        $this->_contenuto_laterale_destro.=$modulo_logout;
     }
 
 

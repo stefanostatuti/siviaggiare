@@ -20,6 +20,7 @@ class EUtente
     public $mail;
     public $password;
     public $cod_attivazione;
+    public $avvertimenti;
     public $stato='non_attivo';
     public $_elenco_viaggi = array();
 
@@ -69,6 +70,8 @@ class EUtente
     {
         if ($this->stato=='attivo')
             return true;
+        //if ($this->stato=='admin') //qui controllo se si è admin
+            //return true;
         else
             return false;
     }
