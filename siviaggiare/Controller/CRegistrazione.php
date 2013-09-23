@@ -224,7 +224,7 @@ class CRegistrazione
         $utente=$FAdmin->load($username);
         if ($utente!=false)
         {
-            if ($utente->getAccountAmministratore())
+            if ($utente->getAccountAmministratore()==true)
             {
              //account amministratore
                 if ($username==$utente->username && $password==$utente->password)
@@ -234,7 +234,7 @@ class CRegistrazione
                     $session=USingleton::getInstance('USession');
                     $session->imposta_valore('admin', 'Amministratore');
                     $session->imposta_valore('username',$username);
-                    $session->imposta_valore('nome_cognome',$utente->nome.' '.$utente->cognome);
+                    //$session->imposta_valore('nome_cognome',$utente->nome.' '.$utente->cognome);
                     return true;
                     }
                 }
@@ -243,11 +243,15 @@ class CRegistrazione
                     return false;
                 }
             }
+            else if ($utente->getAccountAmministratore()==false)//se non è un amministratore
+            {
+                Debug("utente esistente ma NON è amministratore");
+            }
         }
         //fine test
 
         //non è amministatore vedo se è un utente comune
-        debug("NON e' un admin, controllo se è un utente");
+        //debug("NON e' un admin, controllo se è un utente");
         /*
         in teoria sono inutili visto che ho fatto la query sopra
         //$FUtente=new FUtente();
@@ -268,6 +272,7 @@ class CRegistrazione
                 {
                     $this->_errore='Password errata';
                     //username password errati
+
                 }
             } else
             {
@@ -291,10 +296,17 @@ class CRegistrazione
     {
         debug("Sto in logout");
         $session=USingleton::getInstance('USession');
-        $session->cancella_valore('username');
-        $session->cancella_valore('nome_cognome');
-        $session->cancella_valore('admin');
-        $session->chiudi();
+        if($session->leggi_valore('username'))
+        {
+            $session->cancella_valore('username');
+            $session->cancella_valore('nome_cognome');
+            $session->cancella_valore('admin');
+            $session->chiudi();
+        }
+        else
+        {
+          debug ("sessione gia distrutta");
+        }
     }
 
 
