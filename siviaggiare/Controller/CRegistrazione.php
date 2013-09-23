@@ -238,14 +238,21 @@ class CRegistrazione
                     return true;
                     }
                 }
+                else{
+                    $this->_errore='Username e/o password errati'; //OK
+                    return false;
+                }
             }
         }
         //fine test
 
         //non è amministatore vedo se è un utente comune
         debug("NON e' un admin, controllo se è un utente");
-        $FUtente=new FUtente();
-        $utente=$FUtente->load($username);
+        /*
+        in teoria sono inutili visto che ho fatto la query sopra
+        //$FUtente=new FUtente();
+        //$utente=$FUtente->load($username);
+        */
         if ($utente!=false)
         {
             if ($utente->getAccountAttivo())
