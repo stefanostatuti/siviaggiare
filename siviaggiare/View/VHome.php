@@ -95,13 +95,20 @@ class VHome extends View
 
 
     /**
-     * Imposta la pagina per gli utenti registrati/autenticati
+     * Imposta la pagina per gli utenti registrati/autenticati/ e l'admin
      */
     public function impostaPaginaAutenticato()
     {
-        //$session=USingleton::getInstance('USession'); //variabile non usata
+        $session=USingleton::getInstance('USession');
+        if($session->leggi_valore('admin')=='Amministratore') //se è un admin
+        {
+            $this->impostaPaginaAdmin(); //metto il tpl admin
+        }
+        else{
         $this->assign('titolo','YesYouTravel - Home Loggato');
         $this->aggiungiModuloAutenticato();
+        }
+
     }
 
     public function impostaPaginaAdmin()

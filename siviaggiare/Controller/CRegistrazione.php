@@ -193,11 +193,6 @@ class CRegistrazione
             $autenticato=0;
             }
         }
-
-/*
- * FUNZIONA MA RIMANE
- * inoltre mi carica il tpl amministratore SOLO se faccio aggiorna*/
-
          elseif ($task=='autentica' && $controller='registrazione')
               {
                     $autenticato=$this->autentica($this->_username, $this->_password);
@@ -225,7 +220,7 @@ class CRegistrazione
     public function autentica($username, $password)
     {
         //vedo se è un amministratore
-        debug("controllo se admin");
+        //debug("controllo se admin");
         $FAdmin=new FAdmin();
         $utente=$FAdmin->load($username);
         if ($utente!=false)
@@ -245,13 +240,13 @@ class CRegistrazione
                     }
                 }
                 else{
-                    $this->_errore='Username e/o password errati'; //OK
+                    $this->_errore='Username e/o password errati'; //volutamente messo questo per non aiutare il cracking
                     return false;
                 }
             }
             else if ($utente->getAccountAmministratore()==false)//se non è un amministratore
             {
-                Debug("utente esistente ma NON è amministratore");
+                //Debug("utente esistente ma NON è amministratore");
             }
         }
         //fine test
@@ -296,11 +291,11 @@ class CRegistrazione
 
 
     /**
-     * Effettua il logout
+     * Effettua il logout di tutti i tipi di utenti (compreso admin)
      */
     public function logout()
     {
-        debug("Sto in logout");
+        //debug("Sto in logout");
         $session=USingleton::getInstance('USession');
         if($session->leggi_valore('username'))
         {
@@ -311,7 +306,7 @@ class CRegistrazione
         }
         else
         {
-          debug ("sessione gia distrutta");
+          //debug ("sessione gia distrutta");
         }
     }
 
