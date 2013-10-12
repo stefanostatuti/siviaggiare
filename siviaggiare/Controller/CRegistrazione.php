@@ -127,7 +127,7 @@ class CRegistrazione
      * @return boolean
      */
     public function getUtenteRegistrato()
-    {   debug("entro in getUtenteRegistrato");
+    {   //debug("entro in getUtenteRegistrato");
         $autenticato=false;
         $session=USingleton::getInstance('USession');
         $VRegistrazione= USingleton::getInstance('VRegistrazione');
@@ -152,7 +152,7 @@ class CRegistrazione
             if($session->leggi_valore('username'))
             {
             //logout
-            debug("ci entro?");
+            //debug("ci entro?");
             $this->logout();
             $autenticato=false;
             }
@@ -161,7 +161,6 @@ class CRegistrazione
                 ; //non faccio nulla
             }
         //$VHome=USingleton::getInstance('VHome'); //variabile non usata
-
         }
         $VRegistrazione->impostaErrore($this->_errore);
         $this->_errore='';

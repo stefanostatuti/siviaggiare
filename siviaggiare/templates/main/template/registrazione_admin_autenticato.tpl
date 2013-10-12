@@ -13,8 +13,9 @@
 <div class="sidebar">
     <h3>Menu Amministratore</h3>
     <ul>
+
         <li><a href="?controller=amministrazione&task=segnalazioni">Segnalazioni Ricevute</a></li>
         <li><a href="?controller=amministrazione&task=gestione_utenti">Gestione Utenti</a></li>
-        <li><a href="?controller=amministrazione&task=segnalazioni">Opzione 3</a></li>
+        <li><a href="?controller=amministrazione&task=       ">Opzione 3</a></li>
     </ul>
 </div>

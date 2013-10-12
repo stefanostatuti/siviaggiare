@@ -59,10 +59,9 @@ class CAdmin
         //questa versiona ELIMINA I CLONI
         //$session=USingleton::getInstance('USession');
         //$admin=$session->leggi_valore('username');
-
         $EAdmin = new EAdmin();
         $lista_Segnalazioni=$EAdmin->getElencoSegnalazioni(); //qua recupero TUTTE le segnalazioni del DB
-        debug("\n lista_Segnalazioni: ".count($lista_Segnalazioni));
+        //debug("\n lista_Segnalazioni: ".count($lista_Segnalazioni));
         $VAdmin=USingleton::getInstance('VAdmin');
         $VAdmin->setLayout('elenco_segnalazioni');
         $VAdmin->impostaDati('results',$lista_Segnalazioni);
@@ -89,7 +88,7 @@ class CAdmin
         //var_dump("----->".$VAdmin->getIdSegnalazione()); //ok
         $segnalazione=$FSegnalazione->loadSegnalazione($VAdmin->getIdSegnalazione());
         //$segnalazione=$FSegnalazione->loadRicerca( "idsegnalazione",$VAdmin->getIdSegnalazione()); ok ma non è un oggetto da passare al tpl
-        var_dump($segnalazione);
+        //var_dump($segnalazione);
         $VAdmin->setLayout('dettagli_segnalazione'); //<---- // tpl creato ma da modificare
         $VAdmin->impostaDati('segnalazione',$segnalazione);
         //debug($segnalazione);
@@ -101,6 +100,7 @@ class CAdmin
         $VViaggio=USingleton::getInstance('VViaggio');
         $FViaggio=new FViaggio();
         $viaggio=$FViaggio->load($VViaggio->getIdViaggio());
+
         $VAdmin=USingleton::getInstance('VAdmin');
         $VAdmin->setLayout('dettagli_viaggio');
         $VAdmin->impostaDati('viaggio',$viaggio);
@@ -138,6 +138,7 @@ class CAdmin
         $VViaggio=USingleton::getInstance('VViaggio');
         $FCommento=new FCommento();
         $commento=$FCommento->loadCommento($VViaggio->getIdCommento());
+
         $VAdmin=USingleton::getInstance('VAdmin');
         $VAdmin->setLayout('dettagli_commento');
         $VAdmin->impostaDati('commento',$commento);
@@ -148,6 +149,7 @@ class CAdmin
         $VViaggio=USingleton::getInstance('VViaggio');
         $FUtente = new FUtente();
         $Utente = $FUtente->load($VViaggio->getNomeUtente());
+
         $VAdmin=USingleton::getInstance('VAdmin');
         $VAdmin->setLayout('dettagli_utente');
         $VAdmin->impostaDati('utente',$Utente);
