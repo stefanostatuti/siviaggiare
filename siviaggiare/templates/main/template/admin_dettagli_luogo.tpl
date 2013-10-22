@@ -1,13 +1,26 @@
+{literal}
+    <!--<script type="text/javascript" src="//siviaggiare//script//jquery-2.0.3.min.js"></script>-->
+    <script src="http://code.jquery.com/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="script/admin.js"></script>
+{/literal}
+
 <div class=content>
+    <h3>luogo segnalato</h3>
     <div class=form_settings>
-        <h3>luogo segnalato</h3>
-        <h3>Luogo: {$luogo->id} </h3>
+
+
+        {if ($luogo->idviaggio && $luogo->nome && $luogo->nomecitta)}
         <table>
+
             <tr>
-                <td> Nome:</td><td>{$luogo->nome} </td>
+                <td><h3>IDViaggio:</h3></td><td><span id= 'idviaggio'> {$luogo->idviaggio} </span></td>
+            </tr>
+
+            <tr>
+                <td> Nome:</td><td><span id= 'nomeluogo'>{$luogo->nome}<span> </td>
             </tr>
             <tr>
-                <td> Citt&agrave;:</td><td> {$luogo->nomecitta} </td>
+                <td> Citt&agrave;:</td><td><span id= 'nomecitta'>{$luogo->nomecitta}<span></td>
             </tr>
             <tr>
                 <td> Sito Web:</td><td> {$luogo->sitoweb} </td>
@@ -31,12 +44,21 @@
                 <td> Commento Personale:</td><td> {$luogo->commentolibero} </td>
             </tr>
         </table>
-        <form method="post"action="index.php" class="left">
-            <input type="hidden" name="controller" value="amministrazione" />
-            <input type="hidden" name="task" value="segnalazioni" />
-            <input type="submit" value="Indietro" />
-            <input type="submit" value="Modifica Luogo" /><!--non funziona-->
-            <input type="submit" value="Elimina Luogo" /><!--non funziona-->
-        </form>
+
+        <button id="elimina-luogo" class="elimina-luogo" >Elimina Luogo</button>
+        <button id="annulla" class="annulla" >Annulla Modifiche</button>
+        <button id="avvertimento" class="avvertimento">Manda Avvertimento</button>
+        <button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>
+        <button id="modifica" class="modifica">Modifica Luogo</button>
+        {/if}
+
+        {if !($luogo->idviaggio && $luogo->nome && $luogo->nomecitta)}
+            <br>
+            Luogo GIA RIMOSSO!<br><br>
+            consiglio di eliminare la segnalazione
+            <br>
+            <br>
+            <button id="redirect-segnalazione" class="redirect-segnalazione">Vai alla Segnalazione</button>
+        {/if}
     </div>
 </div>

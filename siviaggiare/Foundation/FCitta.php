@@ -30,5 +30,17 @@ class FCitta extends FDatabase
         return $obj;
     }
 
+    public function deleteCitta($key)
+    {
+        //var_dump($key);
+        $query='DELETE ' .
+            'FROM `'.$this->tabella.'` ' .
+            'WHERE `'.$this->chiave[0].'` = \''.$key['idviaggio']
+            .'\' AND '.'`'.$this->chiave[1].'` = \''.$key['nome'].'\'';
+        unset($object);
+
+        $Fdb= new FDatabase();//mi serve per ottenere il metodo query da FDB
+        return $Fdb->query($query);
+    }
 
 }

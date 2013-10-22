@@ -8,8 +8,6 @@
  */
 
 
-// DA FINIRE
-
 class CAdmin
 {
 
@@ -39,8 +37,18 @@ class CAdmin
                 return $this->ProfiloUtente();
 
             //eliminazioni
+            case 'elimina_segnalazione':
+                return $this->EliminaSegnalazione();
             case 'elimina_utente':
                 return $this->EliminaUtente();
+            case 'elimina_viaggio':
+                return $this->EliminaViaggio();
+            case 'elimina_citta':
+                return $this->EliminaCitta();
+            case 'elimina_luogo':
+                return $this->EliminaLuogo();
+            case 'elimina_commento':
+                return $this->EliminaCommento();
 
             //modifiche
             case 'modifica_utente':
@@ -225,20 +233,157 @@ class CAdmin
    }//non finito
 
     //ELIMINAZIONI
-    /*non funziona perche tramite il pulsante non so come far passare il nome utente*/
+    public function EliminaSegnalazione(){
+        $id=$_GET["idsegnalazione"];
+        debug("idsegnalazione = "+$id);
+        ("Elimino la Segnalazione!\n\n");
+
+        //recupero l'oggetto dal DB usando l'indice ottenuto
+        $FSegnalazione=new FSegnalazione();
+        $segnalazione=$FSegnalazione->loadSegnalazione($id);
+        if ($segnalazione!= NULL || $segnalazione!=0){
+            //tento di cancellarla
+            $ris= $FSegnalazione->deleteSegnalazione($id);
+            debug("Segnalazione ELIMINATA CORRETTAMENTE!");
+            var_dump($ris);
+        }
+        else
+        {
+            Debug("NON CI SONO RISULTATI!!!!");
+        }
+    } //Finito
+
     public function EliminaUtente(){
-        debug("ci entro?");
-        $VViaggio=USingleton::getInstance('VViaggio');//credo che qua mi istanzi una nuova istanza e cosi non ha il nome utente
-        $FUtente = new FUtente();
-        $Utente = $FUtente->load($VViaggio->getNomeUtente());//qua recupero l'username MA NON LO FA!!!
-        var_dump("var_dump utente: ".$Utente);
-        debug("debug utente: ".$Utente);
-        $utentedaeliminare=$FUtente->load($Utente);//prendo l'oggetto dal db
-        $VAdmin=USingleton::getInstance('VAdmin');
-        $Cancellato = $FUtente->delete($utentedaeliminare);//e lo elimino
-        $VAdmin->setLayout('dettagli_utente_eliminato');
-        $VAdmin->impostaDati('cancellato',$Cancellato);
-        return $VAdmin->processaTemplate();
+        $nomeutente=$_GET["nomeutente"];
+        debug("nome utente = ");
+        var_dump($nomeutente);
+        debug("Elimino utente!");
+
+        //recupero l'oggetto dal DB usando l'indice ottenuto
+        $FUtente=new FUtente();
+        $utente=$FUtente->loadUtente($nomeutente);
+        if ($utente!= NULL || $utente!=0){
+            //tento di cancellarlo
+            $ris= $FUtente->deleteUtente($nomeutente);
+            debug("Utente ELIMINATO CORRETTAMENTE!");
+            var_dump($ris);
+        }
+        else
+        {
+            Debug("NON CI SONO RISULTATI!!!!");
+        }
+
+    }//finito
+
+    public function EliminaViaggio(){
+        $id=$_GET["idviaggio"];
+        debug("idviaggio = "+$id);
+        debug("Elimino il viaggio!");
+
+        //recupero l'oggetto dal DB usando l'indice ottenuto
+        $FViaggio=new FViaggio();
+        $viaggio=$FViaggio->loadViaggio($id);
+        //end
+        if ($viaggio!= NULL || $viaggio!=0){
+            //tento di cancellarlo
+            $ris= $FViaggio->deleteViaggio($id);
+            debug("Viaggio ELIMINATO CORRETTAMENTE!");
+            var_dump($ris);
+        }
+        else
+        {
+            Debug("NON CI SONO RISULTATI!!!!");
+        }
+    }//finito
+
+    public function EliminaCitta(){ //la stringa che arriva(BENE) viene convertita in 0 boh! -->soluzione per le stringhe usare var_dump
+        //debug($_GET); //arriva la stringa giusta
+        //debug(is_string($_GET["nomecitta"])); //torna TRUE quindi è una stringa
+        $idviaggio=$_GET["idviaggio"];
+        debug("idviaggio = "+$idviaggio); //stampa l'id Giusto
+        $nomecitta=$_GET["nomecitta"];
+        var_dump($nomecitta);
+        //debug("nomecitta = "+$nomecitta);//mi stampa 0 invece che la stringa
+        debug("Elimino la citta!");
+
+        //recupero l'oggetto dal DB usando l'indice ottenuto
+        $FCitta=new FCitta();
+//Creo l'array da mandare a loadCitta($key)
+        $key=array('idviaggio','nomecitta');
+        $key['idviaggio']=$idviaggio;
+        $key['nome']=$nomecitta;
+//end
+        $citta=$FCitta->loadCitta($key);
+
+        if ($citta!= NULL || $citta!=0){
+            //tento di cancellarlo
+            $ris= $FCitta->deleteCitta($key);
+            debug("Citta ELIMINATA CORRETTAMENTE!");
+            var_dump($ris);
+        }
+        else
+        {
+            Debug("NON CI SONO RISULTATI!!!!");
+        }
+
+    }//DA controllare se funziona
+
+    public function EliminaLuogo()//da fare
+    {
+        //debug($_GET); //arriva la stringa giusta
+        //debug(is_string($_GET["nomecitta"])); //torna TRUE quindi è una stringa
+        $idviaggio=$_GET["idviaggio"];
+        debug("idviaggio = "+$idviaggio); //stampa l'id Giusto
+        $nomecitta=$_GET["nomecitta"];
+        var_dump($nomecitta);
+        $nomeluogo=$_GET["nomeluogo"];
+        var_dump($nomeluogo);
+        debug("Elimino luogo!");
+
+        //recupero l'oggetto dal DB usando l'indice ottenuto
+        $FLuogo=new FLuogo();
+//Creo l'array da mandare a loadLuogo($key)
+        $key=array('idviaggio','nomecitta','nome');
+        $key['idviaggio']=$idviaggio;
+        $key['nomecitta']=$nomecitta;
+        $key['nome']=$nomeluogo;
+//end
+        $luogo=$FLuogo->loadLuogo($key);
+
+        if ($luogo!= NULL || $luogo!=0){
+            //tento di cancellarlo
+            $ris= $FLuogo->deleteLuogo($key);
+            debug("Luogo ELIMINATO CORRETTAMENTE!");
+            var_dump($ris);
+        }
+        else
+        {
+            Debug("NON CI SONO RISULTATI!!!!");
+        }
     }
+
+
+    public function EliminaCommento(){ //con AJAX FUNZIONA COMPLETATA
+        $id=$_GET["idcommento"];
+        debug("idcommento = "+$id);
+        debug("Elimino il Commento!");
+
+        //recupero l'oggetto dal DB usando l'indice ottenuto
+        $FCommento=new FCommento();
+        $commento=$FCommento->loadCommento($id);
+        //end
+        if ($commento!= NULL ||$commento!=0){
+        //tento di cancellarlo
+        $ris= $FCommento->deleteCommento($id);
+            debug("Commento ELIMINATO CORRETTAMENTE!");
+            var_dump($ris);
+        }
+        else
+        {
+            Debug("NON CI SONO RISULTATI!!!!");
+        }
+    }//Finito
+
+
 }
 ?>

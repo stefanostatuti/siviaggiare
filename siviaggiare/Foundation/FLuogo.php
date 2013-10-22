@@ -28,4 +28,19 @@ class FLuogo extends FDatabase
         $obj=parent::getObject(parent::query($query));
         return $obj;
     }
+
+    public function deleteLuogo($key)
+    {
+        //var_dump($key);
+        $query='DELETE ' .
+            'FROM `'.$this->tabella.'` ' .
+            'WHERE `'.$this->chiave[0].'` = \''.$key['idviaggio']
+            .'\' AND '.'`'.$this->chiave[1].'` = \''.$key['nome']
+            .'\' AND '.'`'.$this->chiave[2].'` = \''.$key['nomecitta']
+            .'\'';
+        unset($object);
+
+        $Fdb= new FDatabase();//mi serve per ottenere il metodo query da FDB
+        return $Fdb->query($query);
+    }
 }

@@ -17,5 +17,29 @@ class FUtente extends FDatabase
         $this->classe='EUtente';
         USingleton::getInstance('FDatabase');
     }
+
+    public function loadUtente($id)
+    {
+        $query='SELECT * ' .
+            'FROM `'.$this->tabella.'` ' .
+            'WHERE `'.$this->chiave.'` = \''.$id.'\'';
+        $obj=parent::getObject(parent::query($query));
+        //debug("query fatta!");
+        //var_dump($obj);
+        //debug("ecco l'oggetto ricevuto".$obj);
+        return $obj;
+    }
+
+    public function deleteUtente($utenteusername)
+    {
+        //var_dump($utenteusername);
+        $query='DELETE ' .
+            'FROM `'.$this->tabella.'` ' .
+            'WHERE `'.$this->chiave.'` = \''.$utenteusername.'\'';
+        unset($object);
+
+        $Fdb= new FDatabase();//mi serve per ottenere il metodo query da FDB
+        return $Fdb->query($query);
+    }
 }
 ?>

@@ -1,10 +1,18 @@
-<div class=content>
+{literal}
+    <!--<script type="text/javascript" src="//siviaggiare//script//jquery-2.0.3.min.js"></script>-->
+    <script src="http://code.jquery.com/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="script/admin.js"></script>
+{/literal}
+
+<div class="content">
+    <h3>Dettagli Utente</h3>
     <div class=form_settings>
-        <h3>Dettagli Utente</h3>
-        <h3>Utente: {$utente->username} </h3>
+
+        {if ($utente->username)}
+        <!--<h3>Utente: {$utente->username}</h3>-->
         <table>
             <tr>
-                <td> Nome:</td><td>{$utente->username} </td>
+                <td> Nome:</td><td><span id= 'nomeutente'>{$utente->username}</span> </td>
             </tr>
             <tr>
                 <td> Cognome:</td><td> {$utente->cognome} </td>
@@ -31,26 +39,35 @@
                 <td>Stato:</td><td> {$utente->stato} </td>
             </tr>
         </table>
-        <form method="post"action="index.php" class="left">
-            <input type="hidden" name="controller" value="amministrazione" />
-            <input type="hidden" name="task" value="gestione_utenti" />
-            <input type="submit" value="Indietro" />
-        </form>
-        <form method="post"action="index.php" class="left">
-            <input type="hidden" name="controller" value="amministrazione" />
-            <input type="hidden" name="task" value="promuovi_utente"/>
-            <input type="submit" value="Promuovi Utente"/>
-        </form>
-        <form method="post"action="index.php" class="left">
-            <input type="hidden" name="controller" value="amministrazione" />
-            <input type="hidden" name="task" value="modifica_utente"/>
-            <input type="submit" value="Modifica Utente" /><!--non funziona-->
-        </form>
-        </form>
-        <form method="post"action="index.php" class="left">
-            <input type="hidden" name="controller" value="amministrazione" />
-            <input type="hidden" name="task" value="elimina_utente"/>
-            <input type="submit" value="Elimina Utente"/>
-        </form>
+        <button id="elimina-utente" class="elimina-utente" >Elimina Utente</button>
+        <button id="annulla" class="annulla">Annulla Modifiche</button>
+        <button id="avvertimento" class="avvertimento">Manda Avvertimento</button>
+        <button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>
+        <button id="modifica" class="modifica">Modifica Utente</button>
+        {/if}
+
+
+
+        {if !($utente->username)}
+            <br>
+            Utente GIA RIMOSSO!<br><br>
+            consiglio di eliminare la segnalazione
+            <br>
+            <br>
+            <button id="redirect-utenti" class="redirect-utenti">Vai alla Segnalazione</button>
+
+        {/if}
     </div>
+    <!--<form method="post"action="index.php" class="left">
+        <input type="hidden" name="controller" value="amministrazione" />
+        <input type="hidden" name="task" value="gestione_utenti" />
+        <input type="submit" value="Indietro" />
+    </form>
+
+    <button id="elimina-utente"  class="elimina-utente" >Elimina Utente</button>
+    <button id="annulla" class="annulla" >Annulla Modifiche</button>
+    <button id="avvertimento" class="avvertimento">Manda Avvertimento</button>
+    <button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>
+    <button id="modifica" class="modifica">Modifica Utente</button>
+    -->
 </div>

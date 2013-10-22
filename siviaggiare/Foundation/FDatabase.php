@@ -38,7 +38,7 @@ class FDatabase
             die ("Impossibile utilizzare $database: " . mysql_error());
         }
         //debug('Connessione al database avvenuta correttamente');
-        $this->query('SET names \'utf8\'');                         //CHE FA????-----vedere
+        //$this->query('SET names \'utf8\'');
         return true;
     }
 

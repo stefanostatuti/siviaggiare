@@ -15,7 +15,7 @@ class EAdmin extends EUtente
     //promuove un utente prendolo come imput e modifica lo stato
     public function PromuoviUtente(EUtente $utente) {
     //creo una nuova variabile newAdmin
-    $newAdmin = new FAdmin ();
+    //$newAdmin = new FAdmin ();
     $newAdmin = clone ($utente); //copia $utente in newAdmin
     var_dump($newAdmin);
     debug("qui lo devo distruggere");
@@ -32,7 +32,7 @@ class EAdmin extends EUtente
     // per poi risalvarlo
     public function TogliPermessiAmministratore(EAdmin $admin) {
         //creo una nuova variabile newUser
-        $newUser = new FUtente();
+        //$newUser = new FUtente();
         $newUser = clone ($admin); //copia $utente in newAdmin
         var_dump($newUser);
         debug("qui lo devo distruggere");

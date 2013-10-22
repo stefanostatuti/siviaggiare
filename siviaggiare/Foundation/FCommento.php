@@ -47,5 +47,22 @@ class FCommento extends FDatabase           //TUTTA DA VEDERE   !!!!
         //var_dump("ecco l'oggetto ricevuto".$obj);
         return $obj;
     }
+
+    /**
+     * Cancella dal database un commento
+     *
+     * @param object $object
+     * @return boolean
+     */
+    public function deleteCommento($id)
+    {
+        $query='DELETE ' .
+            'FROM `'.$this->tabella.'` ' .
+            'WHERE `'.$this->chiave['0'].'` = \''.$id.'\'';
+        unset($object);
+
+        $Fdb= new FDatabase();//mi serve per ottenere il metodo query da FDB
+        return $Fdb->query($query);
+    }
 }
 ?>

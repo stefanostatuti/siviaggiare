@@ -36,9 +36,10 @@ class EViaggio
     }
 
 
-    public function getID()//
+    public function getID()
     {
         return $this->id;
     }
+
 
 }

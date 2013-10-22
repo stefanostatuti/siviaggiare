@@ -619,3 +619,18 @@ ul#nav li a:hover,ul#nav li a:focus {
 
 .error {color: red;}
 
+
+/*------------STEFANO-------------*/
+.avvertimento{display: none;}
+.elimina{display: none;}
+.elimina-segnalazione{color: red;}
+.elimina-viaggio{color: red;}
+.elimina-citta{color: red;}
+.elimina-luogo{color: red;}
+.elimina-commento{color:red;}
+.elimina-utente{color: red;}
+.salva-modifiche{display: none;}
+.redirect{color:red;}
+.redirect-segnalazione{color:red;}
+.redirect-utenti{color:red;}
+.annulla{display: none;}

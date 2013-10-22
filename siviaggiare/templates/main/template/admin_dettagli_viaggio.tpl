@@ -1,7 +1,19 @@
+{literal}
+    <!--<script type="text/javascript" src="//siviaggiare//script//jquery-2.0.3.min.js"></script>-->
+    <script src="http://code.jquery.com/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="script/admin.js"></script>
+{/literal}
+
 <div class=content>
+    <h3>Viaggio Segnalato</h3>
     <div class=form_settings>
-        <h3>Viaggio Segnalato</h3>
+
+        {if ($viaggio->id)}
         <table>
+            <tr>
+                <td><h4>IdViaggio:</h4></td>
+                <td><h6><span id= 'idviaggio'>{$viaggio->id}</span></h6></td>
+            </tr>
             <tr>
                 <td><h4>Autore:</h4></td>
                 <td><h6>{$viaggio->utenteusername}</h6></td>
@@ -23,23 +35,30 @@
             </tr>
             <tr>
                 <td> Budget:</td>
-                <td><h6>{$viaggio->budget}<h6></td>
+                <td><h6>{$viaggio->budget}</h6></td>
             </tr>
-            <tr>
+            <!--<tr>
                 <td><a href="?controller=aggiunta_viaggio&task=visualizza_luoghi_inseriti&idviaggio={$viaggio->id}"<h5>Vedi i luoghi visitati(NON FUNZIONANTE)</h5></a></td>
             </tr>
+            -->
         </table>
-        <form method="post"action="index.php" class="left">
-            <input type="hidden" name="controller" value="amministrazione"/>
-            <input type="hidden" name="task" value="segnalazioni" />
-            <input type="submit" value="Indietro" />
-            <input type="submit" value="Modifica Viaggio" /><!--non funziona-->
-            <input type="submit" value="Elimina Viaggio" /><!--non funziona-->
-        </form>
-        <form method="post"action="index.php" class="left">
-            <input type="hidden" name="controller" value="amministrazione"/>
-            <input type="hidden" name="task" value="mandaAvvertimento" />
-            <input type="submit" value="Manda Avvertimento" />
-        </form>
-    </div>
+
+    <button id="elimina-viaggio" class="elimina-viaggio" >Elimina Viaggio</button>
+    <button id="annulla" class="annulla" >Annulla Modifiche</button>
+    <button id="avvertimento" class="avvertimento">Manda Avvertimento</button>
+    <button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>
+    <button id="modifica" class="modifica">Modifica Viaggio</button>
+    {/if}
+
+
+    {if !($viaggio->id)}
+        <br>
+        Viaggio GIA RIMOSSO!<br><br>
+        consiglio di eliminare la segnalazione
+        <br>
+        <br>
+        <button id="redirect-segnalazione" class="redirect-segnalazione">Vai alla Segnalazione</button>
+
+    {/if}
+</div>
 </div>

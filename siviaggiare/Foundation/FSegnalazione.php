@@ -14,6 +14,7 @@ class FSegnalazione extends FDatabase
     {
         $this->tabella='segnalazioni';
         $this->chiave=array('idsegnalazione');
+        //$this->chiave='idsegnalazione';
         $this->classe='ESegnalazione';
         $this->auto_incremento=true;
         USingleton::getInstance('FDatabase');
@@ -36,13 +37,32 @@ class FSegnalazione extends FDatabase
     //questo metodo sotto probabilmente è deprecabile richiamando la load in FDatabase
     //
     public function loadTUTTEleSegnalazioni()
-    {   debug("ci entro in caricatutte le segnalazioni?");
+    {
+        //debug("ci entro in caricatutte le segnalazioni?");
         $query='SELECT * ' .
             'FROM `'.$this->tabella.'` ';
         $obj=parent::getObjectInArray(parent::query($query));
         //debug("query fatta!");
         //var_dump("numero risultati ".count($obj));
         return $obj;
+    }
+
+    /**
+     * Cancella dal database una Segnalazione
+     *
+     * @param idsegnalazione
+     * @return boolean
+     */
+    public function deleteSegnalazione($idsegnalazione)
+    {
+        var_dump($idsegnalazione);
+        $query='DELETE ' .
+            'FROM `'.$this->tabella.'` ' .
+            'WHERE `'.$this->chiave[0].'` = \''.$idsegnalazione.'\'';
+        unset($object);
+
+        $Fdb= new FDatabase();//mi serve per ottenere il metodo query da FDB
+        return $Fdb->query($query);
     }
 }
 ?>

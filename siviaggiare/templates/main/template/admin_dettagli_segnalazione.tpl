@@ -1,10 +1,18 @@
+{literal}
+    <!--<script type="text/javascript" src="//siviaggiare//script//jquery-2.0.3.min.js"></script>-->
+    <script src="http://code.jquery.com/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="script/admin.js"></script>
+{/literal}
+
 <div class="content">
+    <h3>Dettaglio segnalazione {$segnalazione->idsegnalazione} di {$segnalazione->autore}:</h3>
     <div class="form_settings">
-        <h3>Dettaglio segnalazione {$segnalazione->idsegnalazione} di {$segnalazione->autore}:</h3>
+
+        {if ($segnalazione->idsegnalazione)}
         <table>
             <tr>
                 <td><h4>IdSegnalazione</h4></td>
-                <td><h6>{$segnalazione->idsegnalazione}</h6></td>
+                <td><h6><span id= 'idsegnalazione'>{$segnalazione->idsegnalazione}</span></h6></td>
             </tr>
             <tr>
                 <td><h4>Autore</h4></td>
@@ -30,7 +38,7 @@
             {/if}
             {if ($segnalazione->idluogo)}
                 <tr>
-                    <td><h4>Luogo accoppiata Luogo con IDVIAGGIO e Citta</h4></td>
+                    <td><h4>Luogo accoppiata Luogo con IdViaggio e Citta</h4></td>
                     <table>
                         <td><h6>{$segnalazione->idviaggio}</h6></td>
                         <td><h6>{$segnalazione->citta}</h6></td>
@@ -76,5 +84,17 @@
                     <!-- ----------------------------FINE------------------------------------------>
                 </tr>
         </table>
+
+            <button id="elimina-segnalazione"  class="elimina-segnalazione" >Elimina Segnalazione</button>
+        {/if}
+
+        {if !($segnalazione->idsegnalazione)}
+            <br>
+            Segnalazione RIMOSSA!<br><br>
+            <br>
+            <br>
+            <button id="redirect" class="redirect">Vai alla lista Segnalazioni</button>
+
+        {/if}
     </div>
 </div>
