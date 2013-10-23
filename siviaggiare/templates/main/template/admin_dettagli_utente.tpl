@@ -33,7 +33,7 @@
                 <td>Codice attivazione:</td><td> {$utente->cod_attivazione} </td>
             </tr>
             <tr>
-                <td>Numero Avvertimenti:</td><td> {$utente->avvertimenti} </td>
+                <td>Numero Avvertimenti:</td><td><span id='numeroavvertimenti'>{$utente->avvertimenti}</span> </td>
             </tr>
             <tr>
                 <td>Stato:</td><td> {$utente->stato} </td>

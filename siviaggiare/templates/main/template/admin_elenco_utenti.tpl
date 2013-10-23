@@ -1,49 +1,13 @@
+{literal}
+    <!--<script type="text/javascript" src="//siviaggiare//script//jquery-2.0.3.min.js"></script>-->
+    <script src="http://code.jquery.com/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="script/admin.js"></script>
+{/literal}
+
 <div class="content">
     <div class="form_settings">
         <h3>Lista Utenti:</h3>
         {if ($utente)}
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-        <link rel="stylesheet" href="/resources/demos/style.css" />
-        {literal}
-                <script>
-                $(function() {
-                    var availableTags = [
-                        "ActionScript",
-                        "AppleScript",
-                        "Asp",
-                        "BASIC",
-                        "C",
-                        "C++",
-                        "Clojure",
-                        "COBOL",
-                        "ColdFusion",
-                        "Erlang",
-                        "Fortran",
-                        "Groovy",
-                        "Haskell",
-                        "Java",
-                        "JavaScript",
-                        "Lisp",
-                        "Perl",
-                        "PHP",
-                        "Python",
-                        "Ruby",
-                        "Scala",
-                        "Scheme"
-                    ];
-                    $( "#tags" ).autocomplete({
-                        source: availableTags
-                    });
-                });
-            </script>
-        {/literal}
-        <div class="ui-widget">
-            <label for="tags">Ricerca Utente DA FINIRE: </label>
-            <input id="tags" />
-        </div>
-
         <table>
             <tr>
                 <td><h5>Username</h5></td>
@@ -55,6 +19,7 @@
                 <!--<td><h5>Password</h5></td>-->
                 <td><h5>Cod_attivazione</h5></td>
                 <td><h5>Stato</h5></td>
+                <td><h5>Avvertimenti</h5></td>
                 <td><h5>Dettagli (link al profilo)</h5></td>
             </tr>
             {section name=nr loop=$utente}
@@ -96,6 +61,9 @@
                     </td>
                     <td>
                         {$utente[nr]->stato}
+                    </td>
+                    <td>
+                        <span id='numeroavvertimenti'>{$utente[nr]->avvertimenti}</span>
                     </td>
                     <td>
                         <a href="?controller=amministrazione&task=dettaglio_utente&username={$utente[nr]->username}">Vedi dettagli</a>

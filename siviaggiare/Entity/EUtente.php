@@ -81,5 +81,28 @@ class EUtente
         return $this->cod_attivazione;
     }
 
+    public function getAvvertimenti()
+    {
+        return $this->avvertimenti;
+    }
+
+    public function riceviAvvertimento()
+    {
+        debug("Prima "+$this->getAvvertimenti()+"\n");
+        $this->avvertimenti++;
+
+        var_dump($this->getAvvertimenti());
+        //aggiorno il db
+        $FUtente=new FUtente();
+        $ris=$FUtente->update($this);
+        if ($ris==true){
+            debug("UPDATE OK!! ");
+            debug("Dopo "+$this->getAvvertimenti()+"\n");
+        }
+        elseif ($ris==false){
+            debug("UPDATE FALLITO!!!! ");
+            debug("Dopo "+$this->getAvvertimenti()+"\n");
+        }
+    }
 }
 ?>

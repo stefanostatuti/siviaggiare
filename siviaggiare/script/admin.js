@@ -183,11 +183,40 @@ $(document).ready(function()
 
     }); //ok
 
-    $('#redirect').on('click',function(){RedirectToHomeSegnalazioni();});
+    $('#avvertimento').on('click', function(){
+        var r=confirm("Sei sicuro di voler mandare l'avvertimento?");
+        if (r==true)
+        {
+            alert("OK! mando l'avvertimento");
+            $.ajax({
+                type: 'GET',
+                processData: false, //obbligatorio se si spedisce del testo???
+                url: 'index.php?controller=amministrazione&task=manda_avvertimento',
+                data: "nomeutente="+getNomeUtente(),
+                success: function(response){
+                    AggiornaPagina();
+                    alert("tutto OK");
+                }
+            })
+            alert("FINE!");
+        }
+        else
+        {
+            alert("You pressed Cancel!");
+        }
 
-    $('#redirect-utenti').on('click',function(){RedirectToUtenti();});
+    });
 
-    $('#redirect-segnalazione').on('click',function(){RedirectToSegnalazione();});
+     $( document ).ready(function(){
+        //alert("entro nella Funzione");
+        ColoraCasella();
+    }) //colora in automatico la casella degli avvertimenti
+
+    $('#redirect').on('click',function(){RedirectToHomeSegnalazioni();});//ok
+
+    $('#redirect-utenti').on('click',function(){RedirectToUtenti();});//ok
+
+    $('#redirect-segnalazione').on('click',function(){RedirectToSegnalazione();});//ok
 
 
     //---------------------Funzioni-------------------------//
@@ -284,5 +313,28 @@ $(document).ready(function()
         window.location.reload();
         //location.href="index.php?controller=amministrazione&task=segnalazioni";
     }
+
+    function ColoraCasella()//colora la casella in base al numero di avvertimenti. 0 = verde 1,2 =giallo e 3=rosso
+    {
+        $('table #numeroavvertimenti').each(function( i )
+        {
+        var numeroAvvertimenti= $(this).text();
+        var casellaAvvertimenti= $(this);
+
+        //alert("questo è il numero degli avvertimenti\n");
+        //alert(numeroAvvertimenti);
+
+        if (numeroAvvertimenti>=3){
+                casellaAvvertimenti.css( "background-color", "red");
+        }
+        if (numeroAvvertimenti==1 || numeroAvvertimenti== 2){
+                casellaAvvertimenti.css( "background-color", "yellow");
+        }
+        if (numeroAvvertimenti<=0){
+            casellaAvvertimenti.css( "background-color", "green");
+        }
+        });
+    }
+
 
 });

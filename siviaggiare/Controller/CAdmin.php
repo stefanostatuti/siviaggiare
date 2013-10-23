@@ -55,7 +55,7 @@ class CAdmin
                 return $this->ModificaUtente();
             case 'promuovi_utente':
                 return $this->PromuoviUtente();
-            case 'mandaAvvertimento':
+            case 'manda_avvertimento':
                 return $this->MandaAvvertimento();
         }
     }
@@ -153,7 +153,7 @@ class CAdmin
         return $VAdmin->processaTemplate();
     }
 
-    public function ProfiloUtente(){
+   public function ProfiloUtente(){
         $VViaggio=USingleton::getInstance('VViaggio');
         $FUtente = new FUtente();
         $Utente = $FUtente->load($VViaggio->getNomeUtente());
@@ -180,57 +180,29 @@ class CAdmin
         $VAdmin->impostaDati('cancellato',$Cancellato);
         return $VAdmin->processaTemplate();}*///non FINITO
 
-   public function MandaAvvertimento(){
-       debug("entro in MandaAvvertimento");
-       //$FAdmin=USingleton::getInstance('FAdmin');
-       $VViaggio=USingleton::getInstance('VViaggio');
-       //$EUtente=USingleton::getInstance('EUtente');
-       $FUtente=USingleton::getInstance('FUtente');
-       //$utente=$EUtente->load($VViaggio->getNomeUtente());
-       $utente=$FUtente->load($VViaggio->getNomeUtente());
-       $utente->avvertimenti++;
-       var_dump($utente->avvertimenti);
+   public function MandaAvvertimento() //manca la parte dell'invio della mail
+   {
 
-       //mando una mail da sistemare
-       /*try {
-           $view=USingleton::getInstance('VRegistrazione');
-           $mail=$view->getEmail();
-           $username=$view->getUsername();
-           $FUtente=new FUtente();
-           $utente=$FUtente->load($username);
-           if($utente!=false)
-           {
-               if($utente->mail==$mail)
-               {
-                   $email=$this->emailRecuperoPassword($utente);
-                   //aggiungere validazione inoltro mail
-                   if($email)
-                   {
-                       $view->setLayout('conferma_mail_recupero_password');
-                       return $view->processaTemplate();
-                   }else
-                   {
-                       $this->_errore='impossibile inoltrare email';
-                   }
-               }
-               else $this->_errore='Email errata';
-           }
-           else $this->_errore='Username non esistente';
-           $view->impostaErrore($this->_errore);
-           $this->_errore='';
-           $view->setLayout('recupero_password');
-           $result=$view->processaTemplate();
-           $view->impostaErrore('');
-           return $result;
+       $nomeutente=$_GET["nomeutente"];
+       debug("nome utente = ");
+       var_dump($nomeutente);
+       debug("Mando Avvertimento!");
+
+       $FUtente=new FUtente();
+       $utente=$FUtente->loadUtente($nomeutente);
+       if ($utente!= NULL || $utente!=0)
+       {
+        debug("entro in MandaAvvertimento");
+        $utente->riceviAvvertimento();
        }
-       catch{
-           debug("mail non inviata");
-            }
-        //end mail
-*/
-      return 1;
+       else
+       {
+           debug("ERRORE: Utente NON TROVATO!!!!");
+       }
+           //qua dovrei mandare una mail
+       return 0;
 
-   }//non finito
+   }
 
     //ELIMINAZIONI
     public function EliminaSegnalazione(){
