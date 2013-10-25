@@ -51,10 +51,9 @@
         {if !($utente->username)}
             <br>
             Utente GIA RIMOSSO!<br><br>
-            consiglio di eliminare la segnalazione
             <br>
             <br>
-            <button id="redirect-utenti" class="redirect-utenti">Vai alla Segnalazione</button>
+            <button id="redirect-utenti" class="redirect-utenti">Lista Utenti</button>
 
         {/if}
     </div>

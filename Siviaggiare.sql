@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 19, 2013 at 03:37 PM
+-- Generation Time: Oct 23, 2013 at 05:52 PM
 -- Server version: 5.6.11
 -- PHP Version: 5.5.1
 
@@ -48,7 +48,6 @@ CREATE TABLE IF NOT EXISTS `citta` (
 INSERT INTO `citta` (`idviaggio`, `nome`, `stato`, `datainizio`, `datafine`, `tipoalloggio`, `costoalloggio`, `voto`) VALUES
 (1, 'parigi', 'francia', '2013-08-08', '2013-08-08', 'b&b', 4, 6),
 (1, 'roma', 'italia', '2003-08-08', '2013-08-09', 'hotel', 1, 9),
-(2, 'borgo', 'italia', '2003-08-08', '2013-08-10', 'in strada', 5000, 1),
 (7, 'Casa del diablo', 'EIRE', '2013-08-07', '2013-08-17', 'ponte', 300, 3),
 (7, 'Rieti', 'Italia', '2013-08-06', '2013-08-08', 'casa', 20, 2),
 (8, 'Roma', 'Italia', '2013-08-04', '2013-08-10', 'Casa', 500, 8),
@@ -81,7 +80,7 @@ INSERT INTO `commento` (`idcommento`, `idviaggio`, `nomeluogo`, `nomecitta`, `au
 (1, '1', 'colosseo', 'roma', 'stef', 'Bella recensione', 9),
 (2, '1', 'torre eiffel', 'parigi', 'riccio', 'Buono recensione', 6),
 (3, '2', 'casa brunetto', 'borgo', 'kekko', 'Brutta recensione', 3),
-(4, '1', 'torre eiffel', 'parigi', 'pippo', 'prova  r6tgaehjvgfowsjghfuwhsoivnjhewsoirgnewso oisnhbgnhvwesorigbnrewsegvneruve', 3),
+(4, '1', 'torre eiffel', 'parigi', 'pippo', 'prova r6tgaehjvgfowsjghfuwhsoivnjhewsoirgnewso oisnhbgnhvwesorigbnrewsegvneruve', 3),
 (5, '1', 'colosseo', 'roma', 'pippo', 'bello schifo', 0);
 
 -- --------------------------------------------------------
@@ -135,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `segnalazioni` (
   `idcommento` int(20) DEFAULT NULL,
   `motivo` varchar(1024) NOT NULL,
   PRIMARY KEY (`idsegnalazione`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `segnalazioni`
@@ -162,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `utente` (
   `mail` varchar(80) DEFAULT NULL,
   `password` varchar(20) DEFAULT NULL,
   `cod_attivazione` varchar(10) DEFAULT NULL,
-  `avvertimenti` int(1) DEFAULT 0,
+  `avvertimenti` int(1) DEFAULT '0',
   `stato` enum('non_attivo','attivo','admin') DEFAULT 'non_attivo',
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -171,13 +170,13 @@ CREATE TABLE IF NOT EXISTS `utente` (
 -- Dumping data for table `utente`
 --
 
-INSERT INTO `utente` (`username`, `nome`, `cognome`, `residenza`, `nazione`, `mail`, `password`, `cod_attivazione`, `stato`) VALUES
-('Emanuela', 'eghsg', 'egagew', 'Rieti', 'eagas', 'agewg', 'emanuela', '2122454021', 'attivo'),
-('kekko', 'francesco', 'verzicco', 'casabianca', 'stato proprieta', 'kekko@libero.it', '1234', '1234', 'attivo'),
-('pippo', 'Pippo', 'Cognome', 'Rieti', 'EmanuelaLand', 'pippo@pippo.it', 'pippo', '1476023205', 'attivo'),
-('riccio', 'ric', 'verzicco', 'non pervenuta', 'rifugiato politico', 'riccio@libero.it', '1234', '1234', 'attivo'),
-('root', 'admin', 'admin', 'admin', 'admin', 'admin.egrweg@domain.it', 'administrator', '423940770', 'admin'),
-('stef', 'ste', 'verzicco', 'los burgos', 'italia', 'kekko@libero.it', '1234', '1234', 'attivo');
+INSERT INTO `utente` (`username`, `nome`, `cognome`, `residenza`, `nazione`, `mail`, `password`, `cod_attivazione`, `avvertimenti`, `stato`) VALUES
+('Emanuela', 'eghsg', 'egagew', 'Rieti', 'eagas', 'agewg', 'emanuela', '2122454021', 0, 'attivo'),
+('kekko', 'francesco', 'verzicco', 'casabianca', 'stato proprieta', 'kekko@libero.it', '1234', '1234', 1, 'attivo'),
+('pippo', 'Pippo', 'Cognome', 'Rieti', 'EmanuelaLand', 'pippo@pippo.it', 'pippo', '1476023205', 2, 'attivo'),
+('riccio', 'ric', 'verzicco', 'non pervenuta', 'rifugiato politico', 'riccio@libero.it', '1234', '1234', 3, 'attivo'),
+('root', 'admin', 'admin', 'admin', 'admin', 'admin.egrweg@domain.it', 'administrator', '423940770', 0, 'admin'),
+('stef', 'ste', 'verzicco', 'los burgos', 'italia', 'kekko@libero.it', '1234', '1234', 4, 'attivo');
 
 -- --------------------------------------------------------
 
@@ -203,7 +202,6 @@ CREATE TABLE IF NOT EXISTS `viaggio` (
 
 INSERT INTO `viaggio` (`id`, `utenteusername`, `datainizio`, `datafine`, `mezzotrasporto`, `costotrasporto`, `budget`) VALUES
 (1, 'kekko', '2003-08-08', '2013-08-09', 'aero', '1', 0),
-(2, 'riccio', '2003-08-08', '2013-08-10', 'sampateinculo', '5000', 5000000),
 (3, 'kekko', '2013-08-08', '2013-08-08', 'yacht', '4', 500),
 (4, 'pippo', '2029-03-03', '2543-05-03', 'Traghetto', '3456', 524352),
 (5, 'pippo', '2013-04-04', '2013-04-05', 'Nave', '45654', 262),
