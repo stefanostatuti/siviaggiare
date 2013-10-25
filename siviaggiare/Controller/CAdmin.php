@@ -19,7 +19,6 @@ class CAdmin
         {
             case 'segnalazioni':
                 return $this->VisualizzaSegnalazioniTable();
-
             case 'dettaglio_segnalazione':
                 return $this->VisualizzaSegnalazione();
             case 'gestione_utenti':
@@ -55,6 +54,8 @@ class CAdmin
                 return $this->ModificaUtente();
             case 'promuovi_utente':
                 return $this->PromuoviUtente();
+            case 'degrada_utente':
+                return $this->DegradaUtente();
             case 'manda_avvertimento':
                 return $this->MandaAvvertimento();
         }
@@ -165,22 +166,82 @@ class CAdmin
     }
 
     //MODIFICHE
-   /*public function PromuoviUtente(){
+   public function PromuoviUtente(){
         //carico un metodo di EAdmin
         debug("ci entro in promuovi utente?");
-        $VAdmin= USingleton::getInstance('VAdmin');
-        $EAdmin = new EAdmin();
-        $esito= $EAdmin->PromuoviUtente(V);
-        var_dump("var_dump utente: ".$Utente);
-        debug("debug utente: ".$Utente);
-        $utentedaeliminare=$FUtente->load($Utente);//prendo l'oggetto dal db
-        $VAdmin=USingleton::getInstance('VAdmin');
-        $Cancellato = $FUtente->delete($utentedaeliminare);//e lo elimino
-        $VAdmin->setLayout('dettagli_utente_promosso');//da fare il tp
-        $VAdmin->impostaDati('cancellato',$Cancellato);
-        return $VAdmin->processaTemplate();}*///non FINITO
 
-   public function MandaAvvertimento() //manca la parte dell'invio della mail
+       $nomeutente=$_GET["nomeutente"];
+       debug("nome utente = ");
+       var_dump($nomeutente);
+       debug("provo a promuoverlo");
+
+       $FUtente=new FUtente();
+       $utente=$FUtente->loadUtente($nomeutente);
+       if ($utente!= NULL || $utente!=false)
+       {
+           debug("promuovo:");
+           $EAdmin = new EAdmin();
+           $esito= $EAdmin->PromuoviUtente($utente);
+           var_dump("var_dump esito: ".$esito);
+           debug("debug utente: ".$esito);
+           if ($esito!=0){
+                debug("ERRORE nell'aggiornamento!!!!!!!!!!");
+           }
+           elseif ($esito==0){
+            debug("OK!");
+            $VAdmin= new VAdmin();
+            $VAdmin->setLayout('dettagli_utente_promosso_degradato');
+            $VAdmin->impostaDati('nomeutente',$nomeutente);
+            return $VAdmin->processaTemplate();
+           }
+
+       }
+       else
+       {
+           debug("ERRORE: Utente NON TROVATO!!!!");
+           return 1;
+       }
+       //qua dovrei mandare una mail per avvertirlo
+   }
+
+   public function DegradaUtente(){
+        //carico un metodo di EAdmin
+        debug("ci entro in degrada utente?");
+
+        $nomeutente=$_GET["nomeutente"];
+        debug("nome utente = ");
+        var_dump($nomeutente);
+        debug("provo a degradarlo");
+
+        $FAdmin=new FAdmin();
+        $newutente=$FAdmin->loadUtente($nomeutente);
+        if ($newutente!= NULL || $newutente!=false)
+        {
+            debug("Degrado:");
+            $EAdmin = new EAdmin();
+            $esito= $EAdmin->TogliPermessiAmministratore($newutente);
+            var_dump("var_dump esito: ".$esito);
+            debug("debug utente: ".$esito);
+            if ($esito!=0){
+                debug("ERRORE nell'aggiornamento!!!!!!!!!!");
+            }
+            elseif ($esito==0){
+                debug("OK!");
+                $VAdmin= new VAdmin();
+                $VAdmin->setLayout('dettagli_utente_promosso_degradato');
+                $VAdmin->impostaDati('nomeutente',$nomeutente);
+                return $VAdmin->processaTemplate();
+            }
+        }
+        else
+        {
+            debug("ERRORE: Utente NON TROVATO!!!!");
+            return 1;
+        }
+        //qua dovrei mandare una mail per avvertirlo
+    }
+
+   public function MandaAvvertimento() //Finito manca la parte dell'invio della mail
    {
 
        $nomeutente=$_GET["nomeutente"];
@@ -234,7 +295,7 @@ class CAdmin
         //recupero l'oggetto dal DB usando l'indice ottenuto
         $FUtente=new FUtente();
         $utente=$FUtente->loadUtente($nomeutente);
-        if ($utente!= NULL || $utente!=0){
+        if ($utente!= NULL || $utente!=false){
             //tento di cancellarlo
             $ris= $FUtente->deleteUtente($nomeutente);
             debug("Utente ELIMINATO CORRETTAMENTE!");
@@ -268,7 +329,8 @@ class CAdmin
         }
     }//finito
 
-    public function EliminaCitta(){ //la stringa che arriva(BENE) viene convertita in 0 boh! -->soluzione per le stringhe usare var_dump
+    public function EliminaCitta()
+    {
         //debug($_GET); //arriva la stringa giusta
         //debug(is_string($_GET["nomecitta"])); //torna TRUE quindi è una stringa
         $idviaggio=$_GET["idviaggio"];
@@ -300,7 +362,7 @@ class CAdmin
 
     }//DA controllare se funziona
 
-    public function EliminaLuogo()//da fare
+    public function EliminaLuogo()
     {
         //debug($_GET); //arriva la stringa giusta
         //debug(is_string($_GET["nomecitta"])); //torna TRUE quindi è una stringa
@@ -332,8 +394,7 @@ class CAdmin
         {
             Debug("NON CI SONO RISULTATI!!!!");
         }
-    }
-
+    }//Finito
 
     public function EliminaCommento(){ //con AJAX FUNZIONA COMPLETATA
         $id=$_GET["idcommento"];

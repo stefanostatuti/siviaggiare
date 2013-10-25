@@ -258,7 +258,7 @@ class CViaggio
         return $view->processaTemplate();
     }*/
 
-/*    public function visualizzaLuoghiTable()
+   /*    public function visualizzaLuoghiTable()
     {
         $session=USingleton::getInstance('USession');
         $user=$session->leggi_valore('username');

@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS `citta` (
 INSERT INTO `citta` (`idviaggio`, `nome`, `stato`, `datainizio`, `datafine`, `tipoalloggio`, `costoalloggio`, `voto`) VALUES
 (1, 'parigi', 'francia', '2013-08-08', '2013-08-08', 'b&b', 4, 6),
 (1, 'roma', 'italia', '2003-08-08', '2013-08-09', 'hotel', 1, 9),
+(2, 'borgo', 'italia', '2003-08-08', '2013-08-10', 'in strada', 5000, 1),
 (7, 'Casa del diablo', 'EIRE', '2013-08-07', '2013-08-17', 'ponte', 300, 3),
 (7, 'Rieti', 'Italia', '2013-08-06', '2013-08-08', 'casa', 20, 2),
 (8, 'Roma', 'Italia', '2013-08-04', '2013-08-10', 'Casa', 500, 8),
@@ -202,6 +203,7 @@ CREATE TABLE IF NOT EXISTS `viaggio` (
 
 INSERT INTO `viaggio` (`id`, `utenteusername`, `datainizio`, `datafine`, `mezzotrasporto`, `costotrasporto`, `budget`) VALUES
 (1, 'kekko', '2003-08-08', '2013-08-09', 'aero', '1', 0),
+(2, 'riccio', '2003-08-08', '2013-08-10', 'sampateinculo', '5000', 5000000),
 (3, 'kekko', '2013-08-08', '2013-08-08', 'yacht', '4', 500),
 (4, 'pippo', '2029-03-03', '2543-05-03', 'Traghetto', '3456', 524352),
 (5, 'pippo', '2013-04-04', '2013-04-05', 'Nave', '45654', 262),

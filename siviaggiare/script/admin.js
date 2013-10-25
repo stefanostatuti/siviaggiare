@@ -1,9 +1,11 @@
 $(document).ready(function()
 {
     $("#modifica").on('click', function(){
+
         $('#avvertimento').show('fast');
         $('#elimina').show('fast');
         $('#annulla').show('fast');
+        $('#gestisci-utente').show('fast');
         $('#salva-modifiche').show('fast');
 
         $('#indietro').hide('fast');
@@ -15,6 +17,7 @@ $(document).ready(function()
         $('#elimina').hide('fast');
         $('#annulla').hide('fast');
         $('#salva-modifiche').hide('fast');
+        $('#gestisci-utente').hide('fast');
 
         $('#indietro').show('fast');
         $('#modifica').show('fast');
@@ -212,6 +215,50 @@ $(document).ready(function()
         ColoraCasella();
     }) //colora in automatico la casella degli avvertimenti
 
+    $('#gestisci-utente').on('click', function(){
+
+
+        var r=confirm("Sei sicuro di Cambiare lo stato dell'utente");
+        if (r==true)
+        {
+            alert("OK! gli cambio lo stato");
+            var stato = getStato();
+            alert(stato);
+            if (stato== 'attivo')
+            {
+                $.ajax({
+                    type: 'GET',
+                    processData: false, //obbligatorio se si spedisce del testo???
+                    url: 'index.php?controller=amministrazione&task=promuovi_utente',
+                    data: "nomeutente="+getNomeUtente(),
+                    success: function(response){
+                        AggiornaPagina();
+                        alert("tutto OK");
+                    }
+                })
+            }
+            if (stato== 'admin')
+            {
+                $.ajax({
+                    type: 'GET',
+                    processData: false, //obbligatorio se si spedisce del testo???
+                    url: 'index.php?controller=amministrazione&task=degrada_utente',
+                    data: "nomeutente="+getNomeUtente(),
+                    success: function(response){
+                        AggiornaPagina();
+                        alert("tutto OK");
+                    }
+                })
+            }
+            alert("FINE!");
+        }
+        else
+        {
+            alert("You pressed Cancel!");
+        }
+
+    });//ok
+
     $('#redirect').on('click',function(){RedirectToHomeSegnalazioni();});//ok
 
     $('#redirect-utenti').on('click',function(){RedirectToUtenti();});//ok
@@ -270,6 +317,15 @@ $(document).ready(function()
     {
 
         var id=$("table").find("#idcommento")
+            //.css( "background-color", "red" )
+            .text();
+        return id;
+    }
+
+    function getStato()//ok ritorna lo stato dell'utente (admin, attivo non_attivo)
+    {
+
+        var id=$("table").find("#stato")
             //.css( "background-color", "red" )
             .text();
         return id;

@@ -36,11 +36,12 @@
                 <td>Numero Avvertimenti:</td><td><span id='numeroavvertimenti'>{$utente->avvertimenti}</span> </td>
             </tr>
             <tr>
-                <td>Stato:</td><td> {$utente->stato} </td>
+                <td>Stato:</td><td><span id='stato'>{$utente->stato}</span></td>
             </tr>
         </table>
         <button id="elimina-utente" class="elimina-utente" >Elimina Utente</button>
         <button id="annulla" class="annulla">Annulla Modifiche</button>
+        <button id="gestisci-utente" class="gestisci-utente">Gestisci Utente</button>
         <button id="avvertimento" class="avvertimento">Manda Avvertimento</button>
         <button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>
         <button id="modifica" class="modifica">Modifica Utente</button>

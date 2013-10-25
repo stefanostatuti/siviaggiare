@@ -629,8 +629,10 @@ ul#nav li a:hover,ul#nav li a:focus {
 .elimina-luogo{color: red;}
 .elimina-commento{color:red;}
 .elimina-utente{color: red;}
+.gestisci-utente{display: none;}
 .salva-modifiche{display: none;}
 .redirect{color:red;}
 .redirect-segnalazione{color:red;}
 .redirect-utenti{color:red;}
+
 .annulla{display: none;}

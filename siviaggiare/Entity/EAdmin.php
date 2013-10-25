@@ -14,36 +14,30 @@ class EAdmin extends EUtente
 
     //promuove un utente prendolo come imput e modifica lo stato
     public function PromuoviUtente(EUtente $utente) {
-    //creo una nuova variabile newAdmin
-    //$newAdmin = new FAdmin ();
     $newAdmin = clone ($utente); //copia $utente in newAdmin
     var_dump($newAdmin);
-    debug("qui lo devo distruggere");
-    $destroy = new FDatabase();
-    $destroy->delete($utente);
-    debug("eliminato!");
-    $newAdmin->stato="admin"; //modifico lo stato di newAdmin
+    debug("qui lo Aggiorno");
+    $newAdmin->stato='admin'; //modifico lo stato di newAdmin
+    $FAdmin = new FAdmin();
+    $FAdmin->update($newAdmin);
+    debug("Aggiornato da EAdmin!");
     debug("utente promosso, ora è amministratore");
-    $destroy->store($newAdmin); //mi risalvo nel DB lo stato del nuovo oggetto
     return 0;
-}
+}//ok
 
     //Toglie permessi ad un utente prendolo come imput e modifica lo stato
     // per poi risalvarlo
     public function TogliPermessiAmministratore(EAdmin $admin) {
-        //creo una nuova variabile newUser
-        //$newUser = new FUtente();
         $newUser = clone ($admin); //copia $utente in newAdmin
         var_dump($newUser);
-        debug("qui lo devo distruggere");
-        $destroy = new FDatabase();
-        $destroy->delete($admin);
-        debug("eliminato!");
-        $newUser->stato = "attivato"; //modifico lo stato di newUser
-        debug("Permessi tolti, ora è un utente");
-        $destroy->store($newUser); //mi risalvo nel DB lo stato del nuovo oggetto
+        debug("qui lo Aggiorno");
+        $newUser->stato='attivo'; //modifico lo stato di newUser
+        $FUtente = new FUtente();
+        $FUtente->update($newUser);
+        debug("Aggiornato da EAdmin!");
+        debug("Admin Degradato, ora è utente");
         return 0;
-    }
+    } //ok
 
     public function getElencoSegnalazioni()
     {
