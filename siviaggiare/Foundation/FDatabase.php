@@ -5,7 +5,7 @@
  * Date: 14/08/13
  * Time: 11.39
  * To change this template use File | Settings | File Templates.
- */            ///DA COMPLETARE
+ */
 
 class FDatabase
 {
@@ -205,7 +205,8 @@ class FDatabase
 
 
     public function loadRicerca($key,$value)//username,valore
-    {$query='SELECT * ' .
+    {
+        $query='SELECT * ' .
         'FROM `'.$this->tabella.'` ' .
         'WHERE `'.$key.'` = \''.$value.'\'';
         $this->query($query);

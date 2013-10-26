@@ -51,7 +51,7 @@ class CAdmin
 
             //modifiche
             case 'modifica_utente':
-                return $this->ModificaUtente();
+                return $this->ModificaUtente(); //NON SCRITTO!!!!
             case 'promuovi_utente':
                 return $this->PromuoviUtente();
             case 'degrada_utente':
@@ -75,7 +75,7 @@ class CAdmin
         $VAdmin->setLayout('elenco_segnalazioni');
         $VAdmin->impostaDati('results',$lista_Segnalazioni);
         return $VAdmin->processaTemplate();
-    }
+    }//OK
 
     public function VisualizzaTuttiUtenti(){
         //$EAdmin = new EAdmin();
@@ -163,7 +163,7 @@ class CAdmin
         $VAdmin->setLayout('dettagli_utente');
         $VAdmin->impostaDati('utente',$Utente);
         return $VAdmin->processaTemplate();
-    }
+    } //MAI RICHIAMATO POICHE' LO DOVREBBERO AVER FATTO CHECCO E RICCARDO
 
     //MODIFICHE
    public function PromuoviUtente(){
@@ -202,7 +202,7 @@ class CAdmin
            return 1;
        }
        //qua dovrei mandare una mail per avvertirlo
-   }
+   }//OK
 
    public function DegradaUtente(){
         //carico un metodo di EAdmin
@@ -239,9 +239,9 @@ class CAdmin
             return 1;
         }
         //qua dovrei mandare una mail per avvertirlo
-    }
+    }//OK
 
-   public function MandaAvvertimento() //Finito manca la parte dell'invio della mail
+   public function MandaAvvertimento()
    {
 
        $nomeutente=$_GET["nomeutente"];
@@ -263,7 +263,7 @@ class CAdmin
            //qua dovrei mandare una mail
        return 0;
 
-   }
+   }//Finito manca la parte dell'invio della mail
 
     //ELIMINAZIONI
     public function EliminaSegnalazione(){
@@ -385,6 +385,20 @@ class CAdmin
         $luogo=$FLuogo->loadLuogo($key);
 
         if ($luogo!= NULL || $luogo!=0){
+
+            //cancello tutti i commenti appartenenti al luogo
+            var_dump($luogo);
+            $numerocommenti=count($luogo->getElencoCommenti());
+            var_dump($numerocommenti);
+            if ($numerocommenti!=0){
+                for ($i=0; $i<=$numerocommenti;$i++){
+                    debug("passaggio ".$i."\n");
+                    debug("DA FARE L'eliminazione");
+                }
+            }
+            else{debug("ATTENZIONE: NON CI SONO COMMENTI PER QUESTO LUOGO");}
+            //end cancellazione commenti
+
             //tento di cancellarlo
             $ris= $FLuogo->deleteLuogo($key);
             debug("Luogo ELIMINATO CORRETTAMENTE!");

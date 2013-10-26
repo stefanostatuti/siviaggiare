@@ -29,8 +29,12 @@ class ELuogo
     }
 
 
-    public function getElencoCommenti()     //DA VEDERE
+    public function getElencoCommenti() //DA VEDERE la dovrebbero aver fatta checco e riccardo
     {
+        $FCommento=new FCommento();
+        //$this->_elenco_commenti=$FCommento->;
+            //loadRicerca('idviaggio',$this->idviaggio);
+        //debug($this->_elenco_luoghi);
         return $this->_elenco_commenti;
     }
 }
