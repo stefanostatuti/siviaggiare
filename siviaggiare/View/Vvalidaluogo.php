@@ -11,27 +11,27 @@ class Vvalidaluogo extends View
 {
 
       private $fields =
-      array ( "nome" => null,
-              "citta" => null,
-              "sito" =>null,
+      array ( "luogo" => null,
+              "sitoweb" => null,
+              "percorso" =>null,
               "costobiglietto" => null,
               "guidaturistica" => null,
               "duratavisita"=>null,
-              "input"=>null
+              "commento"=>null,
+              "valuta"=>null
             );
 
   // messaggi in caso di eventuali errori di input
     private $errors_msg =
       array ( 
-              "nome" =>"nome non valido",
-              "citta" =>"citt&agrave; non valida",
-              "sito" =>"sito web non valido - es. www.dominio.it",
-              "costobiglietto" =>"intero es. 12",
-              "guidaturistica" =>"dato non valido",
-              "duratavisita"=>"in minuti",
-              "biglietto_budget"=>"costo biglietto maggiore costo budget???"
+              "luogo" =>"campo non valido, solo caratteri alfanumerici!",
+              "sitoweb" =>"sito web non valido - es. www.dominio.it!",
+              "costobiglietto" =>"dato non valido es.12 euro!",
+              "guidaturistica" =>"campo non valido, solo caratteri alfanumerici!",
+              "duratavisita"=>"in minuti!",
+              "biglietto_budget"=>"costo biglietto maggiore costo budget???",
+              "campo" => "Campo obbligatorio!"
             );
-              
               
     private $retrivedFields = false;//inizialmente i dati non sono caricati
     
@@ -50,13 +50,14 @@ class Vvalidaluogo extends View
        if (!$this->retrivedFields) 
        {
        		//carico dati  
-         $this->fields['nome']=$dati['nome'];
-         $this->fields['citta']=$dati['nomecitta'];
-         $this->fields['sito']=$dati['sitoweb'];
+         $this->fields['luogo']=$dati['nome'];
+         $this->fields['sitoweb']=$dati['sitoweb'];
+         $this->fields['percorso']=$dati['percorso'];
          $this->fields['costobiglietto']=$dati['costobiglietto'];
          $this->fields['guidaturistica']=$dati['guida'];
          $this->fields['duratavisita']=$dati['durata'];
-         $this->fields['input']=$dati['input'];
+         $this->fields['commento']=$dati['commentolibero'];
+         $this->fields['valuta']=$dati['valuta'];
          
        }
        		$this->retrivedFields = true;
@@ -64,18 +65,17 @@ class Vvalidaluogo extends View
             
      
      public function validacampi($input) 
-    {
+    {  
        $this->retriveFields($input);
-       $this->validanome();
-       $this->validacitta();
+       $this->validaluogo();
        $this->validasito();
-       $this->validacostobiglietto();
+       $this->validacostobiglietto($input);
        $this->validaguidaturistica();
+       $this->validacosti($input);
        $this->validadurata();
-       $this->validabudget();
       
        if ( in_array("true", $this->wrong_fields ) )
-          return false; // esiste almeno un campo di input errato
+          return false; 
        else
           return $this->fields;
           
@@ -96,12 +96,14 @@ class Vvalidaluogo extends View
     
     public function getdatipersonali()
     {
-         $arraydata['nome']=$this->fields['nome'];
-         $arraydata['citta']=$this->fields['citta'];
-         $arraydata['sito']=$this->fields['sito'];
+         $arraydata['luogo']=$this->fields['luogo'];
+         $arraydata['commento']=$this->fields['commento'];
+         $arraydata['percorso']=$this->fields['percorso'];
+         $arraydata['sitoweb']=$this->fields['sitoweb'];
          $arraydata['costobiglietto']=$this->fields['costobiglietto'];
          $arraydata['guidaturistica']=$this->fields['guidaturistica'];
          $arraydata['duratavisita']=$this->fields['duratavisita'];
+         $arraydata['valuta']=$this->fields['valuta'];
          return $arraydata;
      }
     
@@ -110,70 +112,67 @@ class Vvalidaluogo extends View
 
 
 
-   private function validanome()
-   {
-        $pattern = '/^[[:alpha:] ]{3,30}$/';
-        if ( !preg_match( $pattern, $this->fields['nome'] ) )
+   private function validaluogo()
+   {  
+     if($this->fields['luogo']!=null)
+     {   
+        $pattern = '/^[a-zA-Z \' ]{3,40}$/';
+        if ( !preg_match( $pattern, $this->fields['luogo'] ) )
         {
-            $this->wrong_fields['nome'] = "true";
-            $this->messaggi['nome']= $this->errors_msg['nome'];
+            $this->wrong_fields['luogo'] = "true";
+            $this->messaggi['luogo']= $this->errors_msg['luogo'];
          }   
         else
-        {
-            $this->wrong_fields['nome'] = "false";
-        }   
-   }
-    
-    
-    private function validacitta()
-   {
-        $pattern = '/^[[:alpha:] ]{3,30}$/';
-        if ( !preg_match( $pattern, $this->fields['citta'] ) )
-        {
-            $this->wrong_fields['citta'] = "true";
-            $this->messaggi['citta']= $this->errors_msg['citta'];
+        {    
+            $this->wrong_fields['luogo'] = "false";
         }
-        else
-        {
-            $this->wrong_fields['citta'] = "false";
-        }
+      }else
+      {     
+            $this->wrong_fields['campoluogo'] = "true";
+            $this->messaggi['campoluogo']= $this->errors_msg['campo']; 
+      }     
    }
     
    
    private function validasito()
    {
-     if($this->fields['sito']!=null)
-     {
+     if($this->fields['sitoweb']!=null)
+     {   
         $pattern = '/^[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}?$/';
-        if ( !preg_match( $pattern, $this->fields['sito'] ))
+        if ( !preg_match( $pattern, $this->fields['sitoweb'] ))
         {    
-             $this->wrong_fields['sito'] = "true";
-             $this->messaggi['sito']= $this->errors_msg['sito'];
+             $this->wrong_fields['sitoweb'] = "true";
+             $this->messaggi['sitoweb']= $this->errors_msg['sitoweb'];
          }   
         else 
         { 
-             $this->wrong_fields['sito'] = "false";
+             $this->wrong_fields['sitoweb'] = "false";
         } 
-      }
+      }else
+      {
+             $this->wrong_fields['sitoweb'] = "false";
+      } 
    }
    
    
-   private function validacostobiglietto()
+   private function validacostobiglietto($a)
    {
      if($this->fields['costobiglietto']!=null)
      {
-        $pattern = '/^[0-9]{1,6}$/';
+        $pattern = '/^[0-9]{1,3}$/';
         if ( !preg_match( $pattern, $this->fields['costobiglietto'] )) 
         {
             $this->wrong_fields['costobiglietto'] = "true";
             $this->messaggi['costobiglietto']= $this->errors_msg['costobiglietto'];
         }
-        
         else
         { 
              $this->wrong_fields['costobiglietto'] = "false"; 
         }
-      }
+      }else
+      {
+             $this->wrong_fields['costobiglietto'] = "false";
+      }   
     }
     
     
@@ -181,7 +180,7 @@ class Vvalidaluogo extends View
    {
       if($this->fields['guidaturistica']!=null)
       {
-        $pattern = '/^[[:alpha:] ]{2,50}$/';
+        $pattern = '/^[a-zA-Z \' ]{2,50}$/';
         if ( !preg_match( $pattern, $this->fields['guidaturistica'] )) 
         {
             $this->wrong_fields['guidaturistica'] = "true";
@@ -192,7 +191,10 @@ class Vvalidaluogo extends View
         { 
              $this->wrong_fields['guidaturistica'] = "false"; 
         }
-       } 
+      }else
+      {
+             $this->wrong_fields['guidaturistica'] = "false";
+      }   
     }
     
     
@@ -211,27 +213,30 @@ class Vvalidaluogo extends View
         { 
              $this->wrong_fields['duratavisita'] = "false"; 
         }
-      } 
+      }else
+      {
+             $this->wrong_fields['duratavisita'] = "false";
+      }
     }
     
     
-    private function validabudget()
-   {
-      if($this->fields['costobiglietto']!=null)
-      {   //var_dump($this->fields['input']);
-        if ( $this->fields['input']< $this->fields['costobiglietto'] ) 
+    private function validacosti($input)
+    {
+      if($input['costobiglietto'] !=null)
+      { 
+        if($input['budget'] < $input['costobiglietto'])
+        {   
+            $this->wrong_fields['biglietto_budget'] = "true";
+            $this->messaggi['biglietto_budget']= $this->errors_msg['biglietto_budget'];
+        }else
         {
-            $this->wrong_fields['budget'] = "true";
-            $this->messaggi['budget']= $this->errors_msg['budget'];
+            $this->wrong_fields['biglietto_budget'] = "false";
         }
-        
-        else
-        { 
-             $this->wrong_fields['budget'] = "false"; 
-        }
+      }else
+      {
+          $this->wrong_fields['biglietto_budget'] = "false";  
       }  
     }
-   
-   
+    
 }
 ?>

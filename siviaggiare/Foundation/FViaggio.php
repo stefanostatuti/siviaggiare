@@ -19,11 +19,11 @@ class FViaggio extends FDatabase
         USingleton::getInstance('FDatabase');
     }
 
-
     public function store( $object )
     {
         $id = parent::store($object);
         $object->id=$id;
+        return $object->id;// forse non serve
     }
 
 
@@ -33,9 +33,6 @@ class FViaggio extends FDatabase
             'FROM `'.$this->tabella.'` ' .
             'WHERE `'.$this->chiave.'` = \''.$id.'\'';
         $obj=parent::getObject(parent::query($query));
-        //debug("query fatta!");
-        //var_dump($obj);
-        //debug("ecco l'oggetto ricevuto".$obj);
         return $obj;
     }
 
@@ -51,9 +48,9 @@ class FViaggio extends FDatabase
             'FROM `'.$this->tabella.'` ' .
             'WHERE `'.$this->chiave.'` = \''.$id.'\'';
         unset($object);
-
-        $Fdb= new FDatabase();//mi serve per ottenere il metodo query da FDB
-        return $Fdb->query($query);
+        $obj=parent::getObject(parent::query($query));
+        return $obj;
     }
+
 
 }

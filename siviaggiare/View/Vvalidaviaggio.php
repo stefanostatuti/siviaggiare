@@ -22,11 +22,13 @@ class Vvalidaviaggio extends View
   // messaggi in caso di eventuali errori di input
     private $errors_msg =
       array (
-              "data" => "gg/mm/aaaa",
-              "date"=> "data fine minore di data inizio!!!!!",
-              "costotrasporto"=> "dato non valido  es. 12",
-              "budget" => "dato non valido es.12 ",
-              "costo_budget"=>"budget minore del costo trasporto??"
+              "datainizio" => "data non valida!",
+              "datafine" => "data non valida!",
+              "date" => "data inizio maggiore data fine?", 
+              "costotrasporto" => "dato non valido  es. 12 euro! ",
+              "budget" => "dato non valido es.12 euro! ",
+              "costo_budget" => "budget minore del costo trasporto? ",
+              "campo" => "campo obbligatorio! "
             );
               
               
@@ -64,9 +66,9 @@ class Vvalidaviaggio extends View
        $this->retriveFields($input);
        $this->validadatainizio();
        $this->validadatafine();
+       $this->validadate();
        $this->validacosto();
        $this->validabudget();
-       $this->validadata();
        $this->validacosti();
       
        if ( in_array("true", $this->wrong_fields ) )
@@ -80,7 +82,7 @@ class Vvalidaviaggio extends View
     public function getErrors() 
     {
        if ( in_array("true", $this->wrong_fields ) )
-       {
+       {  
           return $this->messaggi;
           
           }
@@ -92,10 +94,12 @@ class Vvalidaviaggio extends View
     public function getdatipersonali()
     {
          $arraydata['datainizio']=$this->fields['datainizio'];
-         $arraydata['datafine']=$this->fields['datafine'];
+         $arraydata['datafine']=$this->fields['datafine']; 
          $arraydata['mezzotrasporto']=$this->fields['mezzotrasporto'];
          $arraydata['costotrasporto']=$this->fields['costotrasporto'];
          $arraydata['budget']=$this->fields['budget'];
+         $arraydata['valutatrasporto']=$this->fields['valutatrasporto'];
+         $arraydata['valutabudget']=$this->fields['valutabudget'];
          return $arraydata;
      }
 
@@ -103,56 +107,36 @@ class Vvalidaviaggio extends View
 // -------------------------------------------- private functions
 
 
-    
-   private function validadatainizio()//da finire
-   {
-        $pattern = '/^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$/';
-        if ( !preg_match( $pattern, $this->fields['datainizio'] ) )
-        {
-            $this->wrong_fields['datainizio'] = "true";
-            $this->messaggi['datainizio']= $this->errors_msg['data'];
-         }   
-        else
-        {
-            $this->wrong_fields['datainizio'] = "false";
-        }   
-   }
-    
-    
-    private function validadatafine()//da finire
-   {
-        $pattern = '/^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$/';
-        if ( !preg_match( $pattern, $this->fields['datafine'] ) )
-        {
-            $this->wrong_fields['datafine'] = "true";
-            $this->messaggi['datafine']= $this->errors_msg['data'];
-        }
-        else
-        {
-            $this->wrong_fields['datafine'] = "false";
-        }
-   }
-    
    
    private function validacosto()
-   {
-     
+   { 
+      if ($this->fields['costotrasporto'] != null)
+      {
         $pattern = '/^[0-9]{1,6}$/';
         if ( !preg_match( $pattern, $this->fields['costotrasporto'] ))
         {    
              $this->wrong_fields['costotrasporto'] = "true";
              $this->messaggi['costotrasporto']= $this->errors_msg['costotrasporto'];
+             
          }   
         else 
         { 
              $this->wrong_fields['costotrasporto'] = "false";
-        }    
+        }
+      }else
+      {
+            
+             $this->wrong_fields['campocostotras'] = "true";
+             $this->messaggi['campocostotras']= $this->errors_msg['campo'];
+      }      
+      
    }
    
    
    private function validabudget()
-   {
-   
+   {  
+      if ($this->fields['budget'] != null)
+      {
         $pattern = '/^[0-9]{1,6}$/';
         if ( !preg_match( $pattern, $this->fields['budget'] )) 
         {
@@ -164,24 +148,18 @@ class Vvalidaviaggio extends View
         { 
              $this->wrong_fields['budget'] = "false"; 
         }
+      }else
+      {
+             $this->wrong_fields['campobudget'] = "true";
+             $this->messaggi['campobudget']= $this->errors_msg['campo'];
+      }  
+      
     }
    
     
-    private function validadata()
-    {
-         if($this->fields['datainizio']<$this->fields['datafine'])
-         {
-             $this->wrong_fields['date'] = "false";
-         }else
-         {
-              $this->wrong_fields['date'] = "true";
-              $this->messaggi['date']= $this->errors_msg['date'];
-         }
-    }
-    
     private function validacosti()
-    {
-         if($this->fields['budget']<$this->fields['costotrasporto'])
+    {    
+         if($this->fields['budget'] < $this->fields['costotrasporto'])
          {
              $this->wrong_fields['costo_budget'] = "true";
              $this->messaggi['costo_budget']= $this->errors_msg['costo_budget'];
@@ -191,6 +169,47 @@ class Vvalidaviaggio extends View
          }
     }
     
-      
+    
+    private function validadatainizio()
+    {
+      if ($this->fields['datainizio'] != null)
+      {  
+      }else
+      {
+           $this->wrong_fields['campodatainizio'] = "true";
+           $this->messaggi['campodatainizio']= $this->errors_msg['campo'];
+      } 
+    }
+    
+    
+    private function validadatafine()
+    {
+      if ($this->fields['datafine'] != null)
+      {  
+      }else
+      {
+             $this->wrong_fields['campodatafine'] = "true";
+             $this->messaggi['campodatafine']= $this->errors_msg['campo'];
+      } 
+    }
+    
+    
+    private function validadate()
+    {
+            $datain=list( $monthi , $dayi, $yeari ) = explode('/',$this->fields['datainizio']);
+            $datafin=list( $monthf , $dayf, $yearf ) = explode('/',$this->fields['datafine']);
+            $datain[0]=intval($datain[0]);
+            $datain[1]=intval($datain[1]);
+            $datafin[0]=intval($datafin[0]);
+            $datafin[1]=intval($datafin[1]);
+            if($datain[0] <= $datafin[0] || $datain[1] <= $datafin[1] || $datain[2]<= $datafin[2])
+            {
+                   $this->wrong_fields['date'] = "false";                    
+            }else
+            {  
+                   $this->wrong_fields['date'] = "true";
+                   $this->messaggi['date']= $this->errors_msg['date'];
+            }       
+    }   
 }
 ?>

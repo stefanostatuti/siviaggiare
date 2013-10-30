@@ -7,17 +7,22 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class FCommento extends FDatabase           //TUTTA DA VEDERE   !!!!
+class FCommento extends FDatabase
 {
 
     public function __construct()
     {
         $this->tabella='commento';
-        $this->chiave=array('idcommento','autore');
-        //$this->chiave='autore';
+        $this->chiave='id';
         $this->classe='ECommento';
         $this->auto_incremento=true;
         USingleton::getInstance('FDatabase');
+    }
+
+    public function store( $object )
+    {
+        $id = parent::store($object);
+        $object->id=$id;
     }
 
 
@@ -25,13 +30,11 @@ class FCommento extends FDatabase           //TUTTA DA VEDERE   !!!!
     {
         $query='SELECT * ' .
             'FROM `'.$this->tabella.'` ' .
-            'WHERE `'.$this->chiave[0].'` = \''.$idcommento.'\'';
+            'WHERE `'.$this->chiave.'` = \''.$idcommento.'\'';
         $obj=parent::getObject(parent::query($query));
-        debug("query fatta!");
-        var_dump($obj);
-        //var_dump("ecco l'oggetto ricevuto".$obj);
         return $obj;
     }
+
 
     //questo metodo sotto probabilmente è deprecabile richiamando la load in FDatabase
     // e si lascia come chiave SOLO idcommento
@@ -41,9 +44,6 @@ class FCommento extends FDatabase           //TUTTA DA VEDERE   !!!!
             'FROM `'.$this->tabella.'` ' .
             'WHERE `'.$this->chiave['1'].'` = \''.$array[0].'\''; //chiave ['1'] è l'indice della chiave al posto 1 cioè 'autore'
         $obj=parent::getObjectInArray(parent::query($query));
-        //debug("query fatta!");
-        //var_dump($obj);
-        //var_dump("ecco l'oggetto ricevuto".$obj);
         return $obj;
     }
 
@@ -53,15 +53,14 @@ class FCommento extends FDatabase           //TUTTA DA VEDERE   !!!!
      * @param object $object
      * @return boolean
      */
-    public function deleteCommento($id)
+    public function deleteCommento($id)     //CONTROLLARE SE FUNZIONA (DAVEDERE)
     {
         $query='DELETE ' .
             'FROM `'.$this->tabella.'` ' .
-            'WHERE `'.$this->chiave['0'].'` = \''.$id.'\'';
-        unset($object);
-
-        $Fdb= new FDatabase();//mi serve per ottenere il metodo query da FDB
-        return $Fdb->query($query);
+            'WHERE `'.$this->chiave.'` = \''.$id.'\'';
+        unset($object);////CONTROLLARE SE SERVE!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        $obj=parent::getObjectInArray(parent::query($query));
+        return $obj;
     }
 }
 ?>

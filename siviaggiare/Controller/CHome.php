@@ -29,11 +29,22 @@ class CHome
             case 'aggiunta_viaggio':
                 $CViaggio=USingleton::getInstance('CViaggio');
                 return $CViaggio->smista();
+            case 'info':
+                return $this->info();
+            case 'contattaci':
+                return $this->contattaci();
+            case 'modifica':
+                $CModifica=USingleton::getInstance('CModifica');
+                return $CModifica->smista();
+            case 'profilo':
+                $CProfilo=USingleton::getInstance('CProfilo');
+                return $CProfilo->smista();
             case 'amministrazione':
                 $CAdmin=USingleton::getInstance('CAdmin');
                 return $CAdmin->smista();
             default:
-                return $view->mostraESEMPIOCSS();  ///QUA CI ANDRA LA BARRA DI RICERCA X DEFAULT
+                $CRicerca=USingleton::getInstance('CRicerca');
+                return $CRicerca->impostaPaginaRicerca();
         }
         }
 
@@ -42,21 +53,27 @@ class CHome
         */
         public function impostaPagina ()
         {
-        $CRegistrazione=USingleton::getInstance('CRegistrazione');
-        $VHome= USingleton::getInstance('VHome');
-        $contenuto=$this->smista();
-        $VHome->impostaContenuto($contenuto);
-
-        $registrato=null;  //creo $registrato
-        $registrato=$CRegistrazione->getAdmin(); //metto in registrato il risultato di getAdmin()
-        if ($registrato == 1) //quindi è un admin
+            $VHome=USingleton::getInstance('VHome');
+            $controller=$VHome->getController();
+            $task=$VHome->getTask();
+            if($controller=='ricerca')
+            {
+                $CRicerca=USingleton::getInstance('CRicerca');
+                return $CRicerca->smista();
+            }
+            $CRegistrazione=USingleton::getInstance('CRegistrazione');
+            $contenuto=$this->smista();
+            $VHome->impostaContenuto($contenuto);
+            $registrato=null;  //creo $registrato
+            $registrato=$CRegistrazione->getAdmin(); //metto in registrato il risultato di getAdmin()
+            if ($registrato == 1) //quindi è un admin
             {
                 $VHome->impostaPaginaAdmin();
                 $VHome->mostraPagina();
             }
-        elseif($registrato== 0) //se $registrato è 0 (quindi non è un Admin)
+            elseif($registrato== 0) //se $registrato è 0 (quindi non è un Admin)
             {
-            $registrato=$CRegistrazione->getUtenteRegistrato(); //qua $registrato viene sovrascritto con false o true
+                $registrato=$CRegistrazione->getUtenteRegistrato(); //qua $registrato viene sovrascritto con false o true
                 if ($registrato==false)
                 {
                     $VHome->impostaPaginaOspite();
@@ -68,6 +85,18 @@ class CHome
                     $VHome->mostraPagina();
                 }
             }
+        }
+
+        public function info()
+        {
+            $VHome=USingleton::getInstance('VHome');
+            return $VHome->processaTemplate('home_info.tpl');
+        }
+
+        public function contattaci()
+        {
+            $VHome=USingleton::getInstance('VHome');
+            return $VHome->processaTemplate('home_contattaci.tpl');
         }
 }
 

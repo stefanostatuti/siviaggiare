@@ -15,10 +15,12 @@ class ELuogo
     public $sitoweb;
     public $percorso;
     public $costobiglietto;
+    public $valuta;
     public $guida;
     public $coda;
     public $durata;
     public $commentolibero;
+    public $feedback;
     public $_elenco_commenti = array();
 
 
@@ -29,11 +31,10 @@ class ELuogo
     }
 
 
-    public function getElencoCommenti() //DA VEDERE la dovrebbero aver fatta checco e riccardo
+    public function getElencoCommenti()
     {
         $FCommento=new FCommento();
-        //$this->_elenco_commenti=$FCommento->;
-            //loadRicerca('idviaggio',$this->idviaggio);
+        $this->_elenco_commenti=$FCommento->loadRicercaConTreValori('idviaggio',$this->idviaggio,'nomecitta',$this->nomecitta,'nomeluogo',$this->nome);
         //debug($this->_elenco_luoghi);
         return $this->_elenco_commenti;
     }

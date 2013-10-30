@@ -1,89 +1,124 @@
 <div class="content">
     <div class="form_settings">
-        <div class="error">{$errore}
-            <legend><h4>Inserisci i seguenti dati: </h4></legend>
+        <script type="text/javascript" src="templates/main/template/js/validation_reg.js"></script>
+        <form method="post" action="index.php" id="form_register">
+            <div id="form_register" class="error">{$errore}
 
-            <table>
-                <form method="post" action="index.php">
-                    <tr>
-                        <td> Username: </td>
-                        <td> <input type="text" name="username"  maxlength="20" value="{$persona.user}"/> </td>
-                        {if $messaggi.user != false || $messaggi.userdata != false }
-                            <td class="error">
-                                {if $messaggi.user != 'false'} {$messaggi.user}  {/if}
-                                {if $messaggi.userdata != 'false'} {$messaggi.userdata}  {/if}
-                            </td>
+
+
+
+                {literal}<script type="text/javascript">
+                    $(function ()
+                    {
+                        $("#reg_pass1").complexify({}, function (valid, complexity)
+                        {
+                            document.getElementById("PassValue").value = complexity;
+                        });
+                    });
+                </script>{/literal}
+
+
+                {literal}<script type="text/javascript">
+                    $(function ()
+                    {
+                        $("#reg_pass1").complexify({}, function (valid, complexity)
+                        {
+                            document.getElementById("PassValue").value = complexity;
+                        });
+                    });
+                </script>{/literal}
+
+
+
+                <legend id="form_register"><h4>Inserisci i seguenti dati : </h4></legend>
+
+
+
+                <fieldset>
+                    <label for="reg_user">Username* :</label>
+                    <input type="text" name="username" id="reg_user" maxlength="20" value="{$persona.user}" />
+                    {if $messaggi.user != false || $messaggi.userdata != false || $messaggi.campouser != false }
+                        <p class="error">
+                            {if $messaggi.user != 'false'} {$messaggi.user}  {/if}
+                            {if $messaggi.userdata != 'false'} {$messaggi.userdata}  {/if}
+                            {if $messaggi.campouser != 'false'} {$messaggi.campouser}  {/if}
+                        </p>
+                    {/if}
+
+                    <label for="reg_cognome">Cognome* :</label>
+                    <input type="text" name="cognome" id="reg_cognome" maxlength="20" value="{$persona.cognome}" />
+                    {if $messaggi.cognome != false || $messaggi.campocognome != false}
+                        <p class="error">
+                            {if $messaggi.cognome != 'false'} {$messaggi.cognome} {/if}
+                            {if $messaggi.campocognome != 'false'} {$messaggi.campocognome}  {/if}
+                        </p>
+                    {/if}
+
+                    <label for="reg_nome">Nome* :</label>
+                    <input type="text" name="nome" id="reg_nome" maxlength="20" value="{$persona.nome}"/>
+                    {if $messaggi.nome != false || $messaggi.camponome != false}
+                    <p class="error">
+                        {if $messaggi.nome != 'false'} {$messaggi.nome} {/if}
+                        {if $messaggi.camponome != 'false'} {$messaggi.camponome}  {/if}
                         {/if}
-                    </tr>
-                    <tr>
-                        <td> Cognome: </td>
-                        <td> <input type="text" name="cognome" maxlength="20" value="{$persona.cognome}"/> </td>
-                        {if $messaggi.cognome != false}
-                        <td class="error">
-                            {$messaggi.cognome}
-                        </td>
-                            {/if}
-                    </tr>
-                    <tr>
-                        <td > Nome: </td>
-                        <td> <input type="text" name="nome" maxlength="20" value="{$persona.nome}"/></td>
-                        {if $messaggi.nome != false}
-                        <td class="error">
-                            {$messaggi.nome}
-                            {/if}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td> Citt&agrave: </td>
-                        <td> <input type="text" name="residenza" maxlength="20" value="{$persona.residenza}"/></td>
-                        {if $messaggi.residenza != false}
-                        <td class="error">
-                            {$messaggi.residenza}
-                            {/if}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td> Nazione: </td>
-                        <td> <input type="text" name="nazione" maxlength="20" value="{$persona.nazione}"/></td>
-                        {if $messaggi.nazione != false}
-                        <td class="error">
-                            {$messaggi.nazione}
-                            {/if}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td> Email: </td>
-                        <td> <input type="text" name="mail" maxlength="30" value="{$persona.mail}" /></td>
-                        {if $messaggi.mail != false}
-                        <td class="error">
-                            {$messaggi.mail}
-                            {/if}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td> Password: </td>
-                        <td> <input type="password" name="password" maxlength="20" value="{$persona.password}" /></td>
-                        {if $messaggi.password != false}
-                        <td class="error">
-                            {$messaggi.password}
-                            {/if}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td> Conferma Password: </td>
-                        <td> <input type="password" name="password_1" maxlength="20" value="{$persona.password_1}" /></td>
-                        {if $messaggi.password != false || $messaggi.password2 != false}
-                        <td class="error">
+                    </p>
+
+                    <label for="reg_residenza">Citt&agrave* :</label>
+                    <input type="text" name="residenza" id="reg_citta" maxlength="20" value="{$persona.residenza}" />
+                    {if $messaggi.residenza != false || $messaggi.camporesidenza != false}
+                    <p class="error">
+                        {if $messaggi.residenza != 'false'} {$messaggi.residenza} {/if}
+                        {if $messaggi.camporesidenza != 'false'} {$messaggi.camporesidenza}  {/if}
+                        {/if}
+                    </p>
+
+                    <label for="reg_nazione">Nazione* :</label>
+                    <input type="text" name="nazione" id="reg_nazione" maxlength="20" value="{$persona.nazione}" />
+                    {if $messaggi.nazione != false || $messaggi.camponazione != false}
+                    <p class="error">
+                        {if $messaggi.nazione != 'false'} {$messaggi.nazione} {/if}
+                        {if $messaggi.camponazione != 'false'} {$messaggi.camponazione}  {/if}
+                        {/if}
+                    </p>
+
+                    <label for="reg_email">Email* :</label>
+                    <input type="text" name="mail" id="reg_email" maxlength="30" value="{$persona.mail}"/>
+                    {if $messaggi.mail != false || $messaggi.campomail != false}
+                    <p class="error">
+                        {if $messaggi.mail != 'false'} {$messaggi.mail} {/if}
+                        {if $messaggi.campomail != 'false'} {$messaggi.campomail}  {/if}
+                        {/if}
+                    </p>
+
+
+                    <label for="reg_pass1">Password* :</label>
+                    <input type="password" class="reg_pass1" name="password"  maxlength="20" value="{$persona.password}" />
+                    {if $messaggi.password != false || $messaggi.campopassword != false}
+                    <p class="error">
+                        {if $messaggi.password != 'false'} {$messaggi.password} {/if}
+                        {if $messaggi.campopassword != 'false'} {$messaggi.campopassword}  {/if}
+                        {/if}
+                    </p>
+
+                    <label for="reg_pass1">Conferma Password* :</label>
+                    <input type="password" class="reg_pass1" name="password_1" maxlength="20" value="{$persona.password_1}" />
+                    {if $messaggi.password != false || $messaggi.password2 != false || $messaggi.campo != false}
+                        <p class="error">
                             {if $messaggi.password != 'false'} {$messaggi.password}  {/if}
                             {if $messaggi.password2 != 'false'} {$messaggi.password2}  {/if}
-                        </td>
-                            {/if}
-                    </tr>
-            </table>
-            <input type="hidden" name="controller" value="registrazione" />
-            <input type="hidden" name="task" value="salva" />
-            <input type="submit" class="submit" value="invia dati" />
-            </form>
-        </div>
+                            {if $messaggi.campopassword != 'false'} {$messaggi.campopassword}  {/if}
+                        </p>
+                    {/if}
+
+                    <h2 id="strong">Robustezza password  <meter value="0" id="PassValue" max="100"></meter><h2>
+
+
+                            <input type="hidden" name="controller" value="registrazione" />
+                            <input type="hidden" name="task" value="salva" />
+                            <input type="submit" name="register" class="submit" value="invia dati" id="reg_submit" />
+                            <input type="reset" name="cancella" value="cancella" id="reg_reset" />
+                </fieldset>
+        </form>
     </div>
+</div>
 </div>

@@ -13,8 +13,8 @@ class VHome extends View
     private $_layout='default';
     private $_contenuto_principale;
     private $_contenuto_laterale_destro;
-    private $_contenuto_laterale_sinistro;
-
+    private $_contenuto_laterale_sinistro_basso;
+    private $_contenuto_laterale_sinistro_alto;
 
 
            //metodi pubblic:
@@ -28,13 +28,13 @@ class VHome extends View
             return false;
     }
 
-
-    /*public function mostraPaginaIniziale()
+    public function getTask()
     {
-        //$this->assign('right_content',$this->_side_content);
-        //$this->assign('tasti_laterali',$this->_side_button);
-        $this->display('home_default.tpl');
-    }*/
+        if (isset($_REQUEST['task']))
+            return $_REQUEST['task'];
+        else
+            return false;
+    }
 
 
     /**
@@ -44,7 +44,8 @@ class VHome extends View
     {
         $this->assign('contenuto_principale',$this->_contenuto_principale);
         $this->assign('contenuti_menu_destro1',$this->_contenuto_laterale_destro);
-        $this->assign('contenuti_menu_sinistro1',$this->_contenuto_laterale_sinistro);
+        $this->assign('contenuti_menu_sinistro1',$this->_contenuto_laterale_sinistro_alto);
+        $this->assign('contenuti_menu_sinistro2',$this->_contenuto_laterale_sinistro_basso);
         $this->display('home_'.$this->_layout.'.tpl');
     }
 
@@ -67,11 +68,9 @@ class VHome extends View
     public function impostaPaginaOspite()
     {
         $this->assign('titolo','YesYouTravel - Home');
-        //$this->assign('content_title','Benvenuto ospite');
-        //$this->assign('contenuto_principale',$this->_contenuto_principale);
-        //$this->assign('menu',$this->_main_button);
         $this->aggiungiModuloLogin();
         $this->aggiungiModuloAboutRegistrazione();
+        $this->aggiungiModuloRicerca();
     }
 
 
@@ -90,12 +89,12 @@ class VHome extends View
         $VRegistrazione=USingleton::getInstance('VRegistrazione');
         $VRegistrazione->setLayout('about');
         $modulo_about=$VRegistrazione->processaTemplate();
-        $this->_contenuto_laterale_sinistro.=$modulo_about;
+        $this->_contenuto_laterale_sinistro_alto.=$modulo_about;
     }
 
 
     /**
-     * Imposta la pagina per gli utenti registrati/autenticati/ e l'admin
+     * Imposta la pagina per gli utenti registrati/autenticati
      */
     public function impostaPaginaAutenticato()
     {
@@ -105,10 +104,12 @@ class VHome extends View
             $this->impostaPaginaAdmin(); //metto il tpl admin
         }
         else{
-        $this->assign('titolo','YesYouTravel - Home Loggato');
-        $this->aggiungiModuloAutenticato();
-        }
+            $this->assign('titolo','YesYouTravel - Home Loggato');
+            $this->aggiungiModuloAutenticato();
+            $this->aggiungiModuloRicerca();
+            $this->aggiungiModuloProfilo();
 
+        }
     }
 
     public function impostaPaginaAdmin()
@@ -117,6 +118,7 @@ class VHome extends View
         $this->assign('titolo','YesYouTravel - Home Admin');
         $this->aggiungiModuloAdmin();
     }
+
 
 
     public function aggiungiModuloAutenticato()
@@ -128,7 +130,6 @@ class VHome extends View
         $VRegistrazione->impostaDati('username',$username);
         $modulo_logout=$VRegistrazione->processaTemplate();
         $this->_contenuto_laterale_destro.=$modulo_logout;
-
     }
 
     public function aggiungiModuloAdmin()
@@ -143,12 +144,36 @@ class VHome extends View
     }
 
 
-    /*QUESTO METODO ANDRA TOLTO PERCHE CI ANDRA IL MODULO PER LA RICERCA (IN ALTRA CLASSE)*/
-    public function mostraESEMPIOCSS()
+    public function aggiungiModuloProfilo()
     {
+        $session=USingleton::getInstance('USession');//contenuto laterale sx
+        $username=$session->leggi_valore('username');
+        $nome=$session->leggi_valore('nome_cognome');
         $VRegistrazione=USingleton::getInstance('VRegistrazione');
-        $VRegistrazione->setLayout('ESEMPIOCSS');
-        return $modulo_esempioCSS=$VRegistrazione->processaTemplate();
+        $VRegistrazione->setLayout('profilo');
+        $VRegistrazione->impostaDati('username',$username);
+        $modulo_logout=$VRegistrazione->processaTemplate();
+        $this->_contenuto_laterale_sinistro_alto.=$modulo_logout;
+    }
+
+
+    public function aggiungiModuloRicerca()
+    {
+        $VRicerca=USingleton::getInstance('VRicerca');
+        $VRicerca->setLayout('menu_ricerca_laterale');
+        $FCitta= new FCitta;
+        $citta=$FCitta->loadRicercaFeedbackLimite(5);
+        $VRicerca->impostaDati('cittafeedback',$citta);
+        $FLuogo= new FCitta;
+        $luogo=$FLuogo->loadRicercaFeedbackLimite(5);
+        $modulo_ricerca=$VRicerca->processaTemplate();
+        $this->_contenuto_laterale_sinistro_basso.=$modulo_ricerca;
+
+    }
+
+    public function processaTemplate($layout)
+    {
+        return $this->fetch($layout);
     }
 }
 ?>

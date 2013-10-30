@@ -9,7 +9,7 @@
 
 class ECommento 
 {
-    public $idcommento;
+    public $id;
     public $idviaggio;
     public $nomeluogo;
     public $nomecitta;
@@ -19,6 +19,6 @@ class ECommento
 
     public function getIDCommento()
     {
-        return $this->idcommento;
+        return $this->id;
     }
 }

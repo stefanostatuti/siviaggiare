@@ -1,7 +1,8 @@
-<div class="content">
+<div class="content" id="form_journey">
     <div class="form_settings">
-        <h3>Citta inserite da te:</h3>
-        <table>
+        <h3>Citta inserite:</h3>
+        {if $results}
+            <table id="form_journey">
             <tr>
                 <td><h5>IdViaggio</h5></td>
                 <td><h5>Nome Citta</h5></td>
@@ -10,6 +11,7 @@
                 <td><h5>Data Fine</h5></td>
                 <td><h5></h5></td>
             </tr>
+            {/if}
             {section name=nr loop=$results}
                 <tr {if $smarty.section.nr.iteration is odd} bgcolor="#ccc" {/if}>
                     <td>
@@ -32,12 +34,15 @@
                     </td>
                 </tr>
                 {sectionelse}
-                <tr>
-                    <td class="center">
+                </table>
                         <h5> nessun risultato </h5>
-                    <td>
-                </tr>
             {/section}
         </table>
+        <form method="post"action="index.php" class="left">
+            <input type="hidden" name="controller" value="aggiunta_viaggio" />
+            <input type="hidden" name="task" value="visualizza_viaggio" />
+            <input type="hidden" name="idviaggio" value="{$idviaggio}"/>
+            <input type="submit" class="submit" value="Indietro" id="j_submit" />
+        </form>
     </div>
 </div>

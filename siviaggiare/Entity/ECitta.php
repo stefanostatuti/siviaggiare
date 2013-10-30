@@ -17,7 +17,9 @@ class ECitta
     public $datafine;
     public $tipoalloggio;
     public $costoalloggio;
+    public $valuta;
     public $voto;
+    public $feedback;
     public $_elenco_luoghi = array();//tiene l'elenco dei POI
 
 
@@ -31,7 +33,7 @@ class ECitta
     public function getElencoLuoghi() 
     {
         $FLuogo=new FLuogo();
-        $this->_elenco_luoghi=$FLuogo->loadRicerca('idviaggio',$this->idviaggio);
+        $this->_elenco_luoghi=$FLuogo->loadRicercaConDueValori('idviaggio',$this->idviaggio,'nomecitta',$this->nome);
         //debug($this->_elenco_luoghi);
         return $this->_elenco_luoghi;
     }

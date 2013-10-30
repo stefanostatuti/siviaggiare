@@ -24,15 +24,16 @@ class Vvalidazione extends View
   // messaggi in caso di eventuali errori di input
     private $errors_msg =
       array ( 
-              "user" => "caratteri non validi",
-              "nome" => "da 3 a 20 caratteri alfanumerici",
-              "password" => "da 8 a 16 caratteri",
-              "nazione" => "caratteri non validi",
-              "residenza" => "caratteri non validi",
-              "cognome" => "da 3 a 20 caratteri alfanumerici",
-              "mail" => "formato email non valido - solo formati pippo.pluto@domain.it" ,
-              "password2"=> "le password non sono uguali",
-              "userdata"=>"utente gia usato"
+              "user" => "Usare solo caratteri alfanumerici, numeri,.,-,_!",
+              "nome" => "da 3 a 20 caratteri alfanumerici!",
+              "password" => "da 8 a 16 caratteri!",
+              "nazione" => "da 3 a 20 caratteri alfanumerici!",
+              "residenza" => "da 3 a 20 caratteri alfanumerici!",
+              "cognome" => "da 3 a 20 caratteri alfanumerici!",
+              "mail" => "Email non valida es. pippo.pluto@dominio.it!" ,
+              "password2"=> "le password non sono uguali!",
+              "userdata"=>"utente gia usato!",
+              "campo"=> "campo obbligatorio!"
             );
               
               
@@ -91,12 +92,9 @@ class Vvalidazione extends View
     public function getErrors() 
     {
        if ( in_array("true", $this->wrong_fields ) )
-       {
+       {  
           return $this->messaggi;
-          
-          
-          }
-       else
+       }else
           return false; 
     }
     
@@ -120,81 +118,105 @@ class Vvalidazione extends View
     
 
    private function validauser()
-   {
-     $pattern = '/^[a-zA-Z0-9]{3,20}$/';
+   {   
+     if($this->fields['user'] != null)
+     {  
+        $pattern = '/^[a-zA-Z0-9]{3,15}$/';
         if ( !preg_match( $pattern, $this->fields['user'] ) )
         {
             $this->wrong_fields['user'] = "true";
             $this->messaggi['user']= $this->errors_msg['user'];
-            //var_dump($this->error_msg['user']);
-            //var_dump('user non valido');
-           // var_dump($this->fields['user']);
-         }   
+            
+        }   
         else
         {
             $this->wrong_fields['user'] = "false";
-            //var_dump('user valido');
-         }   
+        }  
+     }else
+     {     
+            $this->wrong_fields['campouser'] = "true";
+            $this->messaggi['campouser']= $this->errors_msg['campo'];
+     }  
+       
    }
     
     
     private function validanome()
    {
-   $pattern = '/^[[:alpha:] ]{3,20}$/';
+     if($this->fields['nome'] != null)
+     { 
+        $pattern = '/^[[:alpha:] ]{3,20}$/';
         if ( !preg_match( $pattern, $this->fields['nome'] ) )
         {
             $this->wrong_fields['nome'] = "true";
             $this->messaggi['nome']= $this->errors_msg['nome'];
-            //var_dump('nome non valido');
         }
         else
         {
             $this->wrong_fields['nome'] = "false";
-            //var_dump('nome  valido');
         }
+      }else
+      {
+            $this->wrong_fields['camponome'] = "true";
+            $this->messaggi['camponome']= $this->errors_msg['campo'];         
+      }  
+      
    }
     
     
     private function validacognome()
    {
-   $pattern = '/^[[:alpha:] ]{3,20}$/';
+     if($this->fields['cognome'] != null)
+     { 
+        $pattern = '/^[[:alpha:] ]{3,20}$/';
         if ( !preg_match( $pattern, $this->fields['cognome'] ) )
         {
             $this->wrong_fields['cognome'] = "true";
             $this->messaggi['cognome']= $this->errors_msg['cognome'];
-            //var_dump('cogn non valido');
         }
         else
         {
             $this->wrong_fields['cognome'] = "false";
-            //var_dump('cogn  valido');
         }
+     }else
+     {
+            $this->wrong_fields['campocognome'] = "true";
+            $this->messaggi['campocognome']= $this->errors_msg['campo'];
+     }   
+     
    }
    
    
    private function validaresidenza()
    {
-     
-      $pattern = '/^[[:alpha:] ]{3,20}$/';
-        if ( !preg_match( $pattern, $this->fields['residenza'] )) //or ($val==NULL) )
+     if($this->fields['residenza'] != null)
+     { 
+        $pattern = '/^[[:alpha:] ]{3,20}$/';
+        if ( !preg_match( $pattern, $this->fields['residenza'] )) 
         {    
              $this->wrong_fields['residenza'] = "true";
              $this->messaggi['residenza']= $this->errors_msg['residenza'];
-             //var_dump('res non valido');
          }   
         else 
         { 
              $this->wrong_fields['residenza'] = "false";
-             //var_dump('res  valido');
          }
+      }else
+      {
+             $this->wrong_fields['camporesidenza'] = "true";
+             $this->messaggi['camporesidenza']= $this->errors_msg['campo'];
+      }
+         
    }
    
    
    private function validanazione()
    {
+     if($this->fields['nazione'] != null)
+     {
    
-      $pattern = '/^[[:alpha:] ]{3,20}$/';
-        if ( !preg_match( $pattern, $this->fields['nazione'] )) //or ($val==NULL) )
+        $pattern = '/^[[:alpha:] ]{3,20}$/';
+        if ( !preg_match( $pattern, $this->fields['nazione'] ))
         {
             $this->wrong_fields['nazione'] = "true";
             $this->messaggi['nazione']= $this->errors_msg['nazione'];
@@ -203,43 +225,59 @@ class Vvalidazione extends View
         else
         { 
              $this->wrong_fields['nazione'] = "false"; 
-             //var_dump('naz  valido');
         }
-    }
+      }else
+      {
+             $this->wrong_fields['camponazione'] = "true";
+             $this->messaggi['camponazione']= $this->errors_msg['campo'];
+      }
+       
+   }
    
    
    private function validamail()
    {
-       // solo email del tipo pippo_23@pluto.it
+     if($this->fields['mail'] != null)
+     {
         $pattern = '/^[_a-z0-9-]{2,15}+(\.[_a-z0-9-]{1,15}+)*@[a-z0-9-]{2,10}+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
         if ( !preg_match( $pattern, $this->fields['mail'] ) )
         {
             $this->wrong_fields['mail'] = "true";
             $this->messaggi['mail']= $this->errors_msg['mail'];
-            //var_dump('mail non valido');
-        }
+        }    
         else
         {
             $this->wrong_fields['mail'] = "false";
-            //var_dump('mail  valido');
         }
+     }else
+     {
+            $this->wrong_fields['campomail'] = "true";
+            $this->messaggi['campomail']= $this->errors_msg['campo'];
+     }   
+     
    }
    
    
    private function validapassword()
    {
-    $pattern = '/^\w{8,16}$/';
+     if($this->fields['password'] != null)
+     {  
+        $pattern = '/^\w{8,16}$/';
         if ( !preg_match( $pattern, $this->fields['password'] ) )
         {
             $this->wrong_fields['password'] = "true";
             $this->messaggi['password']= $this->errors_msg['password'];
-            //var_dump('psw non valido');
         }
         else
         {
             $this->wrong_fields['password'] = "false";
-            //var_dump('psw  valido');
         }
+     }else
+     {
+            $this->wrong_fields['campopassword'] = "true";
+            $this->messaggi['campopassword']= $this->errors_msg['campo'];
+     }   
+     
    }
    
     
@@ -249,31 +287,26 @@ class Vvalidazione extends View
          {
            $this->wrong_fields['password2'] = "true";
            $this->messaggi['password2']= $this->errors_msg['password2'];
-            //var_dump('le psw non valide');
           }
           else
           {
             $this->wrong_fields['password2'] = "false";
-            //var_dump('pss   valido');
           }  
    }
    
    
    private function valuser($dato)
-   {
+   {  
       if($dato['confronto']==true)
          {
            $this->wrong_fields['userdata'] = "true";
            $this->messaggi['userdata']= $this->errors_msg['userdata'];
-            //var_dump('user gia usato ');
           }
           else
           {
             $this->wrong_fields['userdata'] = "false";
-            //var_dump('user  valido');
           }  
-   } 
-   
+   }  
 
 }
 ?>

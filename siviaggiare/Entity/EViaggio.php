@@ -17,6 +17,8 @@ class EViaggio
     public $mezzotrasporto;
     public $costotrasporto;
     public $budget;
+    public $valutabudget;
+    public $valutatrasporto;
     public $_elenco_citta = array();//tiene l'elenco dei POI
 
 
@@ -31,7 +33,6 @@ class EViaggio
     {
         $FCitta=new FCitta();
         $this->_elenco_citta=$FCitta->loadRicerca('idviaggio',$this->id);
-        //debug($this->_elenco_citta);
         return $this->_elenco_citta;
     }
 
@@ -40,6 +41,5 @@ class EViaggio
     {
         return $this->id;
     }
-
 
 }

@@ -6,8 +6,18 @@
     <meta name="keywords" content="website keywords, website keywords" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="templates/main/template/css/style.css" />
-    <!-- modernizr enables HTML5 elements and feature detects -->
-    <!--<script type="text/javascript" src="js/modernizr-1.5.min.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="templates/main/template/css/ratingbar.css" />
+    <link rel="stylesheet" href="templates/main/template/js/jquery-ui-1.10.3.custom/development-bundle/themes/base/jquery.ui.all.css" />
+    <script type="text/javascript" src="templates/main/template/js/jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="templates/main/template/js/jquery.validate.js"></script>
+    <script type="text/javascript" src="templates/main/template/js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
+    <script type="text/javascript" src="templates/main/template/js/jquery-ui-1.10.3.custom/development-bundle/ui/jquery.ui.widget.js"></script>
+    <script type="text/javascript" src="templates/main/template/js/jquery-ui-1.10.3.custom/development-bundle/ui/jquery.ui.autocomplete.js"></script>
+    <script type="text/javascript" src="templates/main/template/js/jquery-ui-1.10.3.custom/development-bundle/ui/jquery.ui.accordion.js"></script>
+    <script type="text/javascript" src="templates/main/template/js/mio.js"></script>
+    <script type="text/javascript" src="templates/main/template/js/jquery.ratingbar.js"></script>
+    <script type="text/javascript" src="templates/main/template/js/jquery.complexify.js"></script>
+
 </head>
 
 <body>
@@ -23,28 +33,9 @@
         <nav>
             <div id="menu_container">
                 <ul class="sf-menu" id="nav">
-                    <li><a href>Home</a></li>
-                    <li><a href="examples.html">Examples</a></li>
-                    <li><a href="page.html">A Page</a></li>
-                    <li><a href="another_page.html">Another Page</a></li>
-                    <li><a href="#">Example Drop Down</a>
-                        <ul>
-                            <li><a href="#">Drop Down One</a></li>
-                            <li><a href="#">Drop Down Two</a>
-                                <ul>
-                                    <li><a href="#">Sub Drop Down One</a></li>
-                                    <li><a href="#">Sub Drop Down Two</a></li>
-                                    <li><a href="#">Sub Drop Down Three</a></li>
-                                    <li><a href="#">Sub Drop Down Four</a></li>
-                                    <li><a href="#">Sub Drop Down Five</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Drop Down Three</a></li>
-                            <li><a href="#">Drop Down Four</a></li>
-                            <li><a href="#">Drop Down Five</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="contact.php">Contact Us</a></li>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="index.php?controller=info">Info</a>
+                    <li><a href="index.php?controller=contattaci">Contattaci</a></li>
                 </ul>
             </div>
         </nav>
@@ -52,33 +43,10 @@
     <div id="site_content">
         <div id="sidebar_container">
             {$contenuti_menu_sinistro1}
-            <div class="sidebar">
-                <h3>Latest News</h3>
-                <h4>New Website Launched</h4>
-                <h5>January 1st, 2013</h5>
-                <p>2013 sees the redesign of our website. <a href="#">Read more</a></p>
-            </div>
-            <div class="sidebar">
-                <h3>Useful Links</h3>
-                <ul>
-                    <li><a href="#">First Link</a></li>
-                    <li><a href="#">Another Link</a></li>
-                    <li><a href="#">And Another</a></li>
-                    <li><a href="#">Last One</a></li>
-                </ul>
-            </div>
+            {$contenuti_menu_sinistro2}
         </div>
         <div id="sidebar_container2">
             {$contenuti_menu_destro1}
-            <div class="sidebar">
-                <h3>Useful Links</h3>
-                <ul>
-                    <li><a href="#">First Link</a></li>
-                    <li><a href="#">Another Link</a></li>
-                    <li><a href="#">And Another</a></li>
-                    <li><a href="#">Last One</a></li>
-                </ul>
-            </div>
         </div>
         {$contenuto_principale}
     </div>
@@ -86,8 +54,8 @@
         <a title="Scroll to the top" class="top" href="#"><img src="images/top.png" alt="top" /></a>
     </div>
     <footer>
-        <p><img src="images/twitter.png" alt="twitter" />&nbsp;<img src="images/facebook.png" alt="facebook" />&nbsp;<img src="images/rss.png" alt="rss" /></p>
-        <p><a href="index.html">Home</a> | <a href="examples.html">Examples</a> | <a href="page.html">A Page</a> | <a href="another_page.html">Another Page</a> | <a href="contact.php">Contact Us</a></p>
+        <p><img src="/images/twitter.png" alt="twitter" />&nbsp;<img src="/images/facebook.png" alt="facebook" />&nbsp;<img src="/images/rss.png" alt="rss" /></p>
+        <p><a href="index.php">Home</a>   <a href="index.php?controller=contattaci">Contattaci</a></p>   <a href="index.php?controller=info">Info</a></p>
         <p>Copyright &copy; CSS3_grass | <a href="http://www.css3templates.co.uk">design from css3templates.co.uk</a></p>
     </footer>
 </div>

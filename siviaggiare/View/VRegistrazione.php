@@ -61,6 +61,16 @@ class VRegistrazione extends View
             return false;
     }
 
+    public function unsetControllerTask()
+    {
+        if (isset($_REQUEST['controller']))
+            unset($_REQUEST['controller']);
+        if (isset($_REQUEST['task']))
+            unset($_REQUEST['task']);
+        else
+            return false;
+    }
+
 
     /**
      * restituisce la password passata tramite GET o POST
@@ -89,11 +99,6 @@ class VRegistrazione extends View
             return false;
     }
 
-    /**
-     * restituisce la username passata tramite GET o POST
-     *
-     * @return mixed
-     */
     public function getAdmin()
     {
         if (isset($_REQUEST['admin']))
@@ -101,6 +106,7 @@ class VRegistrazione extends View
         else
             return false;
     }
+
 
     public function getEmail()
     {

@@ -29,7 +29,7 @@ class FLuogo extends FDatabase
         return $obj;
     }
 
-    public function deleteLuogo($key)
+    public function deleteLuogo($key)       //DA VEDERE CONTROLLARE!!!!!!!
     {
         //var_dump($key);
         $query='DELETE ' .
@@ -40,7 +40,7 @@ class FLuogo extends FDatabase
             .'\'';
         unset($object);
 
-        $Fdb= new FDatabase();//mi serve per ottenere il metodo query da FDB
-        return $Fdb->query($query);
+        $obj=parent::getObject(parent::query($query));
+        return $obj;;//mi serve per ottenere il metodo query da FDB
     }
 }

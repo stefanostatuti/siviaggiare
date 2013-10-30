@@ -18,31 +18,17 @@ class EUtente
     public $residenza;
     public $nazione;
     public $mail;
+    public $lavoro;
+    public $telefono;
+    public $sesso;
+    public $datanascita;
+    public $messaggi;
     public $password;
     public $cod_attivazione;
     public $avvertimenti;
     public $stato='non_attivo';
     public $_elenco_viaggi = array();
 
-
-    /*
-     * Il costruttore non serve perke si crea un utente (Costruttore Default) con attributi = NULL e poi una volta
-     * validati i dati (esempio: passw1 == passw) essi inseriti dal metodo CreaUtente il quale associa i valori
-     * provenienti dalla form agli attributi dell'oggetto utente e in seguito li immagazzinerà nel DB
-     */
-
-    /*public function __construct($utente)
-    {
-        $this->cognome = str_replace('','',(trim($utente['cognome'])));
-        $this->nome = str_replace('','',(trim($utente['nome'])));
-        $this->username = str_replace('','',(trim($utente['username'])));
-        $this->residenza = str_replace('','',(trim($utente['residenza'])));
-        $this->nazione = str_replace('','',(trim($utente['nazione'])));
-        $this->mail = str_replace('','',(trim($utente['mail'])));
-        $this->password = $utente['password'];
-        $this->cod_attivazione = $utente['cod_attivazione'];
-        $this->stato = $utente['stato'];
-    }*/
 
 
     public function generaCodiceAttivazione()
@@ -61,7 +47,6 @@ class EUtente
     {
         $FViaggio=new FViaggio();
         $this->_elenco_viaggi=$FViaggio->loadRicerca('utenteusername',$this->username);
-        //debug($this->_elenco_viaggi);
         return $this->_elenco_viaggi;
     }
 
@@ -70,8 +55,6 @@ class EUtente
     {
         if ($this->stato=='attivo')
             return true;
-        //if ($this->stato=='admin') //qui controllo se si è admin
-            //return true;
         else
             return false;
     }
@@ -102,9 +85,8 @@ class EUtente
         elseif ($ris==false){
             debug("UPDATE FALLITO!!!! ");
             debug("Dopo "+$this->getAvvertimenti()+"\n");
-
         }
-        return $ris;
     }
+
 }
 ?>

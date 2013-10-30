@@ -143,7 +143,7 @@ ol li {
 
 
 header { 
-  background: #444 url(../images/logo.jpg) no-repeat;
+  background: #444 url(../images/images.png) no-repeat;
   height: 200px;
 }
 
@@ -619,8 +619,931 @@ ul#nav li a:hover,ul#nav li a:focus {
 
 .error {color: red;}
 
+.ui-autocomplete-loading {
+background: white url('../images/ui-anim_basic_16x16.gif') right center no-repeat;
+}
 
-/*------------STEFANO-------------*/
+.button-luogo-dettaglio-viaggio{
+    float: right;
+}
+
+#risposta-panoramica table {
+    margin: 0px 0 0px 0;
+    background: none;
+    color: #C6E746;
+}
+#risposta-panoramica table tr td{
+    background: none;
+    border-top: none;
+    color: #C6E746;
+}
+#risposta-panoramica table img{
+    float: right;
+    margin: 0 10px;
+    width: 30px;
+}
+
+#risposta-panoramica h6 {
+    color: #555;
+    letter-spacing: 0em;
+    padding: 0 0 2px 0;
+    font: normal 85% 'Droid Sans', arial;
+}
+#risposta-panoramica .luoghi-panoramica-int h5 {
+    color: #555;
+    letter-spacing: 0em;
+    padding: 0 0 2px 0;
+    font: normal 100% 'Droid Sans', arial;
+}
+#risposta-dettaglio h6 {
+    color: #555;
+    letter-spacing: 0em;
+    padding: 0 0 2px 0;
+    font: normal 88% 'Droid Sans', arial;
+}
+#risposta-dettaglio .luoghi-panoramica-int h5 {
+    color: #555;
+    letter-spacing: 0em;
+    padding: 0 0 2px 0;
+    font: normal 88% 'Droid Sans', arial;
+}
+
+#risposta-dettaglio table {
+    margin: 0px 0 0px 0;
+    background: none;
+    color: #C6E746;
+}
+#risposta-dettaglio table tr td{
+    background: none;
+    border-top: none;
+    color: #C6E746;
+}
+#risposta-dettaglio table img{
+    float: right;
+    margin: 0 10px;
+    width: 30px;
+}
+
+#tab-citta h6 {
+    color: #555;
+    letter-spacing: 0em;
+    padding: 0 0 0 0;
+    font: normal 88% 'Droid Sans', arial;
+    margin: 0 0 0 0;
+}
+
+
+#risposta-commento h6 {
+    color: #555;
+    letter-spacing: 0em;
+    padding: 0 0 2px 0;
+    font: normal 88% 'Droid Sans', arial;
+}
+#risposta-commento .commento-int h5 {
+    color: #555;
+    letter-spacing: 0em;
+    padding: 0 0 2px 0;
+    font: normal 88% 'Droid Sans', arial;
+}
+
+#risposta-commento table {
+    margin: 0px 0 0px 0;
+    background: none;
+    color: #C6E746;
+}
+#risposta-commento table tr td{
+    background: none;
+    border-top: none;
+    color: #C6E746;
+}
+#risposta-commento table img{
+    float: right;
+    margin: 0 10px;
+    width: 30px;
+}
+
+#barraricerca input {
+    width: 400px;
+    height: 36px;
+    border: 1px solid #d3d3d3;
+    border-right: none;
+    margin: 100px 0px 0 80px;
+    font: 110% 'Droid Sans', arial;
+}
+
+#buttonsearch {
+    height: 34px;
+    margin: -3px 0 0 0;
+    border-radius: 0 0 0 0;
+}
+
+.ricerca-navigazione1{
+    margin-left: 41%;
+}
+
+.ricerca-navigazione2{
+    margin-left: 41%;
+}
+
+.ricerca-navigazione3{
+    margin-left: 41%;
+}
+
+#risposta-panoramica{
+    margin-top: -30px;
+}
+
+#risposta-dettaglio{
+    margin-top: -30px;
+}
+
+#risposta-commento{
+    margin-top: -30px;
+}
+
+.commenti-utenti {
+    border: 1px solid;
+    border-color: darkgrey;
+    border-style: dotted;
+    background-color: whitesmoke;
+    border-radius: 4px;
+    text-align: left;
+}
+
+.commenti-utenti h4 {
+    color: #212121;
+    font: normal 100% 'Droid Sans', arial;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.commenti-utenti h6 {
+    margin-left: 5px;
+}
+
+.commenti-utenti h5 {
+    margin-right: 10px;
+    margin-top: 5px;
+    text-align: right;
+}
+
+.inserimento-commento textarea {
+    width: 350px;
+    height: 100px;
+}
+
+#tab-citta img {
+    width: 20px;
+    margin: 0px 0 0 0;
+    float:right;
+}
+
+#tab-1 button{
+    width: 100%;
+    text-align: left;
+}
+
+
+/*css per tpl registrazione e validazione*/
+
+
+
+
+#form_register
+{
+    text-align: left;
+    background-image: url('../images/beige-background.jpg');
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    width: 550px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1.5em 1.5em 1.5em;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+#form_register fieldset
+{
+    border: none;
+}
+
+#form_register legend
+{
+    text-align: left;
+    display: block;
+    font-size: 25px;
+    padding: 10px;
+}
+
+#form_register label
+{
+    text-align: left;
+    color: blue;
+    padding: 0px;
+    display: block;
+    font-size: 0.9em;
+    margin: 27px 0px 0px 0px;
+}
+
+/*LABEL GENERATO DA VALIDATE*/
+#form_register label.error
+{
+    color: #f33;
+    padding: 0;
+    margin: 2px 0 0 0;
+    font-size: 0.8em;
+    padding-left: 18px;
+    background-image: url('../images/error.png');
+    background-position: 0 0;
+    background-repeat: no-repeat;
+}
+
+/*imput text e password*/
+#form_register #reg_user, #form_register #reg_cognome, #form_register #reg_nome, #form_register #reg_citta, #form_register #reg_nazione, #form_register #reg_email, #form_register #reg_pass1, {
+    height: 30px;
+    width: 200px;
+    display: block;
+    border: none;
+    font-size: 16px;
+    line-height: 28px;
+    text-align: left;
+}
+
+/*imput type submit e reset*/
+#form_register #reg_submit, 	#form_register #reg_reset
+{
+    height: 30px;
+    width: 220px;
+    color: #fff;
+    font-weight: bold;
+    opacity: 0.7;
+    border: 1px solid #999;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -moz-box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    -webkit-box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    -webkit-appearance: none;
+    -moz-transition: opacity .5s;
+    -webkit-transition: opacity .5s;
+    -o-transition: opacity .5s;
+    transition: opacity .5s;
+    display: block;
+}
+
+#form_register #reg_submit{background: #0a0; margin-top: 40px;}
+#form_register #reg_reset{background: #f33; margin-top: 20px;}
+
+#form_register #reg_submit:hover,
+#form_register #reg_submit:active,
+#form_register #reg_reset:hover,
+#form_register #reg_reset:active
+{
+    cursor: pointer;
+    opacity: 1;
+}
+
+#form_register div.error
+{
+    text-align: left;
+    color: red;
+}
+
+#form_register H4
+{
+    text-align: left;
+    display: block;
+    font-size: 25px;
+    padding: 10px;
+    color: blue;
+}
+
+#form_register h2
+{
+    text-align: left;
+    font-size: 12px;
+    color:blue;
+    padding: 0px;
+    margin: 20px 0px 0px 0px;
+}
+
+
+
+
+
+/*css per tpl viaggio, citta, luogo, commento*/
+
+
+
+
+#form_journey
+{
+    text-align: left;
+    background-image: url('../images/beige-background.jpg');
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    width: 590px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 4em 1.5em 1.5em;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+#form_journey fieldset
+{
+    text-align: left;
+    display: block;
+    font-size: 0.9em;
+    padding: 2px;
+    margin-right: 250px;
+    margin-left: 0px;
+    color: blue;
+}
+
+#form_journey legend
+{
+    text-align: left;
+    display: block;
+    font-size: 17px;
+    padding: 14px;
+    color: blue;
+}
+
+
+#form_journey label
+{
+    text-align: left;
+    color: blue;
+    padding: 0px;
+    display: block;
+    font-size: 0.9em;
+    margin: 27px 0px 0px 0px;
+
+}
+
+/*LABEL GENERATO DA VALIDATE*/
+
+#form_journey label.error
+{
+    color: #f33;
+    padding: 0;
+    margin: 2px 0 0 0;
+    font-size: 0.8em;
+    padding-left: 18px;
+    background-image: url('../images/error.png');
+    background-position: 0 0;
+    background-repeat: no-repeat;
+}
+
+
+#form_journey #datainizio, #form_journey #datafine, #form_journey #costotrasporto, #form_journey #budget, #form_journey #citta, #form_journey #stato, #form_journey #alloggio, #form_journey #costo, #form_journey #nome, #form_journey #sitoweb, #form_journey #costobiglietto, #form_journey #guida, #form_journey #durata, #form_journey #commentolibero, #form_journey #percorso
+{
+    height: 30px;
+    width: 200px;
+    display: block;
+    border: none;
+    font-size: 16px;
+    line-height: 28px;
+    text-align: left;
+}
+
+/*imput type submit, salta e reset*/
+#form_journey #j_submit, #form_journey #j_reset, #form_journey #j_salta
+{
+    height: 30px;
+    width: 220px;
+    color: #fff;
+    font-weight: bold;
+    opacity: 0.7;
+    border: 1px solid #999;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -moz-box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    -webkit-box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    -webkit-appearance: none;
+    -moz-transition: opacity .5s;
+    -webkit-transition: opacity .5s;
+    -o-transition: opacity .5s;
+    transition: opacity .5s;
+    display: block;
+}
+
+#form_journey #j_submit{background: #0a0; margin-top: 40px;}
+#form_journey #j_reset{background: #f33; margin-top: 20px;}
+#form_journey #j_salta{background: #f33; margin-top: 20px;}
+
+#form_journey #j_submit:hover,
+#form_journey #j_submit:active,
+#form_journey #j_reset:hover,
+#form_journey #j_reset:active,
+#form_journey #j_salta:hover,
+#form_journey #j_salta:active
+{
+    cursor: pointer;
+    opacity: 2;
+}
+
+#form_journey div.error
+{
+    text-align: left;
+    color: red;
+}
+
+#form_journey H4
+{
+    text-align: left;
+    display: block;
+    font-size: 25px;
+    padding: 10px;
+    color: blue;
+}
+
+#form_journey h2
+{
+    text-align: left;
+    font-size: 12px;
+    color:blue;
+    padding: 0px;
+    margin: 20px 0px 0px 0px;
+}
+
+#form_journey H3
+{
+    color:blue;
+}
+
+#form_journey a
+{
+    color:red;
+}
+
+#form_journey table
+{
+    margin: 28 0 30px 0;
+    background-color:#FFFFFF;
+    opacity:50;
+}
+
+#form_journey table tr td
+{
+    border-top: 0px solid #FFF;
+    background-color:transparent;
+    opacity:50;
+}
+
+#form_journey div #modifica
+{
+    color:red;
+    text-align: right;
+    margin-right:5px;
+
+}
+
+#form_journey div .modifica
+{
+    color:red;
+    text-align: right;
+}
+
+
+
+
+
+
+/*CSS PER PROFILO*/
+
+.profilo
+{
+    text-align: left;
+    background-image: url('../images/beige-background.jpg');
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    width: 590px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 4em 1.5em 1.5em;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.profilo fieldset
+{
+    text-align: left;
+    display: block;
+    font-size: 0.9em;
+    padding: 2px;
+    margin-right: 250px;
+    margin-left: 0px;
+    color: blue;
+}
+
+.profilo legend
+{
+    text-align: left;
+    display: block;
+    font-size: 17px;
+    padding: 14px;
+    color: blue;
+}
+
+.profilo label
+{
+    text-align: left;
+    color: blue;
+    padding: 0px;
+    display: block;
+    font-size: 0.9em;
+    margin: 27px 0px 0px 0px;
+
+}
+
+/*LABEL GENERATO DA VALIDATE*/
+
+.profilo label.error
+{
+    color: #f33;
+    padding: 0;
+    margin: 2px 0 0 0;
+    font-size: 0.8em;
+    padding-left: 18px;
+    background-image: url('../images/error.png');
+    background-position: 0 0;
+    background-repeat: no-repeat;
+}
+
+
+.profilo #lavoro, .profilo #citta, .profilo #data, .profilo #sesso, .profilo #telefono, .profilo #mail, .profilo #nome, .profilo #nazione, .profilo #cognome
+{
+    height: 30px;
+    width: 200px;
+    display: block;
+    border: none;
+    font-size: 16px;
+    line-height: 28px;
+    text-align: left;
+}
+
+
+/*imput type submit, salta e reset*/
+.profilo #j_submit, #profilo #j_reset, #profilo #j_salta
+{
+    height: 30px;
+    width: 220px;
+    color: #fff;
+    font-weight: bold;
+    opacity: 0.7;
+    border: 1px solid #999;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -moz-box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    -webkit-box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    -webkit-appearance: none;
+    -moz-transition: opacity .5s;
+    -webkit-transition: opacity .5s;
+    -o-transition: opacity .5s;
+    transition: opacity .5s;
+    display: block;
+}
+
+.profilo #j_submit{background: #0a0; margin-top: 40px;}
+.profilo #j_reset{background: #f33; margin-top: 20px;}
+.profilo #j_salta{background: #f33; margin-top: 20px;}
+
+.profilo #j_submit:hover,
+.profilo #j_submit:active,
+.profilo #j_reset:hover,
+.profilo #j_reset:active,
+.profilo #j_salta:hover,
+.profilo #j_salta:active
+{
+    cursor: pointer;
+    opacity: 2;
+}
+
+.profilo div.error
+{
+    text-align: left;
+    color: red;
+}
+
+.profilo #modifica
+{
+    margin-right: 250px;
+    margin-left: 250px;
+    color: red;
+    font-size: 12px;
+}
+
+.profilo #img
+{
+    margin-right: 250px;
+    margin-left: 250px;
+}
+
+
+
+
+/*CSS PER pre_profilo*/
+
+
+
+.pre_profilo #foto
+{
+    border: 5px solid #E5E5DB;
+    margin-right: 20px;
+    margin-left: 5px;
+}
+
+.pre_profilo #nome
+{
+    margin-right: 20px;
+    margin-left: 5px;
+    margin-top: 10px;
+    font-size: 1.4em;
+    color: blue;
+
+}
+
+
+
+
+/*CSS PER MESSAGGI*/
+
+
+
+
+.messaggi_profilo
+{
+    text-align: left;
+    background-image: url('../images/beige-background.jpg');
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    width: 590px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 4em 1.5em 1.5em;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.messaggi_profilo fieldset
+{
+    text-align: left;
+    display: block;
+    font-size: 0.9em;
+    padding: 2px;
+    margin-right: 250px;
+    margin-left: 0px;
+    color: blue;
+}
+
+.messaggi_profilo legend
+{
+    text-align: left;
+    display: block;
+    font-size: 17px;
+    padding: 14px;
+    color: blue;
+}
+
+.messaggi_profilo label
+{
+    text-align: left;
+    color: blue;
+    padding: 0px;
+    display: block;
+    font-size: 0.9em;
+    margin: 27px 0px 0px 0px;
+
+}
+
+/*LABEL GENERATO DA VALIDATE*/
+
+.messaggi_profilo label.error
+{
+    color: #f33;
+    padding: 0;
+    margin: 2px 0 0 0;
+    font-size: 0.8em;
+    padding-left: 18px;
+    background-image: url('../images/error.png');
+    background-position: 0 0;
+    background-repeat: no-repeat;
+}
+
+
+/*imput type submit, salta e reset*/
+.messaggi_profilo #j_submit, #messaggi_profilo #j_reset, #messaggi_profilo #j_salta
+{
+    height: 30px;
+    width: 220px;
+    color: #fff;
+    font-weight: bold;
+    opacity: 0.7;
+    border: 1px solid #999;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -moz-box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    -webkit-box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    -webkit-appearance: none;
+    -moz-transition: opacity .5s;
+    -webkit-transition: opacity .5s;
+    -o-transition: opacity .5s;
+    transition: opacity .5s;
+    display: block;
+}
+
+.messaggi_profilo #j_submit{background: #0a0; margin-top: 40px;}
+.messaggi_profilo #j_reset{background: #f33; margin-top: 20px;}
+.messaggi_profilo #j_salta{background: #f33; margin-top: 20px;}
+
+.messaggi_profilo #j_submit:hover,
+.messaggi_profilo #j_submit:active,
+.messaggi_profilo #j_reset:hover,
+.messaggi_profilo #j_reset:active,
+.messaggi_profilo #j_salta:hover,
+.messaggi_profilo #j_salta:active
+{
+    cursor: pointer;
+    opacity: 2;
+}
+
+.messaggi_profilo div.error
+{
+    text-align: left;
+    color: red;
+}
+
+.messaggi_profilo #modifica
+{
+    margin-right: 250px;
+    margin-left: 250px;
+    color: red;
+    font-size: 12px;
+}
+
+.messaggi_profilo #img
+{
+    margin-right: 250px;
+    margin-left: 250px;
+}
+
+.messaggi_profilo table tr td
+{
+    border-top: 0px solid #FFF;
+    background-color:transparent;
+    opacity:50;
+}
+
+.messaggi_profilo h5
+{
+    color: red;
+}
+
+
+
+
+/*CSS PER GALLERIA PROFILO*/
+
+
+
+.galleria_profilo
+{
+    text-align: left;
+    background-image: url('../images/beige-background.jpg');
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    width: 590px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 4em 1.5em 1.5em;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.galleria_profilo fieldset
+{
+    text-align: left;
+    display: block;
+    font-size: 0.9em;
+    padding: 2px;
+    margin-right: 250px;
+    margin-left: 0px;
+    color: blue;
+}
+
+.galleria_profilo legend
+{
+    text-align: left;
+    display: block;
+    font-size: 17px;
+    padding: 14px;
+    color: blue;
+}
+
+.galleria_profilo label
+{
+    text-align: left;
+    color: blue;
+    padding: 0px;
+    display: block;
+    font-size: 0.9em;
+    margin: 27px 0px 0px 0px;
+
+}
+
+.galleria_profilo div.error
+{
+    text-align: left;
+    color: red;
+}
+
+.galleria_profilo #modifica
+{
+    margin-right: 250px;
+    margin-left: 250px;
+    color: red;
+    font-size: 12px;
+}
+
+.galleria_profilo #img
+{
+    margin-right: 250px;
+    margin-left: 250px;
+}
+
+.galleria_profilo table tr td
+{
+    border-top: 0px solid #FFF;
+    background-color:transparent;
+    opacity:50;
+}
+
+.galleria_profilo h5
+{
+    color: red;
+}
+
+.feedback-citta {
+    float: right;
+}
+
+.dettaglio-viaggio-ext .feedback-citta {
+    float: left;
+}
+
+.dettaglio-viaggio-ext .feedback-luogo {
+    float: left;
+}
+
+.commento-ext .feedback-luogo {
+    float: left;
+}
+
+.feedback-citta .ratingbar_inner{
+    background-color: deepskyblue;
+}
+
+.feedback-luogo {
+    float: right;
+}
+
+.feedback-luogo .ratingbar_inner{
+    background-color: limegreen;
+}
+
+.feedback-citta-laterale {
+    float: right;
+    margin: 0 0 4px 0;
+}
+
+.feedback-citta-laterale .ratingbar_inner{
+    background-color: deepskyblue;
+}
+
+.feedback-luogo-laterale {
+    float: right;
+    margin: 0 0 4px 0;
+}
+
+.feedback-luogo-laterale .ratingbar_inner{
+    background-color: limegreen;
+}
+
 .avvertimento{display: none;}
 .elimina{display: none;}
 .elimina-segnalazione{color: red;}

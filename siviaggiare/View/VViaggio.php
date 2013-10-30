@@ -17,10 +17,9 @@ class VViaggio extends View
               //metodi get:
 
 
-
     public function getDatiViaggio()
     {
-        $dati_viaggio=array('username','datainizio','datafine','mezzotrasporto','costotrasporto','budget');
+        $dati_viaggio=array('datainizio','datafine','mezzotrasporto','costotrasporto', 'valutatrasporto','budget', 'valutabudget');//tolto username e citta
         $dati=array();
         foreach ($dati_viaggio as $dato)
         {
@@ -35,10 +34,8 @@ class VViaggio extends View
 
     public function getDatiLuogo()
     {
-        $dati_viaggio=array('idviaggio','nome','nomecitta','sitoweb','percorso','costobiglietto','guida','coda','durata','commentolibero');
+        $dati_viaggio=array('nome','sitoweb','percorso','costobiglietto', 'valuta', 'guida','coda','durata','commentolibero');//tolto 'idviaggio',
         $dati=array();
-        $session= USingleton::getInstance('USession');
-        $dati['idviaggio']= $session->leggi_valore('idviaggio');
         foreach ($dati_viaggio as $dato)
         {
             if (isset($_REQUEST[$dato]))
@@ -81,16 +78,20 @@ class VViaggio extends View
     {
         if (isset($_REQUEST['nome']))
             return $_REQUEST['nome'];
+        elseif (isset($_REQUEST['nomeluogo']))
+            return $_REQUEST['nomeluogo'];
         else
             return false;
     }
-    public function getNomeUtente()
+
+    public function getNomeUtente()         /////FORSE NON SERVE
     {
         if (isset($_REQUEST['username']))
             return $_REQUEST['username'];
         else
             return false;
     }
+
 
     public function getNomeCitta()
     {
@@ -110,7 +111,7 @@ class VViaggio extends View
      */
     public function getDatiCitta()
     {
-        $dati_citta=array('username','datainizio','datafine','nome','stato','tipoalloggio','costo','voto'); //da verificare
+        $dati_citta=array('datainizio','datafine','nome','stato','tipoalloggio','costoalloggio','valuta', 'voto');
         debug("questo è quello che ricevo dal TPL");
         debug($dati_citta);
         $dati=array();
@@ -121,12 +122,7 @@ class VViaggio extends View
         }
         //questo mi scrive l'username senno me manca
         $session= USingleton::getInstance('USession');
-        //debug("questo è l'username: ");
-        //debug($session->leggi_valore('username'));
-        $dati['utenteusername']= $session->leggi_valore('username');   //da verificare se è utenteusername
-        //end
-        //debug("questo è quello che ho pronto per scrivere sul DB");
-        //debug($dati);
+        $dati['utenteusername']= $session->leggi_valore('username');/////NON DOVREBBE SERVIRE
         return $dati;
     }
 
@@ -171,7 +167,6 @@ class VViaggio extends View
     }
 
 
-
     /**
      * Imposta l'eventuale errore nel template
      *
@@ -180,6 +175,8 @@ class VViaggio extends View
     public function impostaErrore($errore){
         $this->assign('errore',$errore);
     }
+
+
 
 }
 ?>

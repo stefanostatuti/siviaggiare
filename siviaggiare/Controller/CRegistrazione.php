@@ -21,9 +21,7 @@ class CRegistrazione
     public function smista()
     {
         //$registrato=$this->getUtenteRegistrato();
-        //debug("ci entro qui?");
         $view=USingleton::getInstance('VRegistrazione');
-        //var_dump("->".$view->getTask());
         switch ($view->getTask())
         {
             case 'recupera_password':
@@ -36,9 +34,11 @@ class CRegistrazione
                 return $this->attivazione();
             case 'verifica_dati':
                 return $this->verificaRinvioPassword();
+            case 'verifica_registrazione':
+                return $this->ProcessaAjaxUser();
             default:
-                $VHome=USingleton::getInstance('VHome');
-                return $VHome->mostraESEMPIOCSS();
+                $CRicerca=USingleton::getInstance('CRicerca');
+                return $CRicerca->impostaPaginaRicerca();
         }
     }
 
@@ -57,7 +57,7 @@ class CRegistrazione
         $confronto = $FUtente->load($dati_registrazione['username']);
         $dati_registrazione['confronto']=$confronto;
         $valida=USingleton::getInstance('Vvalidazione');
-        //$dati_validazione=$valida->validacampi($dati_registrazione); //variabile non usata
+        $dati_validazione=$valida->validacampi($dati_registrazione);
         if(!$valida->getErrors())
         {
             unset($dati_registrazione['password_1']);
@@ -127,46 +127,42 @@ class CRegistrazione
      * @return boolean
      */
     public function getUtenteRegistrato()
-    {   //debug("entro in getUtenteRegistrato");
+    {
         $autenticato=false;
         $session=USingleton::getInstance('USession');
         $VRegistrazione= USingleton::getInstance('VRegistrazione');
         $task=$VRegistrazione->getTask();
-        //var_dump("task: ".$task);
-        //$controller=$VRegistrazione->getController(); //variabile non usata
+        $controller=$VRegistrazione->getController();
         $this->_username=$VRegistrazione->getUsername();
         $this->_password=$VRegistrazione->getPassword();
         if ($session->leggi_valore('username')!=false)
         {
             $autenticato=true;
         }
-
         elseif ($task=='autentica' && $controller='registrazione')
         {
             $autenticato=$this->autentica($this->_username, $this->_password);
+            //$VRegistrazione->unsetControllerTask();
         }
-
         if ($task=='esci' && $controller='registrazione')
-        {//verifico se gia ci sono passato e mi è rimasto il controller controllando se c'è l'username
+        {
             $session=USingleton::getInstance('USession');
             if($session->leggi_valore('username'))
             {
             //logout
-            //debug("ci entro?");
-            $this->logout();
-            $autenticato=false;
+                $this->logout();
+                $autenticato=false;
             }
             else if($session->leggi_valore('username')==false) //quindi sono state cancellate
             {
                 ; //non faccio nulla
             }
-        //$VHome=USingleton::getInstance('VHome'); //variabile non usata
+            //$VRegistrazione->unsetControllerTask();
         }
         $VRegistrazione->impostaErrore($this->_errore);
         $this->_errore='';
         return $autenticato;
     }
-
 
     /**
      * Controlla se l'utente è Admin ed autenticato
@@ -189,28 +185,30 @@ class CRegistrazione
                 $autenticato=1;
             }
             else{
-            $autenticato=0;
+                $autenticato=0;
             }
         }
-         elseif ($task=='autentica' && $controller='registrazione')
-              {
-                    $autenticato=$this->autentica($this->_username, $this->_password);
-              }
+        elseif ($task=='autentica' && $controller='registrazione')
+        {
+            $autenticato=$this->autentica($this->_username, $this->_password);
+        }
 
-              if ($task=='esci' && $controller='registrazione')
-              {
-                    //logout
-                    $this->logout();
-                    $autenticato=false;
-                    //$VHome=USingleton::getInstance('VHome'); //variabile non usata
-              }
+        if ($task=='esci' && $controller='registrazione')
+        {
+            //logout
+            $this->logout();
+            $autenticato=false;
+            //$VHome=USingleton::getInstance('VHome'); //variabile non usata
+        }
         $VRegistrazione->impostaErrore($this->_errore);
         $this->_errore='';
         return $autenticato;
     }
 
+
+
     /**
-     * Controlla se una coppia username e password corrispondono ad un utente registrato ed in tal caso impostano le variabili di sessione relative all'autenticazione
+     * Controlla se una coppia username e password corrispondono ad un utente regirtrato ed in tal caso impostano le variabili di sessione relative all'autenticazione
      *
      * @param string $username
      * @param string $password
@@ -218,24 +216,22 @@ class CRegistrazione
      */
     public function autentica($username, $password)
     {
-        //vedo se è un amministratore
-        //debug("controllo se admin");
         $FAdmin=new FAdmin();
         $utente=$FAdmin->load($username);
         if ($utente!=false)
         {
             if ($utente->getAccountAmministratore()==true)
             {
-             //account amministratore
+                //account amministratore
                 if ($username==$utente->username && $password==$utente->password)
                 {
                     if ($utente->stato=='admin')
                     {
-                    $session=USingleton::getInstance('USession');
-                    $session->imposta_valore('admin', 'Amministratore');
-                    $session->imposta_valore('username',$username);
-                    //$session->imposta_valore('nome_cognome',$utente->nome.' '.$utente->cognome);
-                    return true;
+                        $session=USingleton::getInstance('USession');
+                        $session->imposta_valore('admin', 'Amministratore');
+                        $session->imposta_valore('username',$username);
+                        //$session->imposta_valore('nome_cognome',$utente->nome.' '.$utente->cognome);
+                        return true;
                     }
                 }
                 else{
@@ -248,15 +244,12 @@ class CRegistrazione
                 //Debug("utente esistente ma NON è amministratore");
             }
         }
-        //fine test
 
-        //non è amministatore vedo se è un utente comune
-        //debug("NON e' un admin, controllo se è un utente");
-        /*
-        in teoria sono inutili visto che ho fatto la query sopra
+        //in teoria sono inutili visto che ho fatto la query sopra
         //$FUtente=new FUtente();
         //$utente=$FUtente->load($username);
-        */
+        $FUtente=new FUtente();
+        $utente=$FUtente->load($username);
         if ($utente!=false)
         {
             if ($utente->getAccountAttivo())
@@ -272,7 +265,6 @@ class CRegistrazione
                 {
                     $this->_errore='Password errata';
                     //username password errati
-
                 }
             } else
             {
@@ -288,15 +280,14 @@ class CRegistrazione
     }
 
 
-
     /**
-     * Effettua il logout di tutti i tipi di utenti (compreso admin)
+     * Effettua il logout
      */
     public function logout()
     {
         //debug("Sto in logout");
         $session=USingleton::getInstance('USession');
-        if($session->leggi_valore('username')) //username è sempre presente indipendentemente dal tipo di user
+        if($session->leggi_valore('username'))
         {
             $session->cancella_valore('username');
             $session->cancella_valore('nome_cognome');
@@ -305,14 +296,13 @@ class CRegistrazione
         }
         else
         {
-          //debug ("sessione gia distrutta");
+            debug ("sessione gia distrutta");///dopo va cancellato !!!!!!!!!!!!!!!!!
         }
     }
 
 
     public function recuperaPassword()
     {
-        //debug("recpass");
         $VRegistrazione=USingleton::getInstance('VRegistrazione');
         $VRegistrazione->setLayout('recupero_password');
         return $VRegistrazione->processaTemplate();
@@ -331,7 +321,7 @@ class CRegistrazione
             if($utente->mail==$mail)
             {
                 $email=$this->emailRecuperoPassword($utente);
-                //aggiungere validazione inoltro mail
+                //aggiungere validazione inoltro mail!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 if($email)
                 {
                     $view->setLayout('conferma_mail_recupero_password');
@@ -351,7 +341,6 @@ class CRegistrazione
         $view->impostaErrore('');
         return $result;
     }
-
 
 
     public function emailRecuperoPassword(EUtente $utente)
@@ -412,7 +401,6 @@ class CRegistrazione
     public function emailAttivazione(EUtente $utente)
     {
         global $config;//il $config e relativo alle directory di smarty:es smarty templates_c
-        //var_dump($config['url_siviaggiare']);
         $view=USingleton::getInstance('VRegistrazione');
         $view->setLayout('email_attivazione');//setlayaout fa parte del file vregistrazione
         $view->impostaDati('username',$utente->username);//impostadati serve per impostare i template da vregistrazione
@@ -423,6 +411,34 @@ class CRegistrazione
         $corpo_email=$view->processaTemplate();
         $email=USingleton::getInstance('UEmail');
         return $email->invia_email($utente->mail,$utente->nome.' '.$utente->cognome,'Attivazione account YesYoutravel',$corpo_email);
+    }
+
+
+    public function ProcessaAjaxUser()
+    {
+        if(! $this->verificausername())
+        {
+            echo 'true';
+        }else
+        {
+            echo 'false';
+        }
+    }
+
+
+    public function verificausername()
+    {
+        $username = $_POST['username'];
+        $FUtente=USingleton::getInstance('FUtente');
+        $confronto = $FUtente->load($username);
+        if($confronto !=null)
+        {
+            return TRUE;//esiste in db
+        }else
+        {
+            return FALSE;
+        }
+
     }
 
 }

@@ -38,8 +38,8 @@ class FUtente extends FDatabase
             'WHERE `'.$this->chiave.'` = \''.$utenteusername.'\'';
         unset($object);
 
-        $Fdb= new FDatabase();//mi serve per ottenere il metodo query da FDB
-        return $Fdb->query($query);
+        $obj=parent::getObject(parent::query($query));
+        return $obj;
     }
 }
 ?>
