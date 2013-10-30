@@ -245,7 +245,5 @@ class FDatabase
         return $this->query($query);
     }
 
-
-
 }
 ?>

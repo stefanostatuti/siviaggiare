@@ -33,7 +33,6 @@ class FCommento extends FDatabase           //TUTTA DA VEDERE   !!!!
         return $obj;
     }
 
-
     //questo metodo sotto probabilmente è deprecabile richiamando la load in FDatabase
     // e si lascia come chiave SOLO idcommento
     public function loadCommentiUtente($array)

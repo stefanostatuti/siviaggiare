@@ -61,7 +61,6 @@ class CAdmin
         }
     }
 
-
     //VISUALIZZAZIONE TABLE
     public function VisualizzaSegnalazioniTable()
     {
@@ -86,7 +85,7 @@ class CAdmin
         $VAdmin->setLayout('elenco_utenti');
         $VAdmin->impostaDati('utente',$Utenti);
         return $VAdmin->processaTemplate();
-    } // questa deve essere convertita in table mi sa :(
+    } //FORSE questa deve essere rinominata in table(VisualizzaTuttiUtentiTable ???)
 
     //VISUALIZZAZIONE IN DETTAGLIO
     public function VisualizzaSegnalazione()
@@ -98,7 +97,7 @@ class CAdmin
         $segnalazione=$FSegnalazione->loadSegnalazione($VAdmin->getIdSegnalazione());
         //$segnalazione=$FSegnalazione->loadRicerca( "idsegnalazione",$VAdmin->getIdSegnalazione()); ok ma non è un oggetto da passare al tpl
         //var_dump($segnalazione);
-        $VAdmin->setLayout('dettagli_segnalazione'); //<---- // tpl creato ma da modificare
+        $VAdmin->setLayout('dettagli_segnalazione');
         $VAdmin->impostaDati('segnalazione',$segnalazione);
         //debug($segnalazione);
         return $VAdmin->processaTemplate();
@@ -251,19 +250,39 @@ class CAdmin
 
        $FUtente=new FUtente();
        $utente=$FUtente->loadUtente($nomeutente);
-       if ($utente!= NULL || $utente!=0)
+
+       if ($utente!= NULL || $utente!= false)
        {
         debug("entro in MandaAvvertimento");
-        $utente->riceviAvvertimento();
-       }
-       else
-       {
-           debug("ERRORE: Utente NON TROVATO!!!!");
-       }
-           //qua dovrei mandare una mail
-       return 0;
+        $successo = $utente->riceviAvvertimento();
+        if ($successo==true)
+        {
+        //qua Mando la mail-avvertimento
+            $email=$this->emailAvvertimento($utente);
 
-   }//Finito manca la parte dell'invio della mail
+            if($email)
+                {
+                    debug("Mail di Avvertimento Inviata con Successo!!!");
+                }
+            else
+                {
+                    $this->_errore='impossibile inoltrare email'; //da verificare a cosa serve
+                }
+        //end mail
+        }
+        elseif($successo==false)
+        {
+               debug("Si è verificato un errore nel mandare l'avvertimento. Nessuna mail è stata inviata");
+        }
+      }
+      else
+      {
+           debug("ERRORE: Utente NON TROVATO!!!!");
+      }
+
+      return 0;
+
+   }//Finito manca da verificare se invia la mail
 
     //ELIMINAZIONI
     public function EliminaSegnalazione(){
@@ -295,8 +314,134 @@ class CAdmin
         //recupero l'oggetto dal DB usando l'indice ottenuto
         $FUtente=new FUtente();
         $utente=$FUtente->loadUtente($nomeutente);
-        if ($utente!= NULL || $utente!=false){
-            //tento di cancellarlo
+
+        if ($utente!= NULL || $utente!= false)
+        {
+            $lista_viaggi = $utente->getElencoViaggi();
+            if (count($lista_viaggi)!=0)
+            {
+                foreach($lista_viaggi as $viaggio)
+                {
+                    $id=$viaggio['id'];
+                    debug("idviaggio = "+$id);
+                    debug("Elimino il viaggio!");
+
+                    //recupero l'oggetto dal DB usando l'indice ottenuto
+                    $FViaggio=new FViaggio();
+                    $viaggio=$FViaggio->loadViaggio($id);
+                    //end
+                    if ($viaggio!= NULL || $viaggio!= false)
+                    {
+
+                        $lista_citta = $viaggio->getElencoCitta();
+                        if (count($lista_citta)!=0)
+                        {
+                            foreach($lista_citta as $citta)
+                            {
+                                //debug($_GET); //arriva la stringa giusta
+                                //debug(is_string($_GET["nomecitta"])); //torna TRUE quindi è una stringa
+                                $idviaggio=$_GET["idviaggio"];
+                                debug("idviaggio = "+$idviaggio); //stampa l'id Giusto
+                                $nomecitta=$citta["nomecitta"]; //prendo il nome da citta[i]
+                                var_dump($nomecitta);
+                                //debug("nomecitta = "+$nomecitta);//mi stampa 0 invece che la stringa
+                                debug("Elimino la citta!");
+
+                                //recupero l'oggetto dal DB usando l'indice ottenuto
+                                $FCitta=new FCitta();
+
+                                //Creo l'array da mandare a loadCitta($key)
+                                $key=array('idviaggio','nomecitta');
+                                $key['idviaggio']=$idviaggio;
+                                $key['nome']=$nomecitta;
+                                //end
+                                $citta=$FCitta->loadCitta($key);
+
+                                if ($citta!= NULL || $citta!= false){
+
+                                    //cancello tutti i luoghi appartenenti alla citta
+                                    var_dump($citta);
+                                    $lista_luoghi=$citta->getElencoLuoghi();
+                                    var_dump($lista_luoghi);
+
+                                    if (count($lista_luoghi)!=0)
+                                    {
+                                        //Cancello ogni luogo e cancello ogni commento relativo a quel luogo
+                                        $i=0;//solo per debug
+                                        foreach($lista_luoghi as $luogo)
+                                        {
+                                            debug("passaggio ".$i."\n");
+                                            var_dump($luogo);
+                                            //per ogni luogo cerco tutti i commenti
+                                            $FCommento = new FCommento();
+                                            $lista_commenti=$FCommento->loadRicerca();//manca la funzione per cercare tutti i commenti di un luogo
+                                            if (count($lista_commenti)!=0)
+                                            {
+                                                debug("DA FINIRE: elimino tutti i commenti");
+                                            }
+                                            else//end cancellazione commenti
+                                            {
+                                                debug("ATTENZIONE: NON CI SONO COMMENTI PER QUESTO LUOGO");
+                                            }
+
+                                            //qui elimino il luogo
+                                            //recupero l'oggetto dal DB usando l'indice ottenuto
+                                            $FLuogo=new FLuogo();
+                                            //Creo l'array da mandare a loadLuogo($key)
+                                            $key=array('idviaggio','nomecitta','nome');
+                                            $key['idviaggio']=$idviaggio;
+                                            $key['nomecitta']=$nomecitta;
+                                            //il nome del luogo lo reperisco dall'oggeto che trovo in lista_luoghi di $i;
+                                            $key['nome']=$luogo['nome']; //da verificare se passa il parametro giusto
+                                            debug($key['nome']);
+                                            //end
+                                            $luogo=$FLuogo->loadLuogo($key);
+
+                                            if ($luogo!= NULL || $luogo!=0)
+                                            {
+                                                //tento di cancellare il Luogo
+                                                $ris= $FLuogo->deleteLuogo($key);
+                                                debug("Luogo ELIMINATO CORRETTAMENTE!");
+                                                var_dump($ris);
+                                            }
+                                            else
+                                            {
+                                                Debug("NON CI SONO RISULTATI!!!!");
+                                            }
+                                        }
+                                    }//end ricerca luoghi
+                                    else
+                                    {
+                                        debug("ATTENZIONE: NON CI SONO LUOGHI INSERITI PER QUESTA CITTA");
+                                    }
+
+                                    //tento di cancellare la citta
+                                    $ris= $FCitta->deleteCitta($key);
+                                    debug("Citta ELIMINATA CORRETTAMENTE!");
+                                    var_dump($ris);
+                                }//end ricerca luoghi
+                                else
+                                {
+                                    Debug("NON CI SONO RISULTATI!!!!");
+                                }
+                            }//end cancellazione Citta
+                        }//end ricerca citta
+
+                        //tento di cancellare il viaggio
+                        $ris= $FViaggio->deleteViaggio($id);
+                        debug("Viaggio ELIMINATO CORRETTAMENTE!");
+                        var_dump($ris);
+
+                    }//end cancellazione viaggio
+                    else
+                    {
+                        Debug("NON CI SONO RISULTATI!!!!");
+                    }
+
+                }//End eliminazione della lista viaggi
+            }//end ricerca viaggi
+
+            //tento di cancellare l'utente
             $ris= $FUtente->deleteUtente($nomeutente);
             debug("Utente ELIMINATO CORRETTAMENTE!");
             var_dump($ris);
@@ -306,7 +451,7 @@ class CAdmin
             Debug("NON CI SONO RISULTATI!!!!");
         }
 
-    }//finito
+    }//FINTO ma manca la parte di eliminazione dei commenti//DA controllare se funziona
 
     public function EliminaViaggio(){
         $id=$_GET["idviaggio"];
@@ -317,17 +462,113 @@ class CAdmin
         $FViaggio=new FViaggio();
         $viaggio=$FViaggio->loadViaggio($id);
         //end
-        if ($viaggio!= NULL || $viaggio!=0){
-            //tento di cancellarlo
-            $ris= $FViaggio->deleteViaggio($id);
-            debug("Viaggio ELIMINATO CORRETTAMENTE!");
-            var_dump($ris);
-        }
-        else
+        if ($viaggio!= NULL || $viaggio!= false)
         {
+
+            $lista_citta = $viaggio->getElencoCitta();
+            if (count($lista_citta)!=0)
+            {
+                foreach($lista_citta as $citta)
+                {
+                //debug($_GET); //arriva la stringa giusta
+                //debug(is_string($_GET["nomecitta"])); //torna TRUE quindi è una stringa
+                $idviaggio=$_GET["idviaggio"];
+                debug("idviaggio = "+$idviaggio); //stampa l'id Giusto
+                $nomecitta=$citta["nomecitta"]; //prendo il nome da citta[i]
+                var_dump($nomecitta);
+                //debug("nomecitta = "+$nomecitta);//mi stampa 0 invece che la stringa
+                debug("Elimino la citta!");
+
+                //recupero l'oggetto dal DB usando l'indice ottenuto
+                $FCitta=new FCitta();
+
+//Creo l'array da mandare a loadCitta($key)
+                $key=array('idviaggio','nomecitta');
+                $key['idviaggio']=$idviaggio;
+                $key['nome']=$nomecitta;
+//end
+                $citta=$FCitta->loadCitta($key);
+
+                if ($citta!= NULL || $citta!= false){
+
+                    //cancello tutti i luoghi appartenenti alla citta
+                    var_dump($citta);
+                    $lista_luoghi=$citta->getElencoLuoghi();
+                    var_dump($lista_luoghi);
+
+                    if (count($lista_luoghi)!=0)
+                    {
+                        //Cancello ogni luogo e cancello ogni commento relativo a quel luogo
+                        $i=0;//solo per debug
+                        foreach($lista_luoghi as $luogo)
+                        {
+                            debug("passaggio ".$i."\n");
+                            var_dump($luogo);
+                            //per ogni luogo cerco tutti i commenti
+                            $FCommento = new FCommento();
+                            $lista_commenti=$FCommento->loadRicerca();//manca la funzione per cercare tutti i commenti di un luogo
+                            if (count($lista_commenti)!=0)
+                            {
+                                debug("DA FINIRE: elimino tutti i commenti");
+                            }
+                            else//end cancellazione commenti
+                            {
+                                debug("ATTENZIONE: NON CI SONO COMMENTI PER QUESTO LUOGO");
+                            }
+
+                            //qui elimino il luogo
+                            //recupero l'oggetto dal DB usando l'indice ottenuto
+                            $FLuogo=new FLuogo();
+//Creo l'array da mandare a loadLuogo($key)
+                            $key=array('idviaggio','nomecitta','nome');
+                            $key['idviaggio']=$idviaggio;
+                            $key['nomecitta']=$nomecitta;
+                            //il nome del luogo lo reperisco dall'oggeto che trovo in lista_luoghi di $i;
+                            $key['nome']=$luogo['nome']; //da verificare se passa il parametro giusto
+                            debug($key['nome']);
+//end
+                            $luogo=$FLuogo->loadLuogo($key);
+
+                            if ($luogo!= NULL || $luogo!=0)
+                            {
+                                //tento di cancellare il Luogo
+                                $ris= $FLuogo->deleteLuogo($key);
+                                debug("Luogo ELIMINATO CORRETTAMENTE!");
+                                var_dump($ris);
+                            }
+                            else
+                            {
+                                Debug("NON CI SONO RISULTATI!!!!");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        debug("ATTENZIONE: NON CI SONO LUOGHI INSERITI PER QUESTA CITTA");
+                    }
+
+                    //tento di cancellare la citta
+                    $ris= $FCitta->deleteCitta($key);
+                    debug("Citta ELIMINATA CORRETTAMENTE!");
+                    var_dump($ris);
+                }//end eliminazione citta
+                else
+                {
+                    Debug("NON CI SONO RISULTATI!!!!");
+                }
+           }
+       }//end ricerca citta
+
+       //tento di cancellare il viaggio
+       $ris= $FViaggio->deleteViaggio($id);
+       debug("Viaggio ELIMINATO CORRETTAMENTE!");
+       var_dump($ris);
+       }//end cancellazione viaggio
+       else
+       {
             Debug("NON CI SONO RISULTATI!!!!");
-        }
-    }//finito
+       }
+    }//FINTO ma manca la parte di eliminazione dei commenti//DA controllare se funziona
 
     public function EliminaCitta()
     {
@@ -342,6 +583,7 @@ class CAdmin
 
         //recupero l'oggetto dal DB usando l'indice ottenuto
         $FCitta=new FCitta();
+
 //Creo l'array da mandare a loadCitta($key)
         $key=array('idviaggio','nomecitta');
         $key['idviaggio']=$idviaggio;
@@ -350,7 +592,64 @@ class CAdmin
         $citta=$FCitta->loadCitta($key);
 
         if ($citta!= NULL || $citta!=0){
-            //tento di cancellarlo
+
+            //cancello tutti i luoghi appartenenti alla citta
+            var_dump($citta);
+            $lista_luoghi=$citta->getElencoLuoghi();
+            var_dump($lista_luoghi);
+
+            if (count($lista_luoghi)!=0)
+            {
+                //Cancello ogni luogo e cancello ogni commento relativo a quel luogo
+                $i=0;//solo per debug
+                foreach($lista_luoghi as $luogo)
+                {
+                    debug("passaggio ".$i."\n");
+                    var_dump($luogo);
+                    //per ogni luogo cerco tutti i commenti
+                    $FCommento = new FCommento();
+                    $lista_commenti=$FCommento->loadRicerca();//manca la funzione per cercare tutti i commenti di un luogo
+                    if (count($lista_commenti)!=0)
+                    {
+                        debug("DA FINIRE: elimino tutti i commenti");
+                    }
+                    else//end cancellazione commenti
+                    {
+                        debug("ATTENZIONE: NON CI SONO COMMENTI PER QUESTO LUOGO");
+                    }
+
+                    //qui elimino il luogo
+                    //recupero l'oggetto dal DB usando l'indice ottenuto
+                    $FLuogo=new FLuogo();
+//Creo l'array da mandare a loadLuogo($key)
+                    $key=array('idviaggio','nomecitta','nome');
+                    $key['idviaggio']=$idviaggio;
+                    $key['nomecitta']=$nomecitta;
+                    //il nome del luogo lo reperisco dall'oggeto che trovo in lista_luoghi di $i;
+                    $key['nome']=$luogo['nome']; //da verificare se passa il parametro giusto
+                    debug($key['nome']);
+//end
+                    $luogo=$FLuogo->loadLuogo($key);
+
+                    if ($luogo!= NULL || $luogo!=0)
+                    {
+                        //tento di cancellare il Luogo
+                        $ris= $FLuogo->deleteLuogo($key);
+                        debug("Luogo ELIMINATO CORRETTAMENTE!");
+                        var_dump($ris);
+                    }
+                    else
+                    {
+                        Debug("NON CI SONO RISULTATI!!!!");
+                    }
+                }
+            }
+            else
+            {
+                debug("ATTENZIONE: NON CI SONO LUOGHI INSERITI PER QUESTA CITTA");
+            }
+
+            //tento di cancellare la citta
             $ris= $FCitta->deleteCitta($key);
             debug("Citta ELIMINATA CORRETTAMENTE!");
             var_dump($ris);
@@ -359,8 +658,7 @@ class CAdmin
         {
             Debug("NON CI SONO RISULTATI!!!!");
         }
-
-    }//DA controllare se funziona
+    }//FINTO ma manca la parte di eliminazione dei commenti //DA controllare se funziona
 
     public function EliminaLuogo()
     {
@@ -396,10 +694,12 @@ class CAdmin
                     debug("DA FARE L'eliminazione");
                 }
             }
-            else{debug("ATTENZIONE: NON CI SONO COMMENTI PER QUESTO LUOGO");}
-            //end cancellazione commenti
+            else
+            {
+                debug("ATTENZIONE: NON CI SONO COMMENTI PER QUESTO LUOGO");
+            }//end cancellazione commenti
 
-            //tento di cancellarlo
+            //tento di cancellare il Luogo
             $ris= $FLuogo->deleteLuogo($key);
             debug("Luogo ELIMINATO CORRETTAMENTE!");
             var_dump($ris);
@@ -408,9 +708,9 @@ class CAdmin
         {
             Debug("NON CI SONO RISULTATI!!!!");
         }
-    }//Finito
+    }//FINTO ma manca la parte di eliminazione dei commenti //DA controllare se funziona
 
-    public function EliminaCommento(){ //con AJAX FUNZIONA COMPLETATA
+    public function EliminaCommento(){
         $id=$_GET["idcommento"];
         debug("idcommento = "+$id);
         debug("Elimino il Commento!");
@@ -431,6 +731,17 @@ class CAdmin
         }
     }//Finito
 
-
+    public function emailAvvertimento(EUtente $utente)
+    {
+        global $config;
+        $view=USingleton::getInstance('VAdmin');
+        $view->setLayout('email_avvertimento');
+        $view->impostaDati('nome_cognome',$utente->nome.' '.$utente->cognome);
+        $view->impostaDati('email_webmaster',$config['email_webmaster']);
+        //$view->impostaDati('url',$config['url_bookstore']);
+        $corpo_email=$view->processaTemplate();
+        $email=USingleton::getInstance('UEmail');
+        return $email->invia_email($utente->mail,$utente->nome.' '.$utente->cognome,'Avvertimento Ricevuto YesYouTravel',$corpo_email);
+    }
 }
 ?>

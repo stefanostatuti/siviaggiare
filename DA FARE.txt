@@ -34,3 +34,28 @@ Aggiungere la colonna della citta visitata
 se un utente non ha viaggi e si clicca su I miei Viaggi (lo stesso vale per luoghi...) il template esce storpio
 in VHome il metodo "public function impostaPaginaAutenticato()" ha una variabile non usata
 in CRegistrazione il metodo CreaUtente() ha una variabile non usata
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DOPO IL COLLAGE
+
+
+potrebbe essere un problema in get utenteregistrato in CRegistrazione(unsetcontrollerTask)
+contollare deletecommento in FCommento

@@ -1,5 +1,5 @@
 {literal}
-    <!--<script type="text/javascript" src="//siviaggiare//script//jquery-2.0.3.min.js"></script>-->
+    <!--<script type="text/javascript" src="script//jquery-2.0.3.min.js"></script>-->
     <script src="http://code.jquery.com/jquery-2.0.3.js"></script>
     <script type="text/javascript" src="script/admin.js"></script>
 {/literal}

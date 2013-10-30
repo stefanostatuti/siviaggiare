@@ -102,7 +102,9 @@ class EUtente
         elseif ($ris==false){
             debug("UPDATE FALLITO!!!! ");
             debug("Dopo "+$this->getAvvertimenti()+"\n");
+
         }
+        return $ris;
     }
 }
 ?>

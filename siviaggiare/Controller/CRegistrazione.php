@@ -296,7 +296,7 @@ class CRegistrazione
     {
         //debug("Sto in logout");
         $session=USingleton::getInstance('USession');
-        if($session->leggi_valore('username'))
+        if($session->leggi_valore('username')) //username è sempre presente indipendentemente dal tipo di user
         {
             $session->cancella_valore('username');
             $session->cancella_valore('nome_cognome');
