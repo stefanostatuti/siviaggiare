@@ -177,7 +177,7 @@ class FDatabase
      * @param object $object
      * @return boolean
      */
-    public function delete(& $object)// da sistemare per modifica eliminazione
+    /*public function delete(& $object)// da sistemare per modifica eliminazione
     {
         $arrayObject=get_object_vars($object);
         $query='DELETE ' .
@@ -186,7 +186,7 @@ class FDatabase
         unset($object);
         return $this->query($query);
     }
-
+    */
 
     public function loadRicerca($key,$value)//username,valore
     {
@@ -311,5 +311,53 @@ class FDatabase
         return $object[0];
     }
 
+
+    //BOZZA DI DELETE PARAMETRICA
+    /**
+     * Aggiorna sul database lo stato di un oggetto
+     *
+     * @param object $object
+     * @return boolean
+     */
+    public function delete($object)
+    {
+        $i=0;
+        $fields='';
+        foreach ($object as $key=>$value)
+        {
+            if (!($key == $this->chiave) && substr($key, 0, 1)!='_')
+            {
+                if ($i==0)
+                {
+                    $fields.='`'.$key.'` = \''.$value.'\'';
+                } else
+                {
+                    $fields.=', `'.$key.'` = \''.$value.'\'';
+                }
+                $i++;
+            }
+        }
+
+        $arrayObject=get_object_vars($object);
+        if(is_array($this->chiave))
+        {
+            $query='DELETE `'.$this->tabella.'` FROM '.$fields.' WHERE ';
+            $j=0;
+            for($i=0;$i<count($this->chiave);$i++)
+            {
+                $query=$query.'`'.$this->chiave[$i].'` = \''.$arrayObject[$this->chiave[$i]].'\'';
+                if($j<count($this->chiave)-1)
+                {
+                    $query=$query.' AND ';
+                    $j++;
+                }
+            }
+        }
+        else
+        {
+            $query='DELETE `'.$this->tabella.'` FROM '.$fields.' WHERE `'.$this->chiave.'` = \''.$arrayObject[$this->chiave].'\'';
+        }
+        return $this->query($query);
+    }
 }
 ?>

@@ -144,7 +144,7 @@ $(document).ready(function()
             $.ajax({
                 type: 'GET',
                 url: 'index.php?controller=amministrazione&task=elimina_commento',
-                data: "idcommento="+getIDCommento(),
+                data: "id="+getIDCommento(),
                 success: function(response)
                 {
                     AggiornaPagina();

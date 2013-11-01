@@ -146,6 +146,7 @@ class CAdmin
         $VViaggio=USingleton::getInstance('VViaggio');
         $FCommento=new FCommento();
         $commento=$FCommento->loadCommento($VViaggio->getIdCommento());
+//var_dump($commento);
 
         $VAdmin=USingleton::getInstance('VAdmin');
         $VAdmin->setLayout('dettagli_commento');
@@ -719,7 +720,8 @@ class CAdmin
         $FCommento=new FCommento();
         $commento=$FCommento->loadCommento($id);
         //end
-        if ($commento!= NULL ||$commento!=0){
+        if ($commento!= NULL ||$commento!=0)
+        {
         //tento di cancellarlo
         $ris= $FCommento->deleteCommento($id);
             debug("Commento ELIMINATO CORRETTAMENTE!");

@@ -7,11 +7,10 @@
     <h3>Dettagli commento segnalato:</h3>
         <div class=form_settings>
 
-            {if ($segnalazione->idcommento)}
-
+            {if ($commento->id)}
                  <table>
                      <tr>
-                         <td> ID del Commento </td><td><span id= 'idcommento'>{$commento->idcommento}</span></td>
+                         <td> ID del Commento </td><td><span id= 'idcommento'>{$commento->id}</span></td>
                      </tr>
                      <tr>
                          <td> ID del Viaggio </td><td>{$commento->idviaggio}</td>
@@ -48,7 +47,7 @@
             {/if}
 
 
-            {if !($segnalazione->idcommento)}
+            {if !($commento->id)}
             <br>
                Commento GIA RIMOSSO!<br><br>
                consiglio di eliminare la segnalazione
