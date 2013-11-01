@@ -48,17 +48,17 @@ class FCommento extends FDatabase
     }
 
     /**
-     * Cancella dal database un commento
-     *
-     * @param object $object
-     * @return boolean
-     */
-    public function deleteCommento($id)     //CONTROLLARE SE FUNZIONA (DAVEDERE)
+    * Cancella dal database un commento
+    *
+    * @param object $object
+    * @return boolean
+    */
+    public function deleteCommento($id)     //CONTROLLARE SE FUNZIONA (DA VEDERE)
     {
         $query='DELETE ' .
             'FROM `'.$this->tabella.'` ' .
             'WHERE `'.$this->chiave.'` = \''.$id.'\'';
-        unset($object);////CONTROLLARE SE SERVE!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //unset($object);////CONTROLLARE SE SERVE!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         $obj=parent::getObjectInArray(parent::query($query));
         return $obj;
     }
