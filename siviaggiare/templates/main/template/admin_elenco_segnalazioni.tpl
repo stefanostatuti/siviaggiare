@@ -18,7 +18,7 @@
                 <tr {if $smarty.section.nr.iteration is odd} bgcolor="#ccc" {/if}>
                     <!--
                     <td>
-                        {$results[nr]->idsegnalazione}
+                        {$results[nr]->id}
                     </td>
                     -->
                     <td>
@@ -43,7 +43,7 @@
                         {$results[nr]->motivo}
                     </td>
                     <td>
-                        <a href="?controller=amministrazione&task=dettaglio_segnalazione&idsegnalazione={$results[nr]->idsegnalazione}">Vedi dettagli</a>
+                        <a href="?controller=amministrazione&task=dettaglio_segnalazione&idsegnalazione={$results[nr]->id}">Vedi dettagli</a>
                     </td>
                 </tr>
             {/section}

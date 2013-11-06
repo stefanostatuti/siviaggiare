@@ -5,22 +5,26 @@
 {/literal}
 
 <div class="content">
-    <h3>Dettaglio segnalazione {$segnalazione->idsegnalazione} di {$segnalazione->autore}:</h3>
+    <h3>Dettaglio segnalazione {$segnalazione->id} di {$segnalazione->autore}:</h3>
     <div class="form_settings">
 
-        {if ($segnalazione->idsegnalazione)}
+        {if ($segnalazione->id)}
         <table>
             <tr>
                 <td><h4>IdSegnalazione</h4></td>
-                <td><h6><span id= 'idsegnalazione'>{$segnalazione->idsegnalazione}</span></h6></td>
+                <td><h6><span id='idsegnalazione'>{$segnalazione->id}</span></h6></td>
             </tr>
             <tr>
                 <td><h4>Autore</h4></td>
-                <td><h6>{$segnalazione->autore}</h6></td>
+                <td><h6><!--{$segnalazione->autore}</h6>-->
+                <a href="?controller=amministrazione&task=dettaglio_utente&username={$segnalazione->autore}">{$segnalazione->autore}</a></h6>
+                </td>
             </tr>
             <tr>
                 <td><h4>Utente Segnalato</h4></td>
-                <td><h6>{$segnalazione->segnalato}</h6></td>
+                <td><h6>
+                <a href="?controller=amministrazione&task=dettaglio_utente&username={$segnalazione->autore}">{$segnalazione->segnalato}</a></h6>
+                </td>
             </tr>
             {if ($segnalazione->idviaggio) && !($segnalazione->citta)} <!-- verifica che non ci sia nome città-->
                 <tr>
@@ -88,7 +92,7 @@
             <button id="elimina-segnalazione"  class="elimina-segnalazione" >Elimina Segnalazione</button>
         {/if}
 
-        {if !($segnalazione->idsegnalazione)}
+        {if !($segnalazione->id)}
             <br>
             Segnalazione RIMOSSA!<br><br>
             <br>

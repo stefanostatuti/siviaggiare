@@ -16,7 +16,8 @@
                          <td> ID del Viaggio </td><td>{$commento->idviaggio}</td>
                      </tr>
                      <tr>
-                         <td> Autore del messaggio:</td><td> {$commento->autore} </td>
+                         <td> Autore del messaggio:</td>
+                         <td><a href="?controller=amministrazione&task=dettaglio_utente&username={$commento->autore}">{$commento->autore}</a></td>
                      </tr>
                     <tr>
                             <td> Nome Luogo:</td><td> {$commento->nomeluogo} </td>
@@ -42,7 +43,7 @@
             <button id="elimina-commento" class="elimina-commento" >Elimina Commento</button>
             <button id="annulla" class="annulla" >Annulla Modifiche</button>
             <button id="avvertimento" class="avvertimento">Manda Avvertimento</button>
-            <button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>
+            <!--Salva Modifiche</button>-->
             <button id="modifica" class="modifica">Modifica Commento</button>
             {/if}
 

@@ -36,21 +36,5 @@ class FViaggio extends FDatabase
         return $obj;
     }
 
-    /**
-     * Cancella dal database un Viaggio
-     *
-     * @param id
-     * @return boolean
-     */
-    public function deleteViaggio($id)
-    {
-        $query='DELETE ' .
-            'FROM `'.$this->tabella.'` ' .
-            'WHERE `'.$this->chiave.'` = \''.$id.'\'';
-        unset($object);
-        $obj=parent::getObject(parent::query($query));
-        return $obj;
-    }
-
 
 }

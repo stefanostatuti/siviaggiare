@@ -9,22 +9,21 @@
 
 class ESegnalazione
 {
-    public $idsegnalazione; //id segnalazione
-
+    public $id; //id segnalazione
     public $autore; //chi fa la segnalazione
     public $segnalato;//l'utente che riceve
-
     public $idviaggio; // se si segnala un viaggio inopportuno
-    public $citta;  // se si segnala una citta inopportuno
+    public $citta;  // se si segnala una citta inopportuna
     public $luogo;  // se si segnala un luogo inopportuno
     public $idcommento; // se si segnala un commento inopportuno
-
     public $motivo; //il motivo della segnalazione
-
 
 
     public function getIDSegnalazione()
     {
-        return $this->idsegnalazione;
+        return $this->id;
     }
+
+
+
 }

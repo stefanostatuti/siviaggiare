@@ -31,15 +31,13 @@ class FLuogo extends FDatabase
 
     public function deleteLuogo($key)       //DA VEDERE CONTROLLARE!!!!!!!
     {
-        //var_dump($key);
+        var_dump($key);
         $query='DELETE ' .
             'FROM `'.$this->tabella.'` ' .
             'WHERE `'.$this->chiave[0].'` = \''.$key['idviaggio']
             .'\' AND '.'`'.$this->chiave[1].'` = \''.$key['nome']
             .'\' AND '.'`'.$this->chiave[2].'` = \''.$key['nomecitta']
             .'\'';
-        unset($object);
-
         $obj=parent::getObject(parent::query($query));
         return $obj;;//mi serve per ottenere il metodo query da FDB
     }

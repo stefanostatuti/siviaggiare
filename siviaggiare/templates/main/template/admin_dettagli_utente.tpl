@@ -12,7 +12,8 @@
         <!--<h3>Utente: {$utente->username}</h3>-->
         <table>
             <tr>
-                <td> Nome:</td><td><span id= 'nomeutente'>{$utente->username}</span> </td>
+                <td> Nome:</td>
+                <td><span id='nomeutente'>{$utente->username}</span></td>
             </tr>
             <tr>
                 <td> Cognome:</td><td> {$utente->cognome} </td>
@@ -43,7 +44,7 @@
         <button id="annulla" class="annulla">Annulla Modifiche</button>
         <button id="gestisci-utente" class="gestisci-utente">Gestisci Utente</button>
         <button id="avvertimento" class="avvertimento">Manda Avvertimento</button>
-        <button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>
+        <!--<button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>-->
         <button id="modifica" class="modifica">Modifica Utente</button>
         {/if}
 
@@ -58,16 +59,4 @@
 
         {/if}
     </div>
-    <!--<form method="post"action="index.php" class="left">
-        <input type="hidden" name="controller" value="amministrazione" />
-        <input type="hidden" name="task" value="gestione_utenti" />
-        <input type="submit" value="Indietro" />
-    </form>
-
-    <button id="elimina-utente"  class="elimina-utente" >Elimina Utente</button>
-    <button id="annulla" class="annulla" >Annulla Modifiche</button>
-    <button id="avvertimento" class="avvertimento">Manda Avvertimento</button>
-    <button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>
-    <button id="modifica" class="modifica">Modifica Utente</button>
-    -->
 </div>

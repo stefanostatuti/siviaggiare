@@ -216,7 +216,7 @@ INSERT INTO `viaggio` (`id`, `utenteusername`, `datainizio`, `datafine`, `mezzot
 --
 
 CREATE TABLE IF NOT EXISTS `segnalazioni` (
-  `idsegnalazione` int(20) NOT NULL AUTO_INCREMENT,
+  `id` int(20) NOT NULL AUTO_INCREMENT,
   `autore` varchar(20) NOT NULL,
   `segnalato` varchar(40) DEFAULT NULL,
   `idviaggio` int(20) DEFAULT NULL,
@@ -224,14 +224,14 @@ CREATE TABLE IF NOT EXISTS `segnalazioni` (
   `luogo` varchar(30) DEFAULT NULL,
   `idcommento` int(20) DEFAULT NULL,
   `motivo` varchar(1024) NOT NULL,
-  PRIMARY KEY (`idsegnalazione`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `segnalazioni`
 --
 
-INSERT INTO `segnalazioni` (`idsegnalazione`, `autore`, `segnalato`, `idviaggio`, `citta`, `luogo`, `idcommento`, `motivo`) VALUES
+INSERT INTO `segnalazioni` (`id`, `autore`, `segnalato`, `idviaggio`, `citta`, `luogo`, `idcommento`, `motivo`) VALUES
 (1, 'pippo', 'riccio', 2, NULL, NULL, NULL, 'prova di viaggio segnalato'),
 (2, 'riccio', 'pippo', NULL, NULL, NULL, 4, 'prova di commento segnalato'),
 (3, 'kekko', 'riccio', 2, 'borgo', NULL, NULL, 'prova di citta segnalata'),

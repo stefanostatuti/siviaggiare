@@ -134,7 +134,7 @@ class CAdmin
         $FLuogo=new FLuogo();
         $key=array('idviaggio'=>$VViaggio->getIdViaggio(),'nome'=>$VViaggio->getNomeLuogo(),'nomecitta'=>$VViaggio->getNomeCitta());
         $luogo=$FLuogo->loadLuogo($key);
-
+        var_dump($luogo);
         $VAdmin=USingleton::getInstance('VAdmin');
         $VAdmin->setLayout('dettagli_luogo');
         $VAdmin->impostaDati('luogo',$luogo);
@@ -169,8 +169,9 @@ class CAdmin
    public function PromuoviUtente(){
         //carico un metodo di EAdmin
         debug("ci entro in promuovi utente?");
-
-       $nomeutente=$_GET["nomeutente"];
+       $VAdmin = new $VAdmin();
+       $nomeutente=$VAdmin->getNomeUtente();
+       //$nomeutente=$_GET["nomeutente"];
        debug("nome utente = ");
        var_dump($nomeutente);
        debug("provo a promuoverlo");
@@ -206,9 +207,10 @@ class CAdmin
 
    public function DegradaUtente(){
         //carico un metodo di EAdmin
-        debug("ci entro in degrada utente?");
-
-        $nomeutente=$_GET["nomeutente"];
+        //debug("ci entro in degrada utente?");
+       $VAdmin = new $VAdmin();
+       $nomeutente=$VAdmin->getNomeUtente();
+        //$nomeutente=$_GET["nomeutente"];
         debug("nome utente = ");
         var_dump($nomeutente);
         debug("provo a degradarlo");
@@ -243,8 +245,9 @@ class CAdmin
 
    public function MandaAvvertimento()
    {
-
-       $nomeutente=$_GET["nomeutente"];
+       $VAdmin = new $VAdmin();
+       $nomeutente=$VAdmin->getNomeUtente();
+       //$nomeutente=$_GET["nomeutente"];
        debug("nome utente = ");
        var_dump($nomeutente);
        debug("Mando Avvertimento!");
@@ -287,8 +290,11 @@ class CAdmin
 
     //ELIMINAZIONI
     public function EliminaSegnalazione(){
-        $id=$_GET["idsegnalazione"];
-        debug("idsegnalazione = "+$id);
+
+        $VAdmin = new $VAdmin();
+        $id=$VAdmin->getIdSegnalazione();
+        //$id=$_GET["idsegnalazione"];
+        //debug("idsegnalazione = "+$id);
         ("Elimino la Segnalazione!\n\n");
 
         //recupero l'oggetto dal DB usando l'indice ottenuto
@@ -296,7 +302,7 @@ class CAdmin
         $segnalazione=$FSegnalazione->loadSegnalazione($id);
         if ($segnalazione!= NULL || $segnalazione!=0){
             //tento di cancellarla
-            $ris= $FSegnalazione->deleteSegnalazione($id);
+            $ris= $FSegnalazione->delete($segnalazione);
             debug("Segnalazione ELIMINATA CORRETTAMENTE!");
             var_dump($ris);
         }
@@ -307,9 +313,13 @@ class CAdmin
     } //Finito
 
     public function EliminaUtente(){
-        $nomeutente=$_GET["nomeutente"];
-        debug("nome utente = ");
-        var_dump($nomeutente);
+
+        $VAdmin = new $VAdmin();
+        $nomeutente=$VAdmin->getNomeUtente();
+
+        //$nomeutente=$_GET["nomeutente"];
+        //debug("nome utente = ");
+        //var_dump($nomeutente);
         debug("Elimino utente!");
 
         //recupero l'oggetto dal DB usando l'indice ottenuto
@@ -318,132 +328,53 @@ class CAdmin
 
         if ($utente!= NULL || $utente!= false)
         {
+
             $lista_viaggi = $utente->getElencoViaggi();
-            if (count($lista_viaggi)!=0)
+            foreach($lista_viaggi as $viaggio)
             {
-                foreach($lista_viaggi as $viaggio)
+                $FViaggio=new FViaggio();
+                $viaggio=$FViaggio->loadViaggio($viaggio->id);
+                if ($viaggio!= NULL || $viaggio!= false)
                 {
-                    $id=$viaggio['id'];
-                    debug("idviaggio = "+$id);
-                    debug("Elimino il viaggio!");
-
-                    //recupero l'oggetto dal DB usando l'indice ottenuto
-                    $FViaggio=new FViaggio();
-                    $viaggio=$FViaggio->loadViaggio($id);
-                    //end
-                    if ($viaggio!= NULL || $viaggio!= false)
+                    //var_dump($viaggio);
+                    $lista_citta=$viaggio->getElencoCitta();//tiene la lista delle citta
+                    foreach ($lista_citta as $citta)
                     {
-
-                        $lista_citta = $viaggio->getElencoCitta();
-                        if (count($lista_citta)!=0)
+                        $FCitta=new FCitta();
+                        $key["idviaggio"]=(int) $citta->idviaggio; //obbligatorio il casting poiche IDViaggio torna Stringa
+                        $key["nome"]=$citta->nome;
+                        $citta=$FCitta->loadCitta($key);
+                        if ($citta!= NULL || $citta!= false)
                         {
-                            foreach($lista_citta as $citta)
+                            //cancello tutti i luoghi appartenenti alla citta
+                            $lista_luoghi=$citta->getElencoLuoghi();//tiene la lista del luoghi
+                            var_dump($lista_luoghi);
+                            $FLuogo=new FLuogo();
+                            foreach ($elenco_luoghi as $luogo)
                             {
-                                //debug($_GET); //arriva la stringa giusta
-                                //debug(is_string($_GET["nomecitta"])); //torna TRUE quindi è una stringa
-                                $idviaggio=$_GET["idviaggio"];
-                                debug("idviaggio = "+$idviaggio); //stampa l'id Giusto
-                                $nomecitta=$citta["nomecitta"]; //prendo il nome da citta[i]
-                                var_dump($nomecitta);
-                                //debug("nomecitta = "+$nomecitta);//mi stampa 0 invece che la stringa
-                                debug("Elimino la citta!");
-
-                                //recupero l'oggetto dal DB usando l'indice ottenuto
-                                $FCitta=new FCitta();
-
-                                //Creo l'array da mandare a loadCitta($key)
-                                $key=array('idviaggio','nomecitta');
-                                $key['idviaggio']=$idviaggio;
-                                $key['nome']=$nomecitta;
-                                //end
-                                $citta=$FCitta->loadCitta($key);
-
-                                if ($citta!= NULL || $citta!= false){
-
-                                    //cancello tutti i luoghi appartenenti alla citta
-                                    var_dump($citta);
-                                    $lista_luoghi=$citta->getElencoLuoghi();
-                                    var_dump($lista_luoghi);
-
-                                    if (count($lista_luoghi)!=0)
-                                    {
-                                        //Cancello ogni luogo e cancello ogni commento relativo a quel luogo
-                                        $i=0;//solo per debug
-                                        foreach($lista_luoghi as $luogo)
-                                        {
-                                            debug("passaggio ".$i."\n");
-                                            var_dump($luogo);
-                                            //per ogni luogo cerco tutti i commenti
-                                            $FCommento = new FCommento();
-                                            $lista_commenti=$FCommento->loadRicerca();//manca la funzione per cercare tutti i commenti di un luogo
-                                            if (count($lista_commenti)!=0)
-                                            {
-                                                debug("DA FINIRE: elimino tutti i commenti");
-                                            }
-                                            else//end cancellazione commenti
-                                            {
-                                                debug("ATTENZIONE: NON CI SONO COMMENTI PER QUESTO LUOGO");
-                                            }
-
-                                            //qui elimino il luogo
-                                            //recupero l'oggetto dal DB usando l'indice ottenuto
-                                            $FLuogo=new FLuogo();
-                                            //Creo l'array da mandare a loadLuogo($key)
-                                            $key=array('idviaggio','nomecitta','nome');
-                                            $key['idviaggio']=$idviaggio;
-                                            $key['nomecitta']=$nomecitta;
-                                            //il nome del luogo lo reperisco dall'oggeto che trovo in lista_luoghi di $i;
-                                            $key['nome']=$luogo['nome']; //da verificare se passa il parametro giusto
-                                            debug($key['nome']);
-                                            //end
-                                            $luogo=$FLuogo->loadLuogo($key);
-
-                                            if ($luogo!= NULL || $luogo!=0)
-                                            {
-                                                //tento di cancellare il Luogo
-                                                $ris= $FLuogo->deleteLuogo($key);
-                                                debug("Luogo ELIMINATO CORRETTAMENTE!");
-                                                var_dump($ris);
-                                            }
-                                            else
-                                            {
-                                                Debug("NON CI SONO RISULTATI!!!!");
-                                            }
-                                        }
-                                    }//end ricerca luoghi
-                                    else
-                                    {
-                                        debug("ATTENZIONE: NON CI SONO LUOGHI INSERITI PER QUESTA CITTA");
-                                    }
-
-                                    //tento di cancellare la citta
-                                    $ris= $FCitta->deleteCitta($key);
-                                    debug("Citta ELIMINATA CORRETTAMENTE!");
-                                    var_dump($ris);
-                                }//end ricerca luoghi
-                                else
+                                $elenco_commenti=$luogo->getElencoCommenti();
+                                foreach ($elenco_commenti as $commento)
                                 {
-                                    Debug("NON CI SONO RISULTATI!!!!");
+                                    $FCommento= new FCommento();
+                                    $FCommento->delete($commento);
+                                    debug("\nCommento ELIMINATO CORRETTAMENTE!");
+                                    debug($ris);
                                 }
-                            }//end cancellazione Citta
-                        }//end ricerca citta
-
-                        //tento di cancellare il viaggio
-                        $ris= $FViaggio->deleteViaggio($id);
-                        debug("Viaggio ELIMINATO CORRETTAMENTE!");
-                        var_dump($ris);
-
-                    }//end cancellazione viaggio
-                    else
-                    {
-                        Debug("NON CI SONO RISULTATI!!!!");
+                                $FLuogo->delete($luogo);
+                                debug("\nLuogo ELIMINATO CORRETTAMENTE!");
+                            }
+                            //tento di cancellare la citta
+                            $FCitta->delete($citta);
+                            debug("Citta ELIMINATA CORRETTAMENTE!");
+                        }
                     }
-
-                }//End eliminazione della lista viaggi
-            }//end ricerca viaggi
-
+                    //tento di cancellare il viaggio
+                    $FViaggio->delete($viaggio);
+                    debug("Citta ELIMINATA CORRETTAMENTE!");
+                    }
+                }
             //tento di cancellare l'utente
-            $ris= $FUtente->deleteUtente($nomeutente);
+            $ris= $FUtente->delete($utente);
             debug("Utente ELIMINATO CORRETTAMENTE!");
             var_dump($ris);
         }
@@ -451,13 +382,14 @@ class CAdmin
         {
             Debug("NON CI SONO RISULTATI!!!!");
         }
-
     }//FINTO ma manca la parte di eliminazione dei commenti//DA controllare se funziona
 
     public function EliminaViaggio(){
-        $id=$_GET["idviaggio"];
-        debug("idviaggio = "+$id);
-        debug("Elimino il viaggio!");
+        $VAdmin = new $VAdmin();
+        $id=$VAdmin->getIdViaggio();
+        //$id=$_GET["idviaggio"];
+        //debug("idviaggio = "+$id);
+        //debug("Elimino il viaggio!");
 
         //recupero l'oggetto dal DB usando l'indice ottenuto
         $FViaggio=new FViaggio();
@@ -465,267 +397,155 @@ class CAdmin
         //end
         if ($viaggio!= NULL || $viaggio!= false)
         {
-
-            $lista_citta = $viaggio->getElencoCitta();
-            if (count($lista_citta)!=0)
+            //var_dump($viaggio);
+            $lista_citta=$viaggio->getElencoCitta();//tiene la lista delle citta
+            var_dump($lista_citta);
+            foreach ($lista_citta as $citta)
             {
-                foreach($lista_citta as $citta)
-                {
-                //debug($_GET); //arriva la stringa giusta
-                //debug(is_string($_GET["nomecitta"])); //torna TRUE quindi è una stringa
-                $idviaggio=$_GET["idviaggio"];
-                debug("idviaggio = "+$idviaggio); //stampa l'id Giusto
-                $nomecitta=$citta["nomecitta"]; //prendo il nome da citta[i]
-                var_dump($nomecitta);
-                //debug("nomecitta = "+$nomecitta);//mi stampa 0 invece che la stringa
-                debug("Elimino la citta!");
-
-                //recupero l'oggetto dal DB usando l'indice ottenuto
                 $FCitta=new FCitta();
 
-//Creo l'array da mandare a loadCitta($key)
-                $key=array('idviaggio','nomecitta');
-                $key['idviaggio']=$idviaggio;
-                $key['nome']=$nomecitta;
-//end
+                $key["idviaggio"]=(int) $citta->idviaggio; //obbligatorio il casting poiche IDViaggio torna Stringa
+                $key["nome"]=$citta->nome;
                 $citta=$FCitta->loadCitta($key);
-
-                if ($citta!= NULL || $citta!= false){
-
-                    //cancello tutti i luoghi appartenenti alla citta
-                    var_dump($citta);
-                    $lista_luoghi=$citta->getElencoLuoghi();
-                    var_dump($lista_luoghi);
-
-                    if (count($lista_luoghi)!=0)
-                    {
-                        //Cancello ogni luogo e cancello ogni commento relativo a quel luogo
-                        $i=0;//solo per debug
-                        foreach($lista_luoghi as $luogo)
-                        {
-                            debug("passaggio ".$i."\n");
-                            var_dump($luogo);
-                            //per ogni luogo cerco tutti i commenti
-                            $FCommento = new FCommento();
-                            $lista_commenti=$FCommento->loadRicerca();//manca la funzione per cercare tutti i commenti di un luogo
-                            if (count($lista_commenti)!=0)
-                            {
-                                debug("DA FINIRE: elimino tutti i commenti");
-                            }
-                            else//end cancellazione commenti
-                            {
-                                debug("ATTENZIONE: NON CI SONO COMMENTI PER QUESTO LUOGO");
-                            }
-
-                            //qui elimino il luogo
-                            //recupero l'oggetto dal DB usando l'indice ottenuto
-                            $FLuogo=new FLuogo();
-//Creo l'array da mandare a loadLuogo($key)
-                            $key=array('idviaggio','nomecitta','nome');
-                            $key['idviaggio']=$idviaggio;
-                            $key['nomecitta']=$nomecitta;
-                            //il nome del luogo lo reperisco dall'oggeto che trovo in lista_luoghi di $i;
-                            $key['nome']=$luogo['nome']; //da verificare se passa il parametro giusto
-                            debug($key['nome']);
-//end
-                            $luogo=$FLuogo->loadLuogo($key);
-
-                            if ($luogo!= NULL || $luogo!=0)
-                            {
-                                //tento di cancellare il Luogo
-                                $ris= $FLuogo->deleteLuogo($key);
-                                debug("Luogo ELIMINATO CORRETTAMENTE!");
-                                var_dump($ris);
-                            }
-                            else
-                            {
-                                Debug("NON CI SONO RISULTATI!!!!");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        debug("ATTENZIONE: NON CI SONO LUOGHI INSERITI PER QUESTA CITTA");
-                    }
-
-                    //tento di cancellare la citta
-                    $ris= $FCitta->deleteCitta($key);
-                    debug("Citta ELIMINATA CORRETTAMENTE!");
-                    var_dump($ris);
-                }//end eliminazione citta
-                else
+                if ($citta!= NULL || $citta!= false)
                 {
-                    Debug("NON CI SONO RISULTATI!!!!");
+                    //cancello tutti i luoghi appartenenti alla citta
+                    $lista_luoghi=$citta->getElencoLuoghi();//tiene la lista del luoghi
+                    var_dump($lista_luoghi);
+                    $FLuogo=new FLuogo();
+                    $FCommento= new FCommento();
+                    foreach ($lista_luoghi as $luogo)
+                    {
+                        $elenco_commenti=$luogo->getElencoCommenti();
+                        foreach ($elenco_commenti as $commento)
+                        {
+                            $FCommento->delete($commento);
+                            debug("\nCommento ELIMINATO CORRETTAMENTE!");
+                            //debug($ris);
+                        }
+                        $FLuogo->delete($luogo);
+                        debug("\nLuogo ELIMINATO CORRETTAMENTE!");
+                    }
+                //tento di cancellare la citta
+                $FCitta->delete($citta);
+                debug("Citta ELIMINATA CORRETTAMENTE!");
                 }
-           }
-       }//end ricerca citta
+            }
+            //tento di cancellare il viaggio
+            $FViaggio->delete($viaggio);
+            debug("VIAGGIO ELIMINATO CORRETTAMENTE!");
 
-       //tento di cancellare il viaggio
-       $ris= $FViaggio->deleteViaggio($id);
-       debug("Viaggio ELIMINATO CORRETTAMENTE!");
-       var_dump($ris);
-       }//end cancellazione viaggio
-       else
-       {
-            Debug("NON CI SONO RISULTATI!!!!");
-       }
-    }//FINTO ma manca la parte di eliminazione dei commenti//DA controllare se funziona
+        }
+        else
+        {
+             Debug("NON CI SONO RISULTATI!!!!");
+        }
+    }//DA controllare se funziona
 
     public function EliminaCitta()
     {
-        //debug($_GET); //arriva la stringa giusta
-        //debug(is_string($_GET["nomecitta"])); //torna TRUE quindi è una stringa
-        $idviaggio=$_GET["idviaggio"];
-        debug("idviaggio = "+$idviaggio); //stampa l'id Giusto
-        $nomecitta=$_GET["nomecitta"];
-        var_dump($nomecitta);
-        //debug("nomecitta = "+$nomecitta);//mi stampa 0 invece che la stringa
+        $VAdmin = new $VAdmin();
+        $idviaggio=$VAdmin->getIdViaggio();
+        $nomecitta=$VAdmin->getNomeCitta();
+        //$idviaggio=$_GET["idviaggio"];
+        //$nomecitta=$_GET["nomecitta"];
         debug("Elimino la citta!");
 
         //recupero l'oggetto dal DB usando l'indice ottenuto
         $FCitta=new FCitta();
 
 //Creo l'array da mandare a loadCitta($key)
-        $key=array('idviaggio','nomecitta');
         $key['idviaggio']=$idviaggio;
         $key['nome']=$nomecitta;
 //end
         $citta=$FCitta->loadCitta($key);
 
-        if ($citta!= NULL || $citta!=0){
-
+        if ($citta!= NULL || $citta!= false)
+        {
             //cancello tutti i luoghi appartenenti alla citta
-            var_dump($citta);
-            $lista_luoghi=$citta->getElencoLuoghi();
-            var_dump($lista_luoghi);
-
-            if (count($lista_luoghi)!=0)
+            $elenco_luoghi=$citta->getElencoLuoghi();//tiene la lista del luoghi
+            var_dump($elenco_luoghi);
+            $FLuogo=new FLuogo();
+            $FCommento= new FCommento();
+            foreach ($elenco_luoghi as $luogo)
             {
-                //Cancello ogni luogo e cancello ogni commento relativo a quel luogo
-                $i=0;//solo per debug
-                foreach($lista_luoghi as $luogo)
+                $elenco_commenti=$luogo->getElencoCommenti();
+                foreach ($elenco_commenti as $commento)
                 {
-                    debug("passaggio ".$i."\n");
-                    var_dump($luogo);
-                    //per ogni luogo cerco tutti i commenti
-                    $FCommento = new FCommento();
-                    $lista_commenti=$FCommento->loadRicerca();//manca la funzione per cercare tutti i commenti di un luogo
-                    if (count($lista_commenti)!=0)
-                    {
-                        debug("DA FINIRE: elimino tutti i commenti");
-                    }
-                    else//end cancellazione commenti
-                    {
-                        debug("ATTENZIONE: NON CI SONO COMMENTI PER QUESTO LUOGO");
-                    }
-
-                    //qui elimino il luogo
-                    //recupero l'oggetto dal DB usando l'indice ottenuto
-                    $FLuogo=new FLuogo();
-//Creo l'array da mandare a loadLuogo($key)
-                    $key=array('idviaggio','nomecitta','nome');
-                    $key['idviaggio']=$idviaggio;
-                    $key['nomecitta']=$nomecitta;
-                    //il nome del luogo lo reperisco dall'oggeto che trovo in lista_luoghi di $i;
-                    $key['nome']=$luogo['nome']; //da verificare se passa il parametro giusto
-                    debug($key['nome']);
-//end
-                    $luogo=$FLuogo->loadLuogo($key);
-
-                    if ($luogo!= NULL || $luogo!=0)
-                    {
-                        //tento di cancellare il Luogo
-                        $ris= $FLuogo->deleteLuogo($key);
-                        debug("Luogo ELIMINATO CORRETTAMENTE!");
-                        var_dump($ris);
-                    }
-                    else
-                    {
-                        Debug("NON CI SONO RISULTATI!!!!");
-                    }
+                    $FCommento->delete($commento);
+                    debug("\nCommento ELIMINATO CORRETTAMENTE!");
                 }
+                $FLuogo->delete($luogo);
+                debug("\nLuogo ELIMINATO CORRETTAMENTE!");
             }
-            else
-            {
-                debug("ATTENZIONE: NON CI SONO LUOGHI INSERITI PER QUESTA CITTA");
-            }
-
             //tento di cancellare la citta
-            $ris= $FCitta->deleteCitta($key);
+            $FCitta->delete($citta);
             debug("Citta ELIMINATA CORRETTAMENTE!");
-            var_dump($ris);
         }
         else
         {
             Debug("NON CI SONO RISULTATI!!!!");
         }
-    }//FINTO ma manca la parte di eliminazione dei commenti //DA controllare se funziona
+    } //finito
 
     public function EliminaLuogo()
     {
-        //debug($_GET); //arriva la stringa giusta
-        //debug(is_string($_GET["nomecitta"])); //torna TRUE quindi è una stringa
-        $idviaggio=$_GET["idviaggio"];
-        debug("idviaggio = "+$idviaggio); //stampa l'id Giusto
-        $nomecitta=$_GET["nomecitta"];
-        var_dump($nomecitta);
-        $nomeluogo=$_GET["nomeluogo"];
-        var_dump($nomeluogo);
-        debug("Elimino luogo!");
+        $VAdmin = new $VAdmin();
 
+        $idviaggio=$VAdmin->getIdViaggio();
+        $nomecitta=$VAdmin->getNomeCitta();
+        $nomeluogo=$Vadmin->getNomeLuogo();
+        //$idviaggio=$_GET["idviaggio"];
+        //$nomecitta=$_GET["nomecitta"];
+        //$nomeluogo=$_GET["nomeluogo"];
+        debug("Elimino luogo!");
         //recupero l'oggetto dal DB usando l'indice ottenuto
         $FLuogo=new FLuogo();
+
 //Creo l'array da mandare a loadLuogo($key)
-        $key=array('idviaggio','nomecitta','nome');
         $key['idviaggio']=$idviaggio;
         $key['nomecitta']=$nomecitta;
         $key['nome']=$nomeluogo;
 //end
         $luogo=$FLuogo->loadLuogo($key);
 
-        if ($luogo!= NULL || $luogo!=0){
-
-            //cancello tutti i commenti appartenenti al luogo
-            var_dump($luogo);
-            $numerocommenti=count($luogo->getElencoCommenti());
-            var_dump($numerocommenti);
-            if ($numerocommenti!=0){
-                for ($i=0; $i<=$numerocommenti;$i++){
-                    debug("passaggio ".$i."\n");
-                    debug("DA FARE L'eliminazione");
-                }
-            }
-            else
+        if ($luogo!= NULL || $luogo!=false){
+            $elenco_commenti=$luogo->getElencoCommenti();
+            $FCommento=new FCommento();
+            foreach ($elenco_commenti as $commento)
             {
-                debug("ATTENZIONE: NON CI SONO COMMENTI PER QUESTO LUOGO");
-            }//end cancellazione commenti
-
+                $FCommento->delete($commento);
+                debug("\nCommento ELIMINATO CORRETTAMENTE!");
+            }
+            debug("\n cancellati tutti i commenti di questo luogo");
             //tento di cancellare il Luogo
-            $ris= $FLuogo->deleteLuogo($key);
+            $FLuogo->delete($luogo);
             debug("Luogo ELIMINATO CORRETTAMENTE!");
-            var_dump($ris);
         }
         else
         {
             Debug("NON CI SONO RISULTATI!!!!");
         }
-    }//FINTO ma manca la parte di eliminazione dei commenti //DA controllare se funziona
+    }//finito
 
     public function EliminaCommento(){
-        $id=$_GET["idcommento"];
-        debug("idcommento = "+$id);
+
+        $VAdmin = new $VAdmin();
+        $id=$VAdmin->getIdCommento();
+        //$id=$_GET["idcommento"];
+        //debug("idcommento = "+$id);
         debug("Elimino il Commento!");
 
         //recupero l'oggetto dal DB usando l'indice ottenuto
         $FCommento=new FCommento();
         $commento=$FCommento->loadCommento($id);
         //end
-        if ($commento!= NULL ||$commento!=0)
+        if ($commento!= NULL ||$commento!= false)
         {
         //tento di cancellarlo
-        $ris= $FCommento->deleteCommento($id);
+            $FCommento->delete($commento);
             debug("Commento ELIMINATO CORRETTAMENTE!");
-            var_dump($ris);
+            //var_dump($ris);
         }
         else
         {

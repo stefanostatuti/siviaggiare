@@ -24,6 +24,11 @@ class ELuogo
     public $_elenco_commenti = array();
 
 
+    public function getNomeLuogo()
+    {
+        return $this->nome;
+
+    }
 
     public function addCommento(ECommento $commento)
     {
@@ -35,7 +40,9 @@ class ELuogo
     {
         $FCommento=new FCommento();
         $this->_elenco_commenti=$FCommento->loadRicercaConTreValori('idviaggio',$this->idviaggio,'nomecitta',$this->nomecitta,'nomeluogo',$this->nome);
-        //debug($this->_elenco_luoghi);
+        debug("\n lista commenti:");
+        var_dump($this->_elenco_commenti);
         return $this->_elenco_commenti;
+
     }
 }

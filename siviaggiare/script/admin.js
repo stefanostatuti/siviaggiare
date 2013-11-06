@@ -36,16 +36,9 @@ $(document).ready(function()
                 data: "idsegnalazione="+getIDSegnalazione(),
                 success: function(response)
                 {
-                    alert("Tutto OK!");
                     AggiornaPagina();
                 }
             });
-
-            /* vecchia versione
-            xmlhttp =new XMLHttpRequest();
-            xmlhttp.open("GET","index.php?controller=amministrazione&task=elimina_segnalazione&id="+ getIDSegnalazione(),true); //devo passargli l'id della segnalazione
-            xmlhttp.send();
-            */
             alert("FINE!");
         }
         else
@@ -88,8 +81,8 @@ $(document).ready(function()
                 url: 'index.php?controller=amministrazione&task=elimina_citta',
                 //data: {"idviaggio":getIDViaggio(),"nomecitta":getNomeCitta()},
                 data: {"nomecitta":getNomeCitta(),"idviaggio":getIDViaggio()},
-                success: function(response){
-                    alert("tutto OK");
+                success: function(response)
+                {
                     AggiornaPagina();
                 }
             })
@@ -97,7 +90,7 @@ $(document).ready(function()
         }
         else
         {
-            alert("You pressed Cancel!");
+            //alert("You pressed Cancel!");
         }
 
     });//OK
@@ -115,17 +108,8 @@ $(document).ready(function()
                 success: function(response)
                 {
                     AggiornaPagina();
-                    //alert("Cancello anche la segnalazione! DA FARE!!!!");
-                    // alert("Redirect to home Segnalazioni!");
-                    //RedirectToHomeSegnalazioni();
                 }
             });
-
-            /* vecchia versione
-             xmlhttp =new XMLHttpRequest();
-             xmlhttp.open("GET","index.php?controller=amministrazione&task=elimina_segnalazione&id="+ getIDSegnalazione(),true); //devo passargli l'id della segnalazione
-             xmlhttp.send();
-             */
             alert("FINE!");
         }
         else
@@ -144,13 +128,10 @@ $(document).ready(function()
             $.ajax({
                 type: 'GET',
                 url: 'index.php?controller=amministrazione&task=elimina_commento',
-                data: "id="+getIDCommento(),
+                data: "idcommento="+getIDCommento(),
                 success: function(response)
                 {
-                    AggiornaPagina();
-                   //alert("Cancello anche la segnalazione! DA FARE!!!!");
-                   // alert("Redirect to home Segnalazioni!");
-                   //RedirectToHomeSegnalazioni();
+                   AggiornaPagina();
                 }
             });
             alert("FINE!");
@@ -163,7 +144,7 @@ $(document).ready(function()
     });//ok
 
     $('#elimina-utente').on('click', function(){
-        var r=confirm("Sei sicuro di voler eliminare l'utente?");
+        var r=confirm("Questa operazione cancellerà ricorsivamente dal DB tutti i rifermimenti a questo utente. Sei sicuro di voler eliminare l'utente?");
         if (r==true)
         {
             alert("OK! ELIMINO");
@@ -172,9 +153,9 @@ $(document).ready(function()
                 processData: false, //obbligatorio se si spedisce del testo
                 url: 'index.php?controller=amministrazione&task=elimina_utente',
                 data: "nomeutente="+getNomeUtente(),
-                success: function(response){
+                success: function(response)
+                {
                     AggiornaPagina();
-                    alert("tutto OK");
                 }
             })
             alert("FINE!");
@@ -196,9 +177,9 @@ $(document).ready(function()
                 processData: false, //obbligatorio se si spedisce del testo???
                 url: 'index.php?controller=amministrazione&task=manda_avvertimento',
                 data: "nomeutente="+getNomeUtente(),
-                success: function(response){
+                success: function(response)
+                {
                     AggiornaPagina();
-                    alert("tutto OK");
                 }
             })
             alert("FINE!");
@@ -233,7 +214,6 @@ $(document).ready(function()
                     data: "nomeutente="+getNomeUtente(),
                     success: function(response){
                         AggiornaPagina();
-                        alert("tutto OK");
                     }
                 })
             }
@@ -246,7 +226,6 @@ $(document).ready(function()
                     data: "nomeutente="+getNomeUtente(),
                     success: function(response){
                         AggiornaPagina();
-                        alert("tutto OK");
                     }
                 })
             }

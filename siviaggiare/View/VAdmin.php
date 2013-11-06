@@ -38,8 +38,46 @@ class VAdmin extends View
     {
         if (isset($_REQUEST['idsegnalazione']))
             return $_REQUEST['idsegnalazione'];
-        /*elseif (isset($_REQUEST['id']))
-            return $_REQUEST['id'];*/
+        else
+            return false;
+    }
+
+    public function getIdViaggio()
+    {
+        if (isset($_REQUEST['idviaggio']))
+            return $_REQUEST['idviaggio'];
+        else
+            return false;
+    }
+
+    public function getNomeCitta()
+    {
+        if (isset($_REQUEST['nomecitta']))
+            return $_REQUEST['nomecitta'];
+        else
+            return false;
+    }
+
+    public function getNomeLuogo()
+    {
+        if (isset($_REQUEST['nomeluogo']))
+            return $_REQUEST['nomeluogo'];
+        else
+            return false;
+    }
+
+    public function getIdCommento()
+    {
+        if (isset($_REQUEST['idcommento']))
+            return $_REQUEST['idcommento'];
+        else
+            return false;
+    }
+
+    public function getNomeUtente()
+    {
+        if (isset($_REQUEST['nomeutente']))
+            return $_REQUEST['nomeutente'];
         else
             return false;
     }
@@ -53,8 +91,6 @@ class VAdmin extends View
 
 
                //altri metodi:
-
-
 
     public function processaTemplate()
     {

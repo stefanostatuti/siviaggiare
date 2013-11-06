@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2013-10-25 15:27:30
+<?php /* Smarty version 2.6.26, created on 2013-11-06 11:26:29
          compiled from admin_elenco_segnalazioni.tpl */ ?>
 <div class="content">
     <div class="form_settings">
@@ -43,7 +43,7 @@ $this->_sections['nr']['last']       = ($this->_sections['nr']['iteration'] == $
                 <tr <?php if ((1 & $this->_sections['nr']['iteration'])): ?> bgcolor="#ccc" <?php endif; ?>>
                     <!--
                     <td>
-                        <?php echo $this->_tpl_vars['results'][$this->_sections['nr']['index']]->idsegnalazione; ?>
+                        <?php echo $this->_tpl_vars['results'][$this->_sections['nr']['index']]->id; ?>
 
                     </td>
                     -->
@@ -76,7 +76,7 @@ $this->_sections['nr']['last']       = ($this->_sections['nr']['iteration'] == $
 
                     </td>
                     <td>
-                        <a href="?controller=amministrazione&task=dettaglio_segnalazione&idsegnalazione=<?php echo $this->_tpl_vars['results'][$this->_sections['nr']['index']]->idsegnalazione; ?>
+                        <a href="?controller=amministrazione&task=dettaglio_segnalazione&idsegnalazione=<?php echo $this->_tpl_vars['results'][$this->_sections['nr']['index']]->id; ?>
 ">Vedi dettagli</a>
                     </td>
                 </tr>

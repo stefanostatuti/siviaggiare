@@ -18,19 +18,5 @@ class FAdmin extends FUtente
         USingleton::getInstance('FUtente');//USingleton::getInstance('FDatabase');
     }
 
-/*
-    public function loadViaggio($id)
-    {
-        $query='SELECT * ' .
-            'FROM `'.$this->tabella.'` ' .
-            'WHERE `'.$this->chiave.'` = \''.$id.'\'';
-        $obj=parent::getObject(parent::query($query));
-        //debug("query fatta!");
-        //var_dump($obj);
-        //debug("ecco l'oggetto ricevuto".$obj);
-        return $obj;
-    }*/
-
-
 }
 ?>

@@ -13,7 +13,7 @@
         <table>
 
             <tr>
-                <td><h3>IDViaggio:</h3></td><td><span id= 'idviaggio'> {$luogo->idviaggio} </span></td>
+                <td><h3>IDViaggio:</h3></td><td><span id='idviaggio'>{$luogo->idviaggio}</span></td>
             </tr>
 
             <tr>
@@ -48,7 +48,7 @@
         <button id="elimina-luogo" class="elimina-luogo" >Elimina Luogo</button>
         <button id="annulla" class="annulla" >Annulla Modifiche</button>
         <button id="avvertimento" class="avvertimento">Manda Avvertimento</button>
-        <button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>
+        <!--<button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>-->
         <button id="modifica" class="modifica">Modifica Luogo</button>
         {/if}
 

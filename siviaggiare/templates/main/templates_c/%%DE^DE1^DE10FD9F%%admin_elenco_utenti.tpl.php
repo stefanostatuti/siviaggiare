@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2013-10-25 15:28:05
+<?php /* Smarty version 2.6.26, created on 2013-11-05 11:22:30
          compiled from admin_elenco_utenti.tpl */ ?>
 <?php echo '
     <!--<script type="text/javascript" src="//siviaggiare//script//jquery-2.0.3.min.js"></script>-->

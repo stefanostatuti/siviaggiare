@@ -12,11 +12,11 @@
         <table>
             <tr>
                 <td><h4>Idviaggio:</h4></td>
-                <td><h6><span id= 'idviaggio'>{$citta->idviaggio}<span></h6></td>
+                <td><h6><span id='idviaggio'>{$citta->idviaggio}<span></h6></td>
             </tr>
             <tr>
                 <td> Nome:</td>
-                <td><h4><span id= 'nomecitta'>{$citta->nome}</span></h4></td>
+                <td><h4><span id='nomecitta'>{$citta->nome}</span></h4></td>
             </tr>
             <tr>
                 <td> Stato:</td>
@@ -41,14 +41,11 @@
                 <td> Voto: </td>
                 <td><h6>{$citta->voto}</h6></td>
             </tr>
-            <tr>
-                <td><a href="?controller=aggiunta_viaggio&task=visualizza_luoghi_inseriti&idviaggio={$citta->idviaggio}"<h5>Vedi i luoghi visitati(NON FUNZIONANTE)</h5></a></td>
-            </tr>
         </table>
         <button id="elimina-citta" class="elimina-citta" >Elimina Citta</button>
         <button id="annulla" class="annulla" >Annulla Modifiche</button>
         <button id="avvertimento" class="avvertimento">Manda Avvertimento</button>
-        <button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>
+        <!--<button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>-->
         <button id="modifica" class="modifica">Modifica Citta</button>
         {/if}
 

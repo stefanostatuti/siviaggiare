@@ -208,7 +208,7 @@ class CRegistrazione
 
 
     /**
-     * Controlla se una coppia username e password corrispondono ad un utente regirtrato ed in tal caso impostano le variabili di sessione relative all'autenticazione
+     * Controlla se una coppia username e password corrispondono ad un utente registrato ed in tal caso impostano le variabili di sessione relative all'autenticazione
      *
      * @param string $username
      * @param string $password

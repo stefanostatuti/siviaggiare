@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2013-10-30 13:01:18
+<?php /* Smarty version 2.6.26, created on 2013-11-04 17:23:01
          compiled from ricerca_menu_ricerca_laterale.tpl */ ?>
 <div id=tab-citta>
         <ul>

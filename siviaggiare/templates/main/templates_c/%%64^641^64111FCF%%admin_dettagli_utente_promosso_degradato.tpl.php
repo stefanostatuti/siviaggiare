@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2013-10-25 15:50:28
+<?php /* Smarty version 2.6.26, created on 2013-11-06 12:29:37
          compiled from admin_dettagli_utente_promosso_degradato.tpl */ ?>
 <?php echo '
     <!--<script type="text/javascript" src="//siviaggiare//script//jquery-2.0.3.min.js"></script>-->

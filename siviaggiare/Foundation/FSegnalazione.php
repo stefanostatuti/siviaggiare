@@ -13,7 +13,7 @@ class FSegnalazione extends FDatabase
     public function __construct()
     {
         $this->tabella='segnalazioni';
-        $this->chiave=array('idsegnalazione');
+        $this->chiave=array('id');
         //$this->chiave='idsegnalazione';
         $this->classe='ESegnalazione';
         $this->auto_incremento=true;
@@ -47,22 +47,5 @@ class FSegnalazione extends FDatabase
         return $obj;
     }
 
-    /**
-     * Cancella dal database una Segnalazione
-     *
-     * @param idsegnalazione
-     * @return boolean
-     */
-    public function deleteSegnalazione($idsegnalazione)
-    {
-        var_dump($idsegnalazione);
-        $query='DELETE ' .
-            'FROM `'.$this->tabella.'` ' .
-            'WHERE `'.$this->chiave[0].'` = \''.$idsegnalazione.'\'';
-        unset($object);
-
-        $Fdb= new FDatabase();//mi serve per ottenere il metodo query da FDB
-        return $Fdb->query($query);
-    }
 }
 ?>

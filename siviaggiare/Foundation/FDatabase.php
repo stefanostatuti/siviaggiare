@@ -72,7 +72,7 @@ class FDatabase
 
 
     public function getObjectInArray()
-    {
+    {   //var_dump($this->risultato);
         if($this->risultato != false)
         {
             $righe = mysql_num_rows($this->risultato);
@@ -177,15 +177,60 @@ class FDatabase
      * @param object $object
      * @return boolean
      */
-    public function delete(& $object)// da sistemare per modifica eliminazione
+    public function delete($object)
     {
+        $i=0;
+        $fields='';
+        foreach ($object as $key=>$value)
+        {
+            if (!($key == $this->chiave) && substr($key, 0, 1)!='_')
+            {
+                if ($i==0)
+                {
+                    $fields.='`'.$key.'` = \''.$value.'\'';
+                } else
+                {
+                    $fields.=', `'.$key.'` = \''.$value.'\'';
+                }
+                $i++;
+            }
+        }
+
         $arrayObject=get_object_vars($object);
-        $query='DELETE ' .
-            'FROM `'.$this->tabella.'` ' .
-            'WHERE `'.$this->chiave.'` = \''.$arrayObject[$this->chiave].'\'';
-        unset($object);
+        if(is_array($this->chiave))
+        {
+            $query= 'DELETE FROM `'.$this->tabella.'` WHERE ';
+            $j=0;
+            for($i=0;$i<count($this->chiave);$i++)
+            {
+                $query=$query.'`'.$this->chiave[$i].'` = \''.$arrayObject[$this->chiave[$i]].'\'';
+                if($j<count($this->chiave)-1)
+                {
+                    $query=$query.' AND ';
+                    $j++;
+                }
+            }
+        }
+        else
+        {
+            $query='DELETE FROM `'.$this->tabella.'` WHERE `'.$this->chiave.'` = \''.$arrayObject[$this->chiave].'\'';
+        }
         return $this->query($query);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public function loadRicerca($key,$value)//username,valore
@@ -215,7 +260,9 @@ class FDatabase
         $query='SELECT * ' .
             'FROM `'.$this->tabella.'` ' .
             'WHERE `'.$key1.'` = \''.$value1.'\' AND '.'`'.$key2.'` = \''.$value2.'\'AND '.'`'.$key3.'` = \''.$value3.'\'';
+        //var_dump($query);
         $this->query($query);
+
         $ris = $this->getObjectInArray();
         return $ris;
     }
@@ -309,6 +356,30 @@ class FDatabase
         $this->query($query);
         $object=$this->getObjectInArray();
         return $object[0];
+    }
+
+    function objectToArray( $object ) {
+        if( !is_object( $object ) && !is_array( $object ) ) {
+            return $object;
+        }
+        if( is_object( $object ) ) {
+            $object = (array) $object;
+        }
+        return array_map( 'objectToArray', $object );
+    }
+
+    function arrayToObject( $array, $ClasseOggettoDaRestituire ) {
+        if( !is_array( $array ) && !is_object( $array ) ) {
+            return $array;
+        }
+        if( is_array( $array ) ) {
+            $EOggetto = new $ClasseOggettoDaRestituire; //creo un oggetto della classe ricevuta come parametro
+            foreach($array[0] as $key => $value) //array[0] è necessario
+            {
+                $EOggetto->{$key} = $value;
+            }
+            return $EOggetto;
+        }
     }
 
 }

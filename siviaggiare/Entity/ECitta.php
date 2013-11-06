@@ -23,6 +23,11 @@ class ECitta
     public $_elenco_luoghi = array();//tiene l'elenco dei POI
 
 
+    public function getNomeCitta()
+    {
+        return $this->nome;
+    }
+
 
     public function addLuogo(ELuogo $luogo) 
     {

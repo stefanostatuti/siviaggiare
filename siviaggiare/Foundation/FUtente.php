@@ -30,16 +30,5 @@ class FUtente extends FDatabase
         return $obj;
     }
 
-    public function deleteUtente($utenteusername)
-    {
-        //var_dump($utenteusername);
-        $query='DELETE ' .
-            'FROM `'.$this->tabella.'` ' .
-            'WHERE `'.$this->chiave.'` = \''.$utenteusername.'\'';
-        unset($object);
-
-        $obj=parent::getObject(parent::query($query));
-        return $obj;
-    }
 }
 ?>

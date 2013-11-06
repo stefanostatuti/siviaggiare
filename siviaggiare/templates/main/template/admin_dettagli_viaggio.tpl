@@ -12,11 +12,13 @@
         <table>
             <tr>
                 <td><h4>IdViaggio:</h4></td>
-                <td><h6><span id= 'idviaggio'>{$viaggio->id}</span></h6></td>
+                <td><h6>
+                <span id='idviaggio'>{$viaggio->id}</span></h6></td>
             </tr>
             <tr>
                 <td><h4>Autore:</h4></td>
-                <td><h6>{$viaggio->utenteusername}</h6></td>
+                <td><h6>
+                <a href="?controller=amministrazione&task=dettaglio_utente&username={$viaggio->utenteusername}">{$viaggio->utenteusername}</a></h6></td>
             </tr>
             <tr>
                 <td><h4>Periodo</h4></td>
@@ -37,16 +39,12 @@
                 <td> Budget:</td>
                 <td><h6>{$viaggio->budget}</h6></td>
             </tr>
-            <!--<tr>
-                <td><a href="?controller=aggiunta_viaggio&task=visualizza_luoghi_inseriti&idviaggio={$viaggio->id}"<h5>Vedi i luoghi visitati(NON FUNZIONANTE)</h5></a></td>
-            </tr>
-            -->
         </table>
 
     <button id="elimina-viaggio" class="elimina-viaggio" >Elimina Viaggio</button>
     <button id="annulla" class="annulla" >Annulla Modifiche</button>
     <button id="avvertimento" class="avvertimento">Manda Avvertimento</button>
-    <button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>
+    <!--<button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>-->
     <button id="modifica" class="modifica">Modifica Viaggio</button>
     {/if}
 

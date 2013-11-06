@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2013-10-26 11:11:21
+<?php /* Smarty version 2.6.26, created on 2013-11-06 13:22:28
          compiled from admin_dettagli_segnalazione.tpl */ ?>
 <?php echo '
     <!--<script type="text/javascript" src="//siviaggiare//script//jquery-2.0.3.min.js"></script>-->
@@ -8,27 +8,34 @@
 
 
 <div class="content">
-    <h3>Dettaglio segnalazione <?php echo $this->_tpl_vars['segnalazione']->idsegnalazione; ?>
+    <h3>Dettaglio segnalazione <?php echo $this->_tpl_vars['segnalazione']->id; ?>
  di <?php echo $this->_tpl_vars['segnalazione']->autore; ?>
 :</h3>
     <div class="form_settings">
 
-        <?php if (( $this->_tpl_vars['segnalazione']->idsegnalazione )): ?>
+        <?php if (( $this->_tpl_vars['segnalazione']->id )): ?>
         <table>
             <tr>
                 <td><h4>IdSegnalazione</h4></td>
-                <td><h6><span id= 'idsegnalazione'><?php echo $this->_tpl_vars['segnalazione']->idsegnalazione; ?>
+                <td><h6><span id='idsegnalazione'><?php echo $this->_tpl_vars['segnalazione']->id; ?>
 </span></h6></td>
             </tr>
             <tr>
                 <td><h4>Autore</h4></td>
-                <td><h6><?php echo $this->_tpl_vars['segnalazione']->autore; ?>
-</h6></td>
+                <td><h6><!--<?php echo $this->_tpl_vars['segnalazione']->autore; ?>
+</h6>-->
+                <a href="?controller=amministrazione&task=dettaglio_utente&username=<?php echo $this->_tpl_vars['segnalazione']->autore; ?>
+"><?php echo $this->_tpl_vars['segnalazione']->autore; ?>
+</a></h6>
+                </td>
             </tr>
             <tr>
                 <td><h4>Utente Segnalato</h4></td>
-                <td><h6><?php echo $this->_tpl_vars['segnalazione']->segnalato; ?>
-</h6></td>
+                <td><h6>
+                <a href="?controller=amministrazione&task=dettaglio_utente&username=<?php echo $this->_tpl_vars['segnalazione']->autore; ?>
+"><?php echo $this->_tpl_vars['segnalazione']->segnalato; ?>
+</a></h6>
+                </td>
             </tr>
             <?php if (( $this->_tpl_vars['segnalazione']->idviaggio ) && ! ( $this->_tpl_vars['segnalazione']->citta )): ?> <!-- verifica che non ci sia nome città-->
                 <tr>
@@ -111,7 +118,7 @@
             <button id="elimina-segnalazione"  class="elimina-segnalazione" >Elimina Segnalazione</button>
         <?php endif; ?>
 
-        <?php if (! ( $this->_tpl_vars['segnalazione']->idsegnalazione )): ?>
+        <?php if (! ( $this->_tpl_vars['segnalazione']->id )): ?>
             <br>
             Segnalazione RIMOSSA!<br><br>
             <br>

@@ -22,6 +22,7 @@ class FCitta extends FDatabase
 
     public function loadCitta($key)
     {
+        var_dump($key);
         $query='SELECT * ' .
             'FROM `'.$this->tabella.'` ' .
             'WHERE `'.$this->chiave[0].'` = \''.$key['idviaggio']
@@ -30,15 +31,4 @@ class FCitta extends FDatabase
         return $obj;
     }
 
-    public function deleteCitta($key)
-    {
-        //var_dump($key);
-        $query='DELETE ' .
-            'FROM `'.$this->tabella.'` ' .
-            'WHERE `'.$this->chiave[0].'` = \''.$key['idviaggio']
-            .'\' AND '.'`'.$this->chiave[1].'` = \''.$key['nome'].'\'';
-        unset($object);////CONTROLLARE SE SERVE!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        $obj=parent::getObject(parent::query($query));
-        return $obj;
-    }
 }

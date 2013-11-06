@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2013-10-25 15:48:57
+<?php /* Smarty version 2.6.26, created on 2013-11-06 13:10:25
          compiled from admin_dettagli_utente.tpl */ ?>
 <?php echo '
     <!--<script type="text/javascript" src="//siviaggiare//script//jquery-2.0.3.min.js"></script>-->
@@ -16,8 +16,9 @@
 </h3>-->
         <table>
             <tr>
-                <td> Nome:</td><td><span id= 'nomeutente'><?php echo $this->_tpl_vars['utente']->username; ?>
-</span> </td>
+                <td> Nome:</td>
+                <td><span id='nomeutente'><?php echo $this->_tpl_vars['utente']->username; ?>
+</span></td>
             </tr>
             <tr>
                 <td> Cognome:</td><td> <?php echo $this->_tpl_vars['utente']->cognome; ?>
@@ -56,7 +57,7 @@
         <button id="annulla" class="annulla">Annulla Modifiche</button>
         <button id="gestisci-utente" class="gestisci-utente">Gestisci Utente</button>
         <button id="avvertimento" class="avvertimento">Manda Avvertimento</button>
-        <button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>
+        <!--<button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>-->
         <button id="modifica" class="modifica">Modifica Utente</button>
         <?php endif; ?>
 
@@ -71,16 +72,4 @@
 
         <?php endif; ?>
     </div>
-    <!--<form method="post"action="index.php" class="left">
-        <input type="hidden" name="controller" value="amministrazione" />
-        <input type="hidden" name="task" value="gestione_utenti" />
-        <input type="submit" value="Indietro" />
-    </form>
-
-    <button id="elimina-utente"  class="elimina-utente" >Elimina Utente</button>
-    <button id="annulla" class="annulla" >Annulla Modifiche</button>
-    <button id="avvertimento" class="avvertimento">Manda Avvertimento</button>
-    <button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>
-    <button id="modifica" class="modifica">Modifica Utente</button>
-    -->
 </div>

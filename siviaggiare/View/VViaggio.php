@@ -121,8 +121,8 @@ class VViaggio extends View
                 $dati[$dato]=$_REQUEST[$dato];
         }
         //questo mi scrive l'username senno me manca
-        $session= USingleton::getInstance('USession');
-        $dati['utenteusername']= $session->leggi_valore('username');/////NON DOVREBBE SERVIRE
+        //$session= USingleton::getInstance('USession');
+        //$dati['utenteusername']= $session->leggi_valore('username');/////NON DOVREBBE SERVIRE
         return $dati;
     }
 

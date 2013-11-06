@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2013-10-29 10:05:26
+<?php /* Smarty version 2.6.26, created on 2013-11-06 13:31:57
          compiled from admin_dettagli_luogo.tpl */ ?>
 <?php echo '
     <!--<script type="text/javascript" src="script//jquery-2.0.3.min.js"></script>-->
@@ -16,8 +16,8 @@
         <table>
 
             <tr>
-                <td><h3>IDViaggio:</h3></td><td><span id= 'idviaggio'> <?php echo $this->_tpl_vars['luogo']->idviaggio; ?>
- </span></td>
+                <td><h3>IDViaggio:</h3></td><td><span id='idviaggio'><?php echo $this->_tpl_vars['luogo']->idviaggio; ?>
+</span></td>
             </tr>
 
             <tr>
@@ -61,7 +61,7 @@
         <button id="elimina-luogo" class="elimina-luogo" >Elimina Luogo</button>
         <button id="annulla" class="annulla" >Annulla Modifiche</button>
         <button id="avvertimento" class="avvertimento">Manda Avvertimento</button>
-        <button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>
+        <!--<button id="salva-modifiche" class="salva-modifiche">Salva Modifiche</button>-->
         <button id="modifica" class="modifica">Modifica Luogo</button>
         <?php endif; ?>
 
