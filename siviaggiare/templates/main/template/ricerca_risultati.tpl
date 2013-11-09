@@ -6,13 +6,23 @@
             <div>
                 <table>
                     <tr>
+                        <td><h5>Autore:</h5></td>
+                        {if isset($utente_luogo_logged) && $utente_luogo_logged[nr]==$utente_sessione}
+                            <td><a href="index.php?controller=profilo&task=visualizza"><h5>{$utente_luogo_logged[nr]}</h5></a></td>
+                        {elseif isset($utente_luogo_logged)}
+                            <td><a class="button-profilo" href="javascript:void(0)" utente="{$utente_luogo_logged[nr]}"><h5>{$utente_luogo_logged[nr]}</h5></a></td>
+                            {else}
+                            <td><h5>{$utente_luogo[nr]}</h5></td>
+                        {/if}
+                    </tr>
+                    <tr>
                         <td><h5>Citt&agrave;:</h5></td>  <td><h5>{$luoghi[nr]->nomecitta}</h5></td>
                     </tr>
                     <tr>
                         <td><h5>Data:</h5></td>  <td><h5>{$data[nr]}</h5></td>
                     </tr>
                     <tr>
-                        <td><button class="button-dettaglio-viaggio" citta="{$luoghi[nr]->nomecitta}" luogo="{$luoghi[nr]->nome}" value={$luoghi[nr]->idviaggio}>Visualizza intero viaggio</button></td>
+                        <td><button class="button-dettaglio-viaggio" citta="{$luoghi[nr]->nomecitta}" luogo="{$luoghi[nr]->nome}" idviaggio={$luoghi[nr]->idviaggio}>Visualizza intero viaggio</button></td>
                     </tr>
                 </table>
             </div>
@@ -32,13 +42,21 @@
             <div>
                 <table>
                     <tr>
-                        <td><h4>Stato:</h4></td>  <td><h4>{$citta[nr]->stato}</h4></td>
+                        <td><h5>Autore:</h5></td>
+                        {if isset($utente_citta)}
+                            <td><h5>{$utente_citta[nr]}</h5></td>
+                        {elseif isset($utente_citta_logged)}
+                            <td><a href="""><h5>{$utente_citta_logged[nr]}</h5></a></td>
+                        {/if}
                     </tr>
                     <tr>
-                        <td><h4>Data:</h4></td>  <td><h4>{$citta[nr]->datafine}</h4></td>
+                        <td><h5>Stato:</h5></td>  <td><h5>{$citta[nr]->stato}</h5></td>
                     </tr>
                     <tr>
-                        <td><button class="button-dettaglio-viaggio" citta="{$citta[nr]->nome}" value={$citta[nr]->idviaggio}>Visualizza intero viaggio</button></td>
+                        <td><h5>Data:</h5></td>  <td><h5>{$citta[nr]->datafine}</h5></td>
+                    </tr>
+                    <tr>
+                        <td><button class="button-dettaglio-viaggio" citta="{$citta[nr]->nome}" idviaggio={$citta[nr]->idviaggio}>Visualizza intero viaggio</button></td>
                     </tr>
                 </table>
             </div>

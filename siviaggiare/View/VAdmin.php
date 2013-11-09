@@ -24,7 +24,6 @@ class VAdmin extends View
             return false;
     }
 
-
     public function getController()
     {
         if (isset($_REQUEST['controller']))
@@ -67,9 +66,25 @@ class VAdmin extends View
     }
 
     public function getIdCommento()
+{
+    if (isset($_REQUEST['idcommento']))
+        return $_REQUEST['idcommento'];
+    else
+        return false;
+}
+
+    public function getAutoreCommento()
     {
-        if (isset($_REQUEST['idcommento']))
-            return $_REQUEST['idcommento'];
+        if (isset($_REQUEST['autorecommento']))
+            return $_REQUEST['autorecommento'];
+        else
+            return false;
+    }
+
+    public function getTestoSegnalazione()
+    {
+        if (isset($_REQUEST['testosegnalazione']))
+            return $_REQUEST['testosegnalazione'];
         else
             return false;
     }

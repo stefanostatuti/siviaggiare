@@ -1559,3 +1559,11 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
 .redirect-utenti{color:red;}
 
 .annulla{display: none;}
+
+
+
+#CommentoSegnalazione {
+    width: 320px;
+    height: 180px;
+    resize: none;
+}

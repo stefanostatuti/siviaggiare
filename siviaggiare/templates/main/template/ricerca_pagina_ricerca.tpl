@@ -1,11 +1,14 @@
 <div class="content">
     <div id="barraricerca">
-        <input type="text" name="ricerca" id="ricerca"><span id="buttonsearch">Ricerca</span>
+        <fieldset>
+        <input type="text" name="ricerca" id="ricerca" placeholder="Cerca"><span id="buttonclear">Clear</span><span id="buttonsearch">Ricerca</span>
     </div>
+    </fieldset>
     <br>
     <br>
 
     <div id='risposta-panoramica'></div>
     <div id='risposta-dettaglio'></div>
     <div id='risposta-commento'></div>
+    <div id='risposta-profilo'></div>
 </div>

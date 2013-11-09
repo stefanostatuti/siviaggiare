@@ -79,7 +79,6 @@ $(document).ready(function()
             $.ajax({
                 type: 'GET',
                 url: 'index.php?controller=amministrazione&task=elimina_citta',
-                //data: {"idviaggio":getIDViaggio(),"nomecitta":getNomeCitta()},
                 data: {"nomecitta":getNomeCitta(),"idviaggio":getIDViaggio()},
                 success: function(response)
                 {

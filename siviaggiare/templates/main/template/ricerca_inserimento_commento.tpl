@@ -1,6 +1,6 @@
 <div class="inserimento-commento">
     <br>
-        <textarea id="testo" maxlength="1024" placeholder="Inserisci qui il tuo commento..."></textarea><br><br>
+        <textarea id="testo" maxlength="1024" placeholder="Inserisci qui il tuo commento..."></textarea><span class="status"></span><br><br>
         <select id="voto">
             <option value="0"> Voto </option>
             <option value="1"> 1 </option>

@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2013-11-04 17:23:01
+<?php /* Smarty version 2.6.26, created on 2013-11-09 10:16:35
          compiled from home_default.tpl */ ?>
 <!DOCTYPE HTML>
 <html>
@@ -9,7 +9,7 @@
     <meta name="keywords" content="website keywords, website keywords" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="templates/main/template/css/style.css" />
-    <link rel="stylesheet" type="text/css" href="templates/main/template/css/ratingbar.css" />
+    <link rel="stylesheet" type="text/css" href="templates/main/template/css/segnalazione.css" />
     <link rel="stylesheet" href="templates/main/template/js/jquery-ui-1.10.3.custom/development-bundle/themes/base/jquery.ui.all.css" />
     <script type="text/javascript" src="templates/main/template/js/jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="templates/main/template/js/jquery.validate.js"></script>
@@ -20,6 +20,7 @@
     <script type="text/javascript" src="templates/main/template/js/mio.js"></script>
     <script type="text/javascript" src="templates/main/template/js/jquery.ratingbar.js"></script>
     <script type="text/javascript" src="templates/main/template/js/jquery.complexify.js"></script>
+    <script type="text/javascript" src="templates/main/template/js/jquery.ui.dialog.min.js"></script>
 
 </head>
 

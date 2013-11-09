@@ -3,7 +3,14 @@
         <div>
             <table>
                 <tr>
-                    <td><h6>Utente:</h6></td>   <td><h6>{$viaggio->utenteusername}</h6></td>
+                    <td><h6>Autore:</h6></td>
+                    {if $autenticato!=false && $viaggio->utenteusername==$autenticato}
+                        <td><a href="index.php?controller=profilo&task=visualizza"><h6>{$viaggio->utenteusername}</h6></a></td>
+                    {elseif $autenticato!=false}
+                        <td><a class="button-profilo" href="javascript:void(0)" utente="{$viaggio->utenteusername}"><h6>{$viaggio->utenteusername}</h6></a></td>
+                    {else}
+                        <td><h6>{$viaggio->utenteusername}</h6></td>
+                    {/if}
                 </tr>
                 <tr>
                     <td><h6>Periodo:</h6></td>   <td><h6>Dal: {$viaggio->datainizio}</h6> <h6>Al: {$viaggio->datafine}</h6></td>
@@ -17,12 +24,22 @@
                 <tr>
                     <td><h6>Costo:</h6></td>   <td><h6>{$viaggio->costotrasporto}</h6></td>
                 </tr>
+                {if $autenticato!=false && $viaggio->utenteusername!=$autenticato}
+                <tr>
+                    <td><a class="button-segnalazione-viaggio" href="javascript:void(0)" utente="{$autenticato}" idviaggio="{$viaggio->id}"><h6>Invia segnalazione</h6></a></td>
+                </tr>
+                {/if}
             </table>
+
+    <div id="Segnalazione" title="Esprimi una motivazione:" hidden="">
+        <textarea placeholder="Inserisci qui il tuo commento..." maxlength="1024" id="CommentoSegnalazione"></textarea>
+    </div>
+
         </div>
     <h2>Citt&agrave; visitate</h2>
     <div class="citta-visitate">
         {section name=citta loop=$viaggio->_elenco_citta}
-            <div id={$viaggio->_elenco_citta[citta]->nome}>
+            <div id={$viaggio->_elenco_citta[citta]->nome|replace:' ':''}>
         <h3>{$viaggio->_elenco_citta[citta]->nome}</h3>
         <div class="citta-visitate-int">
         <h4>Informazioni sulla citt&agrave;</h4>
@@ -44,7 +61,10 @@
                     <td><h6>Voto dell'utente:</h6></td>   <td><h6>{$viaggio->_elenco_citta[citta]->voto}</h6></td>
                 </tr>
                 <tr>
-                    <td><span class="feedback-citta">{$viaggio->_elenco_citta[citta]->feedback}</span></td>
+                    <td><h6>Feedback:</h6></td>   <td><span class="feedback-citta"><h6>{$viaggio->_elenco_citta[citta]->feedback}</h6></span></td>
+                    {if $autenticato!=false}
+                        <td><a class="aggiungi-feedback-citta" href="javascript:void(0)" idviaggio="{$viaggio->id}" citta="{$viaggio->_elenco_citta[citta]->nome}" stato="{$viaggio->_elenco_citta[citta]->stato}"><h6>Aggiungi un feedback</h6></a></td>
+                    {/if}
                 </tr>
                 </table>
         </div>
@@ -73,7 +93,7 @@
                                     <td><h6>Durata della visita:</h6></td> <td><h6>{$viaggio->_elenco_citta[citta]->_elenco_luoghi[nr]->durata}</h6></td>
                                 </tr>
                                 <tr>
-                                    <td><span class="feedback-luogo">{$viaggio->_elenco_citta[citta]->_elenco_luoghi[nr]->feedback}</span></td>
+                                    <td><h6>Feedback:</h6></td> <td><span class="feedback-luogo">{$viaggio->_elenco_citta[citta]->_elenco_luoghi[nr]->feedback}</span></td>
                                 </tr>
                                 <tr>
                                     <td><h6>Commento dell'autore:</h6></td> <td><h6>{$viaggio->_elenco_citta[citta]->_elenco_luoghi[nr]->commentolibero}</h6></td>

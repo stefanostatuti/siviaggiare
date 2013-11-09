@@ -1,8 +1,19 @@
+<script type="text/javascript" src="templates/main/template/js/show_char_limit.js"></script>
 <div class="commento-ext">
     <div class="commento-int">
         <h4>{$luogo->nome}</h4>
         <div>
             <table>
+                <tr>
+                    <td><h6>Autore:</h6></td>
+                    {if $autenticato!=false && $utente==$autenticato}
+                        <td><a href="index.php?controller=profilo&task=visualizza"><h6>{$utente}</h6></a></td>
+                    {elseif $autenticato!=false}
+                        <td><a class="button-profilo" href="javascript:void(0)" utente="{$utente}"><h6>{$utente}</h6></a></td>
+                    {else}
+                        <td><h6>{$utente}</h6></td>
+                    {/if}
+                </tr>
                 <tr>
                     <td><h6>Sito Web:</h6></td> <td><h6>{$luogo->sitoweb}</h6></td>
                 </tr>
@@ -22,7 +33,10 @@
                     <td><h6>Durata della visita:</h6></td> <td><h6>{$luogo->durata}</h6></td>
                 </tr>
                 <tr>
-                    <td><span class="feedback-luogo">{$luogo->feedback}</span></td>
+                    <td><h6>Feedback:</h6></td><td><span class="feedback-luogo"><h6>{$luogo->feedback}</h6></span></td>
+                    {if $autenticato!=false}
+                        <td><a class="aggiungi-feedback-luogo" href="javascript:void(0)" idviaggio="{$luogo->idviaggio}" citta="{$luogo->nomecitta}" luogo="{$luogo->nome}"><h6>Aggiungi un feedback</h6></a></td>
+                    {/if}
                 </tr>
                 <tr>
                     <td><h6>Commento dell'autore:</h6></td>

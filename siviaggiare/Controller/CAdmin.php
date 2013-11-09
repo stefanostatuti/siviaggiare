@@ -35,6 +35,18 @@ class CAdmin
             case 'dettaglio_utente':
                 return $this->ProfiloUtente();
 
+            //invio di segnalazioni da parte di utenti
+            case 'invia_segnalazione_viaggio':
+                $this->InviaSegnalazioneViaggio();
+            case 'invia_segnalazione_citta':
+                $this->InviaSegnalazioneCitta();
+            case 'invia_segnalazione_luogo':
+                $this->InviaSegnalazioneLuogo();
+            case 'invia_segnalazione_commento':
+                $this->InviaSegnalazioneCommento();
+
+
+
             //eliminazioni
             case 'elimina_segnalazione':
                 return $this->EliminaSegnalazione();
@@ -60,6 +72,116 @@ class CAdmin
                 return $this->MandaAvvertimento();
         }
     }
+
+    //invio di segnalazioni da parte di utenti
+    public function InviaSegnalazioneViaggio(){
+
+        $VAdmin=USingleton::getInstance("VAdmin");
+        $nomeutente=$VAdmin->getNomeUtente();
+        $idviaggio=$VAdmin->getIdViaggio();
+        $testosegnalazione= $VAdmin->getTestoSegnalazione();
+        var_dump($nomeutente);
+
+        $Viaggio= new FViaggio();
+        $viaggio= $Viaggio->loadViaggio($idviaggio);
+
+        $Segnalazione = new ESegnalazione();
+        $autoreviaggio=$viaggio->utenteusername;
+
+
+        $FSegnalazione= new FSegnalazione();
+
+        //ora forzo la scrittura dei campi
+        $Segnalazione->idviaggio=$idviaggio;
+        $Segnalazione->autore=$nomeutente;
+        $Segnalazione->segnalato=$autoreviaggio;
+        $Segnalazione->motivo=$testosegnalazione;
+
+        $FSegnalazione->store($Segnalazione);
+
+    }
+
+    public function InviaSegnalazioneCitta(){
+
+        $VAdmin=USingleton::getInstance("VAdmin");
+        $nomeutente=$VAdmin->getNomeUtente();
+        $idviaggio=$VAdmin->getIdViaggio();
+        $nomecitta=$VAdmin->getNomeCitta();
+        $testosegnalazione= $VAdmin->getTestoSegnalazione();
+
+        //qui recupero il nome utente di chi ha fatto la citta prendendolo dal Viaggio.(la citta nel DB non ha il nomeutente)
+        $Viaggio= new FViaggio();
+        $viaggio= $Viaggio->loadViaggio($idviaggio);
+        $Segnalazione = new ESegnalazione();
+        $autoreviaggio=$viaggio->utenteusername;
+
+
+        $FSegnalazione= new FSegnalazione();
+
+        //ora forzo la scrittura dei campi
+        $Segnalazione->idviaggio=$idviaggio;
+        $Segnalazione->autore=$nomeutente;
+        $Segnalazione->segnalato=$autoreviaggio;
+        $Segnalazione->citta=$nomecitta;
+        $Segnalazione->motivo=$testosegnalazione;
+
+        $FSegnalazione->store($Segnalazione);
+
+    }
+
+    public function InviaSegnalazioneLuogo(){
+
+        $VAdmin=USingleton::getInstance("VAdmin");
+        $nomeutente=$VAdmin->getNomeUtente();
+        $idviaggio=$VAdmin->getIdViaggio();
+        $nomecitta=$VAdmin->getNomeCitta();
+        $nomeluogo=$VAdmin->getNomeLuogo();
+        $testosegnalazione= $VAdmin->getTestoSegnalazione();
+
+
+        $Viaggio= new FViaggio();
+        $viaggio= $Viaggio->loadViaggio($idviaggio);
+        $Segnalazione = new ESegnalazione();
+        $autoreviaggio=$viaggio->utenteusername;
+
+
+        $FSegnalazione= new FSegnalazione();
+
+        //ora forzo la scrittura dei campi
+        $Segnalazione->idviaggio=$idviaggio;
+        $Segnalazione->autore=$nomeutente;
+        $Segnalazione->segnalato=$autoreviaggio;
+        $Segnalazione->citta=$nomecitta;
+        $Segnalazione->luogo=$nomeluogo;
+        $Segnalazione->motivo=$testosegnalazione;
+
+
+        $FSegnalazione->store($Segnalazione);
+    }
+
+    public function InviaSegnalazioneCommento(){
+
+        $VAdmin=USingleton::getInstance("VAdmin");
+        $nomeutente=$VAdmin->getNomeUtente();
+        $autorecommento=$VAdmin->getAutoreCommento();
+        $idcommento=$VAdmin->getIdCommento();
+        $testosegnalazione= $VAdmin->getTestoSegnalazione();
+
+
+        $Segnalazione = new ESegnalazione();
+        $FSegnalazione= new FSegnalazione();
+
+        //ora forzo la scrittura dei campi
+        $Segnalazione->autore=$nomeutente;
+        $Segnalazione->segnalato=$autorecommento;
+        $Segnalazione->idcommento=$idcommento;
+        $Segnalazione->motivo=$testosegnalazione;
+
+
+        $FSegnalazione->store($Segnalazione);
+
+    }
+
 
     //VISUALIZZAZIONE TABLE
     public function VisualizzaSegnalazioniTable()
@@ -291,7 +413,7 @@ class CAdmin
     //ELIMINAZIONI
     public function EliminaSegnalazione(){
 
-        $VAdmin = new $VAdmin();
+        $VAdmin = new VAdmin();   //da vedere
         $id=$VAdmin->getIdSegnalazione();
         //$id=$_GET["idsegnalazione"];
         //debug("idsegnalazione = "+$id);
@@ -382,7 +504,7 @@ class CAdmin
         {
             Debug("NON CI SONO RISULTATI!!!!");
         }
-    }//FINTO ma manca la parte di eliminazione dei commenti//DA controllare se funziona
+    }//DA controllare se funziona
 
     public function EliminaViaggio(){
         $VAdmin = new $VAdmin();

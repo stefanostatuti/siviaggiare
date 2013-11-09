@@ -42,7 +42,7 @@ $config['smarty']['cache_dir'] =
     '/Applications/XAMPP/xamppfiles/htdocs/siviaggiare/siviaggiare/templates/main/cache/';
 */
 
-$config['debug']=true;
+$config['debug']=false;
 $config['mysql']['user'] = 'root';
 $config['mysql']['password'] = 'pippo';
 $config['mysql']['host'] = 'localhost';

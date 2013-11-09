@@ -13,19 +13,25 @@ class FSegnalazione extends FDatabase
     public function __construct()
     {
         $this->tabella='segnalazioni';
-        $this->chiave=array('id');
-        //$this->chiave='idsegnalazione';
+        $this->chiave='id';
         $this->classe='ESegnalazione';
         $this->auto_incremento=true;
         USingleton::getInstance('FDatabase');
     }
 
+    public function store( $object )
+    {
+        $id = parent::store($object);
+        $object->id=$id;
+        return $object->id;// forse non serve
+    }
 
     public function loadSegnalazione($idSegnalazione)
-    {   var_dump($idSegnalazione);
+    {
+        var_dump($idSegnalazione);
         $query='SELECT * ' .
             'FROM `'.$this->tabella.'` ' .
-            'WHERE `'.$this->chiave[0].'` = \''.$idSegnalazione.'\'';
+            'WHERE `'.$this->chiave.'` = \''.$idSegnalazione.'\'';
         $obj=parent::getObject(parent::query($query));
         debug("query fatta!");
         var_dump($obj);

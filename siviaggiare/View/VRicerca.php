@@ -34,8 +34,34 @@ class VRicerca extends View{
     {
         if (isset($_REQUEST['nome']))
             return $_REQUEST['nome'];
+        if (isset($_REQUEST['nomecitta']))
+            return $_REQUEST['nomecitta'];
         else
             return false;
+    }
+
+    public function getDatiCitta()
+    {
+        $dati_viaggio=array('idviaggio','nomecitta','stato');
+        $dati=array();
+        foreach ($dati_viaggio as $dato)
+        {
+            if (isset($_REQUEST[$dato]))
+                $dati[$dato]=$_REQUEST[$dato];
+        }
+        return $dati;
+    }
+
+    public function getDatiLuogo()
+    {
+        $dati_viaggio=array('idviaggio','nomecitta','nomeluogo');
+        $dati=array();
+        foreach ($dati_viaggio as $dato)
+        {
+            if (isset($_REQUEST[$dato]))
+                $dati[$dato]=$_REQUEST[$dato];
+        }
+        return $dati;
     }
 
     public function getDatiCommento()
@@ -47,7 +73,7 @@ class VRicerca extends View{
         foreach ($dati_viaggio as $dato)
         {
             if (isset($_REQUEST[$dato]))
-                $dati[$dato]=$_REQUEST[$dato];
+                $dati[$dato]=mysql_real_escape_string($_REQUEST[$dato]);
         }
         return $dati;
     }
