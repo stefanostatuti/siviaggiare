@@ -1,17 +1,14 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Riso64Bit
- * Date: 20/08/13
- * Time: 16.47
- * To change this template use File | Settings | File Templates.
- */
 
 
 class CAdmin
 {
 
-
+    /**
+     * Smista le richieste ai vari controller
+     *
+     * @return mixed
+     */
     public function smista()
     {
         $view=USingleton::getInstance('VRegistrazione');
@@ -35,15 +32,16 @@ class CAdmin
             case 'dettaglio_utente':
                 return $this->ProfiloUtente();
 
+
             //invio di segnalazioni da parte di utenti
             case 'invia_segnalazione_viaggio':
-                $this->InviaSegnalazioneViaggio();
+                return $this->InviaSegnalazioneViaggio();
             case 'invia_segnalazione_citta':
-                $this->InviaSegnalazioneCitta();
+                return $this->InviaSegnalazioneCitta();
             case 'invia_segnalazione_luogo':
-                $this->InviaSegnalazioneLuogo();
+                return $this->InviaSegnalazioneLuogo();
             case 'invia_segnalazione_commento':
-                $this->InviaSegnalazioneCommento();
+                return $this->InviaSegnalazioneCommento();
 
 
 
@@ -63,7 +61,10 @@ class CAdmin
 
             //modifiche
             case 'modifica_utente':
-                return $this->ModificaUtente(); //NON SCRITTO!!!!
+                return $this->ModificaUtente();
+            case 'salva_modifica_utente':
+                return $this->SalvaModificaUtente();
+
             case 'promuovi_utente':
                 return $this->PromuoviUtente();
             case 'degrada_utente':
@@ -73,245 +74,292 @@ class CAdmin
         }
     }
 
-    //invio di segnalazioni da parte di utenti
-    public function InviaSegnalazioneViaggio(){
 
+    /**
+     * Permette ad un utente di inviare una segnalazione di un Viaggio
+     *
+     */
+    public function InviaSegnalazioneViaggio()
+    {
         $VAdmin=USingleton::getInstance("VAdmin");
         $nomeutente=$VAdmin->getNomeUtente();
         $idviaggio=$VAdmin->getIdViaggio();
         $testosegnalazione= $VAdmin->getTestoSegnalazione();
-        var_dump($nomeutente);
-
         $Viaggio= new FViaggio();
         $viaggio= $Viaggio->loadViaggio($idviaggio);
-
-        $Segnalazione = new ESegnalazione();
         $autoreviaggio=$viaggio->utenteusername;
-
-
-        $FSegnalazione= new FSegnalazione();
-
-        //ora forzo la scrittura dei campi
+        $Segnalazione = new ESegnalazione();
         $Segnalazione->idviaggio=$idviaggio;
         $Segnalazione->autore=$nomeutente;
         $Segnalazione->segnalato=$autoreviaggio;
         $Segnalazione->motivo=$testosegnalazione;
-
+        $FSegnalazione= new FSegnalazione();
         $FSegnalazione->store($Segnalazione);
-
     }
 
-    public function InviaSegnalazioneCitta(){
 
+    /**
+     * Permette ad un utente di inviare una segnalazione di una Città
+     *
+     */
+    public function InviaSegnalazioneCitta()
+    {
         $VAdmin=USingleton::getInstance("VAdmin");
         $nomeutente=$VAdmin->getNomeUtente();
         $idviaggio=$VAdmin->getIdViaggio();
         $nomecitta=$VAdmin->getNomeCitta();
         $testosegnalazione= $VAdmin->getTestoSegnalazione();
-
-        //qui recupero il nome utente di chi ha fatto la citta prendendolo dal Viaggio.(la citta nel DB non ha il nomeutente)
         $Viaggio= new FViaggio();
         $viaggio= $Viaggio->loadViaggio($idviaggio);
-        $Segnalazione = new ESegnalazione();
         $autoreviaggio=$viaggio->utenteusername;
-
-
-        $FSegnalazione= new FSegnalazione();
-
-        //ora forzo la scrittura dei campi
+        $Segnalazione = new ESegnalazione();
         $Segnalazione->idviaggio=$idviaggio;
         $Segnalazione->autore=$nomeutente;
         $Segnalazione->segnalato=$autoreviaggio;
         $Segnalazione->citta=$nomecitta;
         $Segnalazione->motivo=$testosegnalazione;
-
+        $FSegnalazione= new FSegnalazione();
         $FSegnalazione->store($Segnalazione);
-
     }
 
-    public function InviaSegnalazioneLuogo(){
 
+    /**
+     * Permette ad un utente di inviare una segnalazione di un Luogo
+     *
+     */
+    public function InviaSegnalazioneLuogo()
+    {
         $VAdmin=USingleton::getInstance("VAdmin");
         $nomeutente=$VAdmin->getNomeUtente();
         $idviaggio=$VAdmin->getIdViaggio();
         $nomecitta=$VAdmin->getNomeCitta();
         $nomeluogo=$VAdmin->getNomeLuogo();
         $testosegnalazione= $VAdmin->getTestoSegnalazione();
-
-
         $Viaggio= new FViaggio();
         $viaggio= $Viaggio->loadViaggio($idviaggio);
         $Segnalazione = new ESegnalazione();
         $autoreviaggio=$viaggio->utenteusername;
-
-
         $FSegnalazione= new FSegnalazione();
-
-        //ora forzo la scrittura dei campi
         $Segnalazione->idviaggio=$idviaggio;
         $Segnalazione->autore=$nomeutente;
         $Segnalazione->segnalato=$autoreviaggio;
         $Segnalazione->citta=$nomecitta;
         $Segnalazione->luogo=$nomeluogo;
         $Segnalazione->motivo=$testosegnalazione;
-
-
         $FSegnalazione->store($Segnalazione);
     }
 
-    public function InviaSegnalazioneCommento(){
-
+    /**
+     * Permette ad un utente di inviare una segnalazione di un Commento
+     *
+     */
+    public function InviaSegnalazioneCommento()
+    {
         $VAdmin=USingleton::getInstance("VAdmin");
         $nomeutente=$VAdmin->getNomeUtente();
         $autorecommento=$VAdmin->getAutoreCommento();
         $idcommento=$VAdmin->getIdCommento();
         $testosegnalazione= $VAdmin->getTestoSegnalazione();
-
-
         $Segnalazione = new ESegnalazione();
         $FSegnalazione= new FSegnalazione();
-
-        //ora forzo la scrittura dei campi
         $Segnalazione->autore=$nomeutente;
         $Segnalazione->segnalato=$autorecommento;
         $Segnalazione->idcommento=$idcommento;
         $Segnalazione->motivo=$testosegnalazione;
-
-
         $FSegnalazione->store($Segnalazione);
-
     }
 
 
     //VISUALIZZAZIONE TABLE
+
+
+    /**
+     * Permette ad un utente di classe Admin di visualizzare una lista delle segnalazioni
+     * sottoforma di table
+     *
+     * @return string
+     */
+
     public function VisualizzaSegnalazioniTable()
     {
-        //questa versiona ELIMINA I CLONI
-        //$session=USingleton::getInstance('USession');
-        //$admin=$session->leggi_valore('username');
         $EAdmin = new EAdmin();
-        $lista_Segnalazioni=$EAdmin->getElencoSegnalazioni(); //qua recupero TUTTE le segnalazioni del DB
-        //debug("\n lista_Segnalazioni: ".count($lista_Segnalazioni));
+        $lista_Segnalazioni=$EAdmin->getElencoSegnalazioni();
         $VAdmin=USingleton::getInstance('VAdmin');
         $VAdmin->setLayout('elenco_segnalazioni');
         $VAdmin->impostaDati('results',$lista_Segnalazioni);
         return $VAdmin->processaTemplate();
-    }//OK
+    }
 
-    public function VisualizzaTuttiUtenti(){
-        //$EAdmin = new EAdmin();
+
+    /**
+     * Permette ad un utente di classe Admin di visualizzare una lista di tutti gli utenti
+     * sottoforma di table
+     *
+     * @return string
+     */
+    public function VisualizzaTuttiUtenti()
+    {
         $FUtente = new FUtente();
         $Utenti = $FUtente->CaricaTutto();
-        //debug("\n lista_Segnalazioni: ".count($lista_Segnalazioni));
         $VAdmin=USingleton::getInstance('VAdmin');
         $VAdmin->setLayout('elenco_utenti');
         $VAdmin->impostaDati('utente',$Utenti);
         return $VAdmin->processaTemplate();
-    } //FORSE questa deve essere rinominata in table(VisualizzaTuttiUtentiTable ???)
+    }
+
 
     //VISUALIZZAZIONE IN DETTAGLIO
+
+
+    /**
+     * Permette ad un utente di classe Admin di visualizzare una Segnalazione
+     *
+     * @return string
+     */
     public function VisualizzaSegnalazione()
     {
         $VAdmin=USingleton::getInstance('VAdmin');
-        //$FAdmin=new FAdmin();
         $FSegnalazione= new FSegnalazione();
-        //var_dump("----->".$VAdmin->getIdSegnalazione()); //ok
         $segnalazione=$FSegnalazione->loadSegnalazione($VAdmin->getIdSegnalazione());
-        //$segnalazione=$FSegnalazione->loadRicerca( "idsegnalazione",$VAdmin->getIdSegnalazione()); ok ma non è un oggetto da passare al tpl
-        //var_dump($segnalazione);
         $VAdmin->setLayout('dettagli_segnalazione');
         $VAdmin->impostaDati('segnalazione',$segnalazione);
-        //debug($segnalazione);
         return $VAdmin->processaTemplate();
     }
 
+    /**
+     * Permette ad un utente di classe Admin di visualizzare una segnalazione
+     * di un viaggo su cui sono presenti pulsanti di amministrazione avanzata
+     *
+     * @return string
+     */
     public function VisualizzaSegnalazioneViaggioConPermessi()
     {
         $VViaggio=USingleton::getInstance('VViaggio');
         $FViaggio=new FViaggio();
         $viaggio=$FViaggio->load($VViaggio->getIdViaggio());
-
         $VAdmin=USingleton::getInstance('VAdmin');
         $VAdmin->setLayout('dettagli_viaggio');
         $VAdmin->impostaDati('viaggio',$viaggio);
         return $VAdmin->processaTemplate();
     }
 
+
+    /**
+     * Permette ad un utente di classe Admin di visualizzare una segnalazione
+     * di una citta su cui sono presenti pulsanti di amministrazione avanzata
+     *
+     * @return string
+     */
     public function VisualizzaSegnalazioneCittaConPermessi()
     {
         $VViaggio=USingleton::getInstance('VViaggio');
         $FCitta=new FCitta();
-        $key=array('idviaggio'=>$VViaggio->getIdViaggio(),'nome'=>$VViaggio->getNomeCitta());//chiave (id viaggio,nome della citta)
-        //debug($key);
+        $key=array('idviaggio'=>$VViaggio->getIdViaggio(),'nome'=>$VViaggio->getNomeCitta());
         $citta=$FCitta->loadCitta($key);
-
         $VAdmin=USingleton::getInstance('VAdmin');
         $VAdmin->setLayout('dettagli_citta');
         $VAdmin->impostaDati('citta',$citta);
         return $VAdmin->processaTemplate();
     }
 
+
+    /**
+     * Permette ad un utente di classe Admin di visualizzare una segnalazione
+     * di un luogo su cui sono presenti pulsanti di amministrazione avanzata
+     *
+     * @return string
+     */
     public function VisualizzaSegnalazioneLuogoConPermessi()
     {   $VViaggio=USingleton::getInstance('VViaggio');
         $FLuogo=new FLuogo();
         $key=array('idviaggio'=>$VViaggio->getIdViaggio(),'nome'=>$VViaggio->getNomeLuogo(),'nomecitta'=>$VViaggio->getNomeCitta());
         $luogo=$FLuogo->loadLuogo($key);
-        var_dump($luogo);
         $VAdmin=USingleton::getInstance('VAdmin');
         $VAdmin->setLayout('dettagli_luogo');
         $VAdmin->impostaDati('luogo',$luogo);
         return $VAdmin->processaTemplate();
     }
 
+    /**
+     * Permette ad un utente di classe Admin di visualizzare una segnalazione
+     * di un commentto su cui sono presenti pulsanti di amministrazione avanzata
+     *
+     * @return string
+     */
     public function VisualizzaSegnalazioneCommentoConPermessi()
     {
         $VViaggio=USingleton::getInstance('VViaggio');
         $FCommento=new FCommento();
         $commento=$FCommento->loadCommento($VViaggio->getIdCommento());
-//var_dump($commento);
-
         $VAdmin=USingleton::getInstance('VAdmin');
         $VAdmin->setLayout('dettagli_commento');
         $VAdmin->impostaDati('commento',$commento);
         return $VAdmin->processaTemplate();
     }
 
-   public function ProfiloUtente(){
-        $VViaggio=USingleton::getInstance('VViaggio');
-        $FUtente = new FUtente();
-        $Utente = $FUtente->load($VViaggio->getNomeUtente());
-
-        $VAdmin=USingleton::getInstance('VAdmin');
-        $VAdmin->setLayout('dettagli_utente');
-        $VAdmin->impostaDati('utente',$Utente);
-        return $VAdmin->processaTemplate();
-    } //MAI RICHIAMATO POICHE' LO DOVREBBERO AVER FATTO CHECCO E RICCARDO
 
     //MODIFICHE
-   public function PromuoviUtente(){
-        //carico un metodo di EAdmin
-        debug("ci entro in promuovi utente?");
-       $VAdmin = new $VAdmin();
-       $nomeutente=$VAdmin->getNomeUtente();
-       //$nomeutente=$_GET["nomeutente"];
-       debug("nome utente = ");
-       var_dump($nomeutente);
-       debug("provo a promuoverlo");
 
+
+    /**
+     * Permette ad un utente di classe Admin di visualizzare un template avanzato in cui
+     * è possibile modificare gli attributi di un utente
+     *
+     * @return string
+     */
+   public function ModificaUtente(){
+
+       $VAdmin=USingleton::getInstance('VAdmin');
+       $FUtente=new FUtente();
+       $user = $VAdmin->getNomeUtente();
+       $utente= $FUtente->loadUtente($user);
+       $VAdmin->setLayout('modifica_utente');
+       $VAdmin->impostaDati('utente',$utente);
+       echo $VAdmin->processaTemplate();
+   }
+
+
+    /**
+     * Permette ad un utente di classe Admin di Aggiornare gli attributi
+     * di un utente modificati manualmente attraverso il template generato dal metodo ModificaUtente().
+     *
+     * @return string
+     */
+    public function SalvaModificaUtente(){
+        $VAdmin=USingleton::getInstance('VAdmin');
+        $dati_utente= $VAdmin->getDatiModificati();
+        $utente=new EUtente();
+        $FUtente=new FUtente();
+        $keys=array_keys($dati_utente);
+        $i=0;
+        foreach ($dati_utente as $dato)
+        {
+                $utente->$keys[$i]=$dato;
+                $i++;
+        }
+        $FUtente->update($utente);
+        echo $this->ProfiloUtente();
+    }
+
+
+    /**
+     * Permette ad un utente di classe Admin di cambiare lo stato di un utente
+     * promuovendolo in Amministratore
+     *
+     * @return string || integer
+     */
+   public function PromuoviUtente()
+   {
+       $VAdmin = new VAdmin();
+       $nomeutente=$VAdmin->getNomeUtente();
        $FUtente=new FUtente();
        $utente=$FUtente->loadUtente($nomeutente);
        if ($utente!= NULL || $utente!=false)
        {
-           debug("promuovo:");
            $EAdmin = new EAdmin();
            $esito= $EAdmin->PromuoviUtente($utente);
-           var_dump("var_dump esito: ".$esito);
-           debug("debug utente: ".$esito);
-           if ($esito!=0){
-                debug("ERRORE nell'aggiornamento!!!!!!!!!!");
-           }
-           elseif ($esito==0){
-            debug("OK!");
+           if($esito==0)
+           {
             $VAdmin= new VAdmin();
             $VAdmin->setLayout('dettagli_utente_promosso_degradato');
             $VAdmin->impostaDati('nomeutente',$nomeutente);
@@ -321,36 +369,29 @@ class CAdmin
        }
        else
        {
-           debug("ERRORE: Utente NON TROVATO!!!!");
            return 1;
        }
-       //qua dovrei mandare una mail per avvertirlo
-   }//OK
+   }
 
-   public function DegradaUtente(){
-        //carico un metodo di EAdmin
-        //debug("ci entro in degrada utente?");
-       $VAdmin = new $VAdmin();
-       $nomeutente=$VAdmin->getNomeUtente();
-        //$nomeutente=$_GET["nomeutente"];
-        debug("nome utente = ");
-        var_dump($nomeutente);
-        debug("provo a degradarlo");
 
+    /**
+     * Permette ad un utente di classe Admin di cambiare lo stato di un utente(avanzato)
+     * degradandolo
+     *
+     * @return string || integer
+     */
+    public function DegradaUtente()
+    {
+        $VAdmin = new VAdmin();
+        $nomeutente=$VAdmin->getNomeUtente();
         $FAdmin=new FAdmin();
         $newutente=$FAdmin->loadUtente($nomeutente);
         if ($newutente!= NULL || $newutente!=false)
         {
-            debug("Degrado:");
             $EAdmin = new EAdmin();
             $esito= $EAdmin->TogliPermessiAmministratore($newutente);
-            var_dump("var_dump esito: ".$esito);
-            debug("debug utente: ".$esito);
-            if ($esito!=0){
-                debug("ERRORE nell'aggiornamento!!!!!!!!!!");
-            }
-            elseif ($esito==0){
-                debug("OK!");
+            if ($esito==0)
+            {
                 $VAdmin= new VAdmin();
                 $VAdmin->setLayout('dettagli_utente_promosso_degradato');
                 $VAdmin->impostaDati('nomeutente',$nomeutente);
@@ -359,95 +400,105 @@ class CAdmin
         }
         else
         {
-            debug("ERRORE: Utente NON TROVATO!!!!");
+            //debug("ERRORE: Utente NON TROVATO!!!!");
             return 1;
         }
-        //qua dovrei mandare una mail per avvertirlo
-    }//OK
+    }
 
+
+    /**
+     * Permette ad un utente di classe Admin di visualizzare un profilo di un utente
+     * su cui sono presenti pulsanti di amministrazione avanzata
+     *
+     * @return string
+     */
+    public function ProfiloUtente(){
+        $VViaggio=USingleton::getInstance('VViaggio');
+        $FUtente = new FUtente();
+        $Utente = $FUtente->load($VViaggio->getNomeUtente());
+
+        $VAdmin=USingleton::getInstance('VAdmin');
+        $VAdmin->setLayout('dettagli_utente');
+        $VAdmin->impostaDati('utente',$Utente);
+        return $VAdmin->processaTemplate();
+    }
+
+
+    /**
+     * Permette ad un utente di classe Admin di mandare un avvertimento ad un utente
+     *
+     * @return string
+     */
    public function MandaAvvertimento()
    {
-       $VAdmin = new $VAdmin();
+       $VAdmin = new VAdmin();
        $nomeutente=$VAdmin->getNomeUtente();
-       //$nomeutente=$_GET["nomeutente"];
-       debug("nome utente = ");
-       var_dump($nomeutente);
-       debug("Mando Avvertimento!");
-
        $FUtente=new FUtente();
        $utente=$FUtente->loadUtente($nomeutente);
 
        if ($utente!= NULL || $utente!= false)
        {
-        debug("entro in MandaAvvertimento");
         $successo = $utente->riceviAvvertimento();
         if ($successo==true)
         {
-        //qua Mando la mail-avvertimento
             $email=$this->emailAvvertimento($utente);
-
+            var_dump($email);
             if($email)
                 {
-                    debug("Mail di Avvertimento Inviata con Successo!!!");
+                    //debug("Mail di Avvertimento Inviata con Successo!!!");
                 }
             else
                 {
-                    $this->_errore='impossibile inoltrare email'; //da verificare a cosa serve
+                    $this->_errore='impossibile inoltrare email';
                 }
         //end mail
         }
         elseif($successo==false)
         {
-               debug("Si è verificato un errore nel mandare l'avvertimento. Nessuna mail è stata inviata");
+               $this->_errore='Si è verificato un errore nel mandare l\'avvertimento. Nessuna mail è stata inviata';
         }
       }
       else
       {
-           debug("ERRORE: Utente NON TROVATO!!!!");
+           //debug("ERRORE: Utente NON TROVATO!!!!");
       }
 
       return 0;
 
-   }//Finito manca da verificare se invia la mail
+   }//ok
+
 
     //ELIMINAZIONI
-    public function EliminaSegnalazione(){
 
-        $VAdmin = new VAdmin();   //da vedere
+
+    /**
+     * Permette ad un utente di classe Admin di eliminare una segnalazione
+     *
+     */
+    public function EliminaSegnalazione()
+    {
+        $VAdmin = new VAdmin();
         $id=$VAdmin->getIdSegnalazione();
-        //$id=$_GET["idsegnalazione"];
-        //debug("idsegnalazione = "+$id);
-        ("Elimino la Segnalazione!\n\n");
-
-        //recupero l'oggetto dal DB usando l'indice ottenuto
         $FSegnalazione=new FSegnalazione();
         $segnalazione=$FSegnalazione->loadSegnalazione($id);
-        if ($segnalazione!= NULL || $segnalazione!=0){
-            //tento di cancellarla
-            $ris= $FSegnalazione->delete($segnalazione);
-            debug("Segnalazione ELIMINATA CORRETTAMENTE!");
-            var_dump($ris);
-        }
-        else
+        if ($segnalazione!= NULL || $segnalazione!= false)
         {
-            Debug("NON CI SONO RISULTATI!!!!");
+            $ris= $FSegnalazione->delete($segnalazione);
         }
-    } //Finito
+    }
 
-    public function EliminaUtente(){
 
-        $VAdmin = new $VAdmin();
+    /**
+     * Permette ad un utente di classe Admin di eliminare un utente
+     * Questo implica che dal DB sia eliminato ricorsivamente ogni
+     * riferimento a quel determinato utente
+     */
+    public function EliminaUtente()
+    {
+        $VAdmin = new VAdmin();
         $nomeutente=$VAdmin->getNomeUtente();
-
-        //$nomeutente=$_GET["nomeutente"];
-        //debug("nome utente = ");
-        //var_dump($nomeutente);
-        debug("Elimino utente!");
-
-        //recupero l'oggetto dal DB usando l'indice ottenuto
         $FUtente=new FUtente();
         $utente=$FUtente->loadUtente($nomeutente);
-
         if ($utente!= NULL || $utente!= false)
         {
 
@@ -458,135 +509,98 @@ class CAdmin
                 $viaggio=$FViaggio->loadViaggio($viaggio->id);
                 if ($viaggio!= NULL || $viaggio!= false)
                 {
-                    //var_dump($viaggio);
-                    $lista_citta=$viaggio->getElencoCitta();//tiene la lista delle citta
+                    $lista_citta=$viaggio->getElencoCitta();
                     foreach ($lista_citta as $citta)
                     {
                         $FCitta=new FCitta();
-                        $key["idviaggio"]=(int) $citta->idviaggio; //obbligatorio il casting poiche IDViaggio torna Stringa
+                        $key["idviaggio"]=(int) $citta->idviaggio;
                         $key["nome"]=$citta->nome;
                         $citta=$FCitta->loadCitta($key);
                         if ($citta!= NULL || $citta!= false)
                         {
-                            //cancello tutti i luoghi appartenenti alla citta
-                            $lista_luoghi=$citta->getElencoLuoghi();//tiene la lista del luoghi
-                            var_dump($lista_luoghi);
+                            $lista_luoghi=$citta->getElencoLuoghi();
                             $FLuogo=new FLuogo();
-                            foreach ($elenco_luoghi as $luogo)
+                            foreach ($lista_luoghi as $luogo)
                             {
                                 $elenco_commenti=$luogo->getElencoCommenti();
                                 foreach ($elenco_commenti as $commento)
                                 {
                                     $FCommento= new FCommento();
                                     $FCommento->delete($commento);
-                                    debug("\nCommento ELIMINATO CORRETTAMENTE!");
-                                    debug($ris);
                                 }
                                 $FLuogo->delete($luogo);
-                                debug("\nLuogo ELIMINATO CORRETTAMENTE!");
                             }
-                            //tento di cancellare la citta
                             $FCitta->delete($citta);
-                            debug("Citta ELIMINATA CORRETTAMENTE!");
                         }
                     }
-                    //tento di cancellare il viaggio
                     $FViaggio->delete($viaggio);
-                    debug("Citta ELIMINATA CORRETTAMENTE!");
                     }
                 }
-            //tento di cancellare l'utente
             $ris= $FUtente->delete($utente);
-            debug("Utente ELIMINATO CORRETTAMENTE!");
-            var_dump($ris);
         }
-        else
-        {
-            Debug("NON CI SONO RISULTATI!!!!");
-        }
-    }//DA controllare se funziona
+    }//ok
 
-    public function EliminaViaggio(){
-        $VAdmin = new $VAdmin();
+
+    /**
+     * Permette ad un utente di classe Admin di eliminare un viaggio
+     * Questo implica che dal DB sia eliminato ricorsivamente ogni
+     * riferimento a quel determinato viaggio
+     */
+    public function EliminaViaggio()
+    {
+        $VAdmin = new VAdmin();
         $id=$VAdmin->getIdViaggio();
-        //$id=$_GET["idviaggio"];
-        //debug("idviaggio = "+$id);
-        //debug("Elimino il viaggio!");
-
-        //recupero l'oggetto dal DB usando l'indice ottenuto
         $FViaggio=new FViaggio();
         $viaggio=$FViaggio->loadViaggio($id);
         //end
         if ($viaggio!= NULL || $viaggio!= false)
         {
-            //var_dump($viaggio);
-            $lista_citta=$viaggio->getElencoCitta();//tiene la lista delle citta
-            var_dump($lista_citta);
+            $lista_citta=$viaggio->getElencoCitta();
             foreach ($lista_citta as $citta)
             {
                 $FCitta=new FCitta();
-
-                $key["idviaggio"]=(int) $citta->idviaggio; //obbligatorio il casting poiche IDViaggio torna Stringa
+                $key["idviaggio"]=(int) $citta->idviaggio;
                 $key["nome"]=$citta->nome;
                 $citta=$FCitta->loadCitta($key);
                 if ($citta!= NULL || $citta!= false)
                 {
-                    //cancello tutti i luoghi appartenenti alla citta
-                    $lista_luoghi=$citta->getElencoLuoghi();//tiene la lista del luoghi
-                    var_dump($lista_luoghi);
+                    $lista_luoghi=$citta->getElencoLuoghi();
                     $FLuogo=new FLuogo();
-                    $FCommento= new FCommento();
-                    foreach ($lista_luoghi as $luogo)
+                    foreach ($lista_luoghi as $luogo)  //da rivedere
                     {
                         $elenco_commenti=$luogo->getElencoCommenti();
                         foreach ($elenco_commenti as $commento)
                         {
+                            $FCommento= new FCommento();
                             $FCommento->delete($commento);
-                            debug("\nCommento ELIMINATO CORRETTAMENTE!");
-                            //debug($ris);
                         }
                         $FLuogo->delete($luogo);
-                        debug("\nLuogo ELIMINATO CORRETTAMENTE!");
-                    }
-                //tento di cancellare la citta
+                    }                                 //end da rivedere
                 $FCitta->delete($citta);
-                debug("Citta ELIMINATA CORRETTAMENTE!");
                 }
             }
-            //tento di cancellare il viaggio
             $FViaggio->delete($viaggio);
-            debug("VIAGGIO ELIMINATO CORRETTAMENTE!");
-
         }
-        else
-        {
-             Debug("NON CI SONO RISULTATI!!!!");
-        }
-    }//DA controllare se funziona
+    }
 
+
+    /**
+     * Permette ad un utente di classe Admin di eliminare una città
+     * Questo implica che dal DB sia eliminato ricorsivamente ogni
+     * riferimento a quella determinata citta
+     */
     public function EliminaCitta()
     {
-        $VAdmin = new $VAdmin();
+        $VAdmin = new VAdmin();
         $idviaggio=$VAdmin->getIdViaggio();
         $nomecitta=$VAdmin->getNomeCitta();
-        //$idviaggio=$_GET["idviaggio"];
-        //$nomecitta=$_GET["nomecitta"];
-        debug("Elimino la citta!");
-
-        //recupero l'oggetto dal DB usando l'indice ottenuto
         $FCitta=new FCitta();
-
-//Creo l'array da mandare a loadCitta($key)
         $key['idviaggio']=$idviaggio;
         $key['nome']=$nomecitta;
-//end
         $citta=$FCitta->loadCitta($key);
-
         if ($citta!= NULL || $citta!= false)
         {
-            //cancello tutti i luoghi appartenenti alla citta
-            $elenco_luoghi=$citta->getElencoLuoghi();//tiene la lista del luoghi
-            var_dump($elenco_luoghi);
+            $elenco_luoghi=$citta->getElencoLuoghi();
             $FLuogo=new FLuogo();
             $FCommento= new FCommento();
             foreach ($elenco_luoghi as $luogo)
@@ -595,40 +609,29 @@ class CAdmin
                 foreach ($elenco_commenti as $commento)
                 {
                     $FCommento->delete($commento);
-                    debug("\nCommento ELIMINATO CORRETTAMENTE!");
                 }
                 $FLuogo->delete($luogo);
-                debug("\nLuogo ELIMINATO CORRETTAMENTE!");
             }
-            //tento di cancellare la citta
             $FCitta->delete($citta);
-            debug("Citta ELIMINATA CORRETTAMENTE!");
         }
-        else
-        {
-            Debug("NON CI SONO RISULTATI!!!!");
-        }
-    } //finito
+    }
 
+
+    /**
+     * Permette ad un utente di classe Admin di eliminare un luogo
+     * Questo implica che dal DB sia eliminato ricorsivamente ogni
+     * riferimento a quel determinato luogo
+     */
     public function EliminaLuogo()
     {
-        $VAdmin = new $VAdmin();
-
+        $VAdmin = new VAdmin();
         $idviaggio=$VAdmin->getIdViaggio();
         $nomecitta=$VAdmin->getNomeCitta();
-        $nomeluogo=$Vadmin->getNomeLuogo();
-        //$idviaggio=$_GET["idviaggio"];
-        //$nomecitta=$_GET["nomecitta"];
-        //$nomeluogo=$_GET["nomeluogo"];
-        debug("Elimino luogo!");
-        //recupero l'oggetto dal DB usando l'indice ottenuto
+        $nomeluogo=$VAdmin->getNomeLuogo();
         $FLuogo=new FLuogo();
-
-//Creo l'array da mandare a loadLuogo($key)
         $key['idviaggio']=$idviaggio;
         $key['nomecitta']=$nomecitta;
         $key['nome']=$nomeluogo;
-//end
         $luogo=$FLuogo->loadLuogo($key);
 
         if ($luogo!= NULL || $luogo!=false){
@@ -637,44 +640,37 @@ class CAdmin
             foreach ($elenco_commenti as $commento)
             {
                 $FCommento->delete($commento);
-                debug("\nCommento ELIMINATO CORRETTAMENTE!");
             }
-            debug("\n cancellati tutti i commenti di questo luogo");
-            //tento di cancellare il Luogo
             $FLuogo->delete($luogo);
-            debug("Luogo ELIMINATO CORRETTAMENTE!");
         }
-        else
-        {
-            Debug("NON CI SONO RISULTATI!!!!");
-        }
-    }//finito
+    }
 
-    public function EliminaCommento(){
 
-        $VAdmin = new $VAdmin();
+    /**
+     * Permette ad un utente di classe Admin di eliminare un commento
+     * Questo implica che dal DB sia eliminato ricorsivamente ogni
+     * riferimento a quel determinato commento
+     */
+    public function EliminaCommento()
+    {
+
+        $VAdmin = new VAdmin();
         $id=$VAdmin->getIdCommento();
-        //$id=$_GET["idcommento"];
-        //debug("idcommento = "+$id);
-        debug("Elimino il Commento!");
-
-        //recupero l'oggetto dal DB usando l'indice ottenuto
         $FCommento=new FCommento();
         $commento=$FCommento->loadCommento($id);
-        //end
         if ($commento!= NULL ||$commento!= false)
         {
-        //tento di cancellarlo
             $FCommento->delete($commento);
-            debug("Commento ELIMINATO CORRETTAMENTE!");
-            //var_dump($ris);
         }
-        else
-        {
-            Debug("NON CI SONO RISULTATI!!!!");
-        }
-    }//Finito
+    }
 
+
+    /**
+     * Permette ad un utente di classe Admin di mandare una mail di avvertimento ad un utente
+     *
+     * @param EUtente
+     * @return boolean
+     */
     public function emailAvvertimento(EUtente $utente)
     {
         global $config;
@@ -682,7 +678,6 @@ class CAdmin
         $view->setLayout('email_avvertimento');
         $view->impostaDati('nome_cognome',$utente->nome.' '.$utente->cognome);
         $view->impostaDati('email_webmaster',$config['email_webmaster']);
-        //$view->impostaDati('url',$config['url_bookstore']);
         $corpo_email=$view->processaTemplate();
         $email=USingleton::getInstance('UEmail');
         return $email->invia_email($utente->mail,$utente->nome.' '.$utente->cognome,'Avvertimento Ricevuto YesYouTravel',$corpo_email);

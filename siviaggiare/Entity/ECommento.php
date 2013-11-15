@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Riso64Bit
- * Date: 02/09/13
- * Time: 15.08
- * To change this template use File | Settings | File Templates.
- */
 
 class ECommento 
 {
@@ -17,8 +10,15 @@ class ECommento
     public $testo;
     public $voto;
 
+
+    /**
+     * restituisce l'id del commento
+     *
+     * @return int
+     */
     public function getIDCommento()
     {
         return $this->id;
     }
 }
+?>

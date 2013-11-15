@@ -210,6 +210,7 @@ nav {
   margin: 0px auto 0 auto;
   padding: 15px 0 25px 0;
   text-shadow: 0 1px #FFF;
+  background-image: url(../images/sfondo.jpg);
 } 
 
 #sidebar_container { 
@@ -233,7 +234,7 @@ nav {
   -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 2px;
   -moz-box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 2px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 2px;
-  border: 1px solid #eee;
+  border: 1px solid #5c7c95;
   border-radius: 7px 7px 7px 7px;
   -moz-border-radius: 7px 7px 7px 7px;
   -webkit-border: 7px 7px 7px 7px;
@@ -250,6 +251,7 @@ nav {
 .sidebar h3 { 
   padding: 4px 15px 9px 0;
   font: 200% 'News Cycle', arial, sans-serif;
+  color: blue;
 }
 
 .sidebar ul { 
@@ -655,6 +657,12 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     padding: 0 0 2px 0;
     font: normal 100% 'Droid Sans', arial;
 }
+#risposta-panoramica .citta-panoramica-int h5 {
+    color: #555;
+    letter-spacing: 0em;
+    padding: 0 0 2px 0;
+    font: normal 100% 'Droid Sans', arial;
+}
 #risposta-dettaglio h6 {
     color: #555;
     letter-spacing: 0em;
@@ -662,6 +670,13 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     font: normal 88% 'Droid Sans', arial;
 }
 #risposta-dettaglio .luoghi-panoramica-int h5 {
+    color: #555;
+    letter-spacing: 0em;
+    padding: 0 0 2px 0;
+    font: normal 88% 'Droid Sans', arial;
+}
+
+#risposta-dettaglio .citta-panoramica-int h5 {
     color: #555;
     letter-spacing: 0em;
     padding: 0 0 2px 0;
@@ -682,14 +697,6 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     float: right;
     margin: 0 10px;
     width: 30px;
-}
-
-#tab-citta h6 {
-    color: #555;
-    letter-spacing: 0em;
-    padding: 0 0 0 0;
-    font: normal 88% 'Droid Sans', arial;
-    margin: 0 0 0 0;
 }
 
 
@@ -716,25 +723,89 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     border-top: none;
     color: #C6E746;
 }
+
+.commento-int #immagine_luogo
+{
+    width: 250px;
+    float: left;
+}
+
+#risposta-profilo h6 {
+    color: #555;
+    letter-spacing: 0em;
+    padding: 0 0 2px 0;
+    font: normal 88% 'Droid Sans', arial;
+}
+#risposta-profilo .profilo-int h5 {
+    color: #555;
+    letter-spacing: 0em;
+    padding: 0 0 2px 0;
+    font: normal 88% 'Droid Sans', arial;
+}
+
+#risposta-profilo table {
+    margin: 0px 0 0px 0;
+    background: none;
+    color: #C6E746;
+}
+#risposta-profilo table tr td{
+    background: none;
+    border-top: none;
+    color: #C6E746;
+}
+
 #risposta-commento table img{
     float: right;
     margin: 0 10px;
     width: 30px;
 }
 
-#barraricerca input {
-    width: 400px;
+#barraricerca fieldset {
+    width: 385px;
     height: 36px;
     border: 1px solid #d3d3d3;
-    border-right: none;
     margin: 100px 0px 0 80px;
+    font: 110% 'Droid Sans', arial;
+    background-color: white;
+    padding: 2px 2px 2px 2px;
+}
+
+#barraricerca input {
+    width: 312px;
+    height: 36px;
+    border: none;
+    border-right: solid 1px #d3d3d3;
     font: 110% 'Droid Sans', arial;
 }
 
-#buttonsearch {
-    height: 34px;
-    margin: -3px 0 0 0;
-    border-radius: 0 0 0 0;
+#barraricerca #buttonsearch {
+    paddin: 0 10px 0 7px;
+    width: auto;
+    height: 30px;
+    margin-top: -3px;
+    border: none;
+    background: white;
+    margin-left: 6px;
+    margin-right: 0px;
+    zoom: normal;
+}
+
+#barraricerca #buttonsearch:hover,
+#barraricerca #buttonsearch:active,
+#barraricerca #buttoncleart:hover,
+#barraricerca #buttonclear:active
+{
+    cursor: pointer;
+    opacity: 1;
+}
+
+#barraricerca #buttonclear {
+    margin-top: -4px;
+    height: 25px;
+    width: 25px;
+    background: white;
+    border-color: white;
+    margin-left: 8px;
 }
 
 .ricerca-navigazione1{
@@ -746,6 +817,10 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
 }
 
 .ricerca-navigazione3{
+    margin-left: 41%;
+}
+
+.ricerca-navigazione4{
     margin-left: 41%;
 }
 
@@ -768,6 +843,8 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     background-color: whitesmoke;
     border-radius: 4px;
     text-align: left;
+    word-wrap: break-word;
+    padding: 5px 5px 5px 5px;
 }
 
 .commenti-utenti h4 {
@@ -792,16 +869,38 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     height: 100px;
 }
 
-#tab-citta img {
-    width: 20px;
-    margin: 0px 0 0 0;
-    float:right;
-}
-
-#tab-1 button{
+#tab-citta button{
     width: 100%;
     text-align: left;
 }
+
+#tab-citta h6 {
+    color: #555;
+    letter-spacing: 0em;
+    padding: 0 0 0 0;
+    font: normal 64% 'Droid Sans', arial;
+    float: left;
+    margin-top: 5px;
+}
+
+#tab-luogo button{
+    width: 100%;
+    text-align: left;
+}
+
+#tab-luogo h6 {
+    color: #555;
+    letter-spacing: 0em;
+    padding: 0 0 0 0;
+    font: normal 64% 'Droid Sans', arial;
+    float: left;
+    margin-top: 5px;
+}
+
+
+/*css per tpl registrazione e validazione*/
+
+
 
 
 /*css per tpl registrazione e validazione*/
@@ -812,7 +911,6 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
 #form_register
 {
     text-align: left;
-    background-image: url('../images/beige-background.jpg');
     -moz-border-radius: 10px 10px 10px 10px;
     -webkit-border-radius: 10px 10px 10px 10px;
     border-radius: 10px 10px 10px 10px;
@@ -822,6 +920,7 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     padding: 0 1.5em 1.5em 1.5em;
     margin: 0 auto;
     overflow: hidden;
+    background: linear-gradient(#FFFFFF, #DDDDDD);
 }
 
 #form_register fieldset
@@ -835,6 +934,8 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     display: block;
     font-size: 25px;
     padding: 10px;
+    width: 470px;
+    margin-left: 5px;
 }
 
 #form_register label
@@ -930,6 +1031,21 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     margin: 20px 0px 0px 0px;
 }
 
+#form_register h3
+{
+    text-align: left;
+    font-size: 15px;
+}
+
+
+
+
+/*CSS PER PASSWORD DIMENTICATA*/
+
+#password_dimenticata h3
+{
+   color: blue;
+}
 
 
 
@@ -939,30 +1055,29 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
 
 
 
-#form_journey
+#form_journey,#form_journey_bis
 {
     text-align: left;
-    background-image: url('../images/beige-background.jpg');
     -moz-border-radius: 10px 10px 10px 10px;
     -webkit-border-radius: 10px 10px 10px 10px;
     border-radius: 10px 10px 10px 10px;
     width: 590px;
-    margin-left: auto;
-    margin-right: auto;
     padding: 0 4em 1.5em 1.5em;
-    margin: 0 auto;
+    margin-left: 25px;
+    margin-top: 22px;
     overflow: hidden;
+    background: linear-gradient(#FFFFFF, #DDDDDD);
 }
 
-#form_journey fieldset
+#form_journey fieldset    /*non lo prende*/
 {
     text-align: left;
-    display: block;
     font-size: 0.9em;
-    padding: 2px;
-    margin-right: 250px;
+    padding: 10px;
     margin-left: 0px;
-    color: blue;
+    color: red;
+    width: 280px;
+
 }
 
 #form_journey legend
@@ -972,8 +1087,21 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     font-size: 17px;
     padding: 14px;
     color: blue;
+    margin-left: 0px;
+    width: 500px;
 }
 
+
+#form_journey #date
+{
+    text-align: left;
+    display: block;
+    font-size: 17px;
+    padding: 14px;
+    color: blue;
+    margin-left: 0px;
+    width: 80px;
+}
 
 #form_journey label
 {
@@ -1001,10 +1129,21 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
 }
 
 
-#form_journey #datainizio, #form_journey #datafine, #form_journey #costotrasporto, #form_journey #budget, #form_journey #citta, #form_journey #stato, #form_journey #alloggio, #form_journey #costo, #form_journey #nome, #form_journey #sitoweb, #form_journey #costobiglietto, #form_journey #guida, #form_journey #durata, #form_journey #commentolibero, #form_journey #percorso
+#form_journey #datainizio, #form_journey #datafine, #form_journey #costotrasporto, #form_journey #budget, #form_journey #citta, #form_journey #stato, #form_journey #alloggio, #form_journey #costo, #form_journey #nome, #form_journey #sitoweb, #form_journey #costobiglietto, #form_journey #guida, #form_journey #durata, #form_journey #percorso,#form_journey #costoalloggio
 {
     height: 30px;
     width: 200px;
+    display: block;
+    border: none;
+    font-size: 16px;
+    line-height: 28px;
+    text-align: left;
+}
+
+#form_journey #commentolibero
+{
+    height: 200px;
+    width: 400px;
     display: block;
     border: none;
     font-size: 16px;
@@ -1050,7 +1189,7 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     opacity: 2;
 }
 
-#form_journey div.error
+#form_journey_err div.error
 {
     text-align: left;
     color: red;
@@ -1087,7 +1226,7 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
 #form_journey table
 {
     margin: 28 0 30px 0;
-    background-color:#FFFFFF;
+    text-shadow: 0 1px #FFFFFF;
     opacity:50;
 }
 
@@ -1112,8 +1251,22 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     text-align: right;
 }
 
+#form_journey #immagine_luogo
+{
+    width: 200px;
+}
 
 
+
+/*CSS PER VIAGGI, CITTA, LUOGHI...*/
+
+
+
+div #campo_obbligatorio
+{
+    text-align: left;
+    font-size: 15px;
+}
 
 
 
@@ -1122,16 +1275,16 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
 .profilo
 {
     text-align: left;
-    background-image: url('../images/beige-background.jpg');
     -moz-border-radius: 10px 10px 10px 10px;
     -webkit-border-radius: 10px 10px 10px 10px;
     border-radius: 10px 10px 10px 10px;
     width: 590px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 0px;
+    margin-top: 0px;
+    width: 550px;
     padding: 0 4em 1.5em 1.5em;
-    margin: 0 auto;
     overflow: hidden;
+    background: linear-gradient(#FFFFFF, #DDDDDD);
 }
 
 .profilo fieldset
@@ -1180,7 +1333,7 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
 }
 
 
-.profilo #lavoro, .profilo #citta, .profilo #data, .profilo #sesso, .profilo #telefono, .profilo #mail, .profilo #nome, .profilo #nazione, .profilo #cognome
+.profilo #lavoro, .profilo #citta, .profilo #data, .profilo #sesso, .profilo #telefono, .profilo #mail, .profilo #nome, .profilo #nazione, .profilo #cognome, .profilo #username
 {
     height: 30px;
     width: 200px;
@@ -1216,15 +1369,63 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
 }
 
 .profilo #j_submit{background: #0a0; margin-top: 40px;}
-.profilo #j_reset{background: #f33; margin-top: 20px;}
-.profilo #j_salta{background: #f33; margin-top: 20px;}
+.profilo #modifica_nome{background: #f33; margin-top: 20px;}
+.profilo #modifica_cognome{background: #f33; margin-top: 20px;}
+.profilo #modifica_nazione{background: #f33; margin-top: 20px;}
+.profilo #modifica_residenza{background: #f33; margin-top: 20px;}
+.profilo #modifica_lavoro{background: #f33; margin-top: 20px;}
+.profilo #modifica_sesso{background: #f33; margin-top: 20px;}
+.profilo #modifica_telefono{background: #f33; margin-top: 20px;}
+.profilo #modifica_data{background: #f33; margin-top: 20px;}
+.profilo #modifica_mail{background: #f33; margin-top: 20px;}
+.profilo #salva_nome{background: #0a0; margin-top: 40px;}
+.profilo #salva_cognome{background: #0a0; margin-top: 40px;}
+.profilo #salva_lavoro{background: #0a0; margin-top: 40px;}
+.profilo #salva_nazione{background: #0a0; margin-top: 40px;}
+.profilo #salva_residenza{background: #0a0; margin-top: 40px;}
+.profilo #salva_mail{background: #0a0; margin-top: 40px;}
+.profilo #salva_sesso{background: #0a0; margin-top: 40px;}
+.profilo #salva_data_nascita{background: #0a0; margin-top: 40px;}
+.profilo #salva_telefono{background: #0a0; margin-top: 40px;}
 
 .profilo #j_submit:hover,
 .profilo #j_submit:active,
-.profilo #j_reset:hover,
-.profilo #j_reset:active,
-.profilo #j_salta:hover,
-.profilo #j_salta:active
+.profilo #modifica_nome:hover,
+.profilo #modifica_nome:active,
+.profilo #modifica_cognome:hover,
+.profilo #modifica_cognome:active,
+.profilo #modifica_lavoro:hover,
+.profilo #modifica_lavoro:active,
+.profilo #modifica_residenza:hover,
+.profilo #modifica_residenza:active,
+.profilo #modifica_nazione:hover,
+.profilo #modifica_nazione:active,
+.profilo #modifica_mail:hover,
+.profilo #modifica_mail:active,
+.profilo #modifica_sesso:hover,
+.profilo #modifica_sesso:active,
+.profilo #modifica_telefono:hover,
+.profilo #modifica_telefono:active,
+.profilo #modifica_data:hover,
+.profilo #modifica_data:active,
+.profilo #salva_nome:hover,
+.profilo #salva_nome:active,
+.profilo #salva_cognome:hover,
+.profilo #salva_cognome:active,
+.profilo #salva_lavoro:hover,
+.profilo #salva_lavoro:active,
+.profilo #salva_residenza:hover,
+.profilo #salva_residenza:active,
+.profilo #salva_nazione:hover,
+.profilo #salva_nazione:active,
+.profilo #salva_mail:hover,
+.profilo #salva_mail:active,
+.profilo #salva_sesso:hover,
+.profilo #salva_sesso:active,
+.profilo #salva_telefono:hover,
+.profilo #salva_telefono:active,
+.profilo #salva_data_nascita:hover,
+.profilo #salva_data_nascita:active
 {
     cursor: pointer;
     opacity: 2;
@@ -1236,7 +1437,7 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     color: red;
 }
 
-.profilo #modifica
+.profilo #modifica_nome, #modifica_cognome, #modifica_sesso, #modifica_lavoro, #modifica_nazione, #modifica_residenza, #modifica_data_nascita, #modifica_mail, #modifica_telefono
 {
     margin-right: 250px;
     margin-left: 250px;
@@ -1248,6 +1449,53 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
 {
     margin-right: 250px;
     margin-left: 250px;
+}
+
+.profilo #modifica_nome, #modifica_cognome, #modifica_sesso, #modifica_lavoro, #modifica_nazione, #modifica_residenza, #modifica_data, #modifica_mail, #modifica_telefono
+
+{
+    margin-left: 250px;
+    height: 25px;
+    width: 70px;
+    color: #fff;
+    font-weight: bold;
+    opacity: 0.7;
+    border: 1px solid #999;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -moz-box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    -webkit-box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    -webkit-appearance: none;
+    -moz-transition: opacity .5s;
+    -webkit-transition: opacity .5s;
+    -o-transition: opacity .5s;
+    transition: opacity .5s;
+    display: block;
+}
+
+.profilo #salva_nome, #salva_cognome, #salva_sesso, #salva_lavoro, #salva_nazione, #salva_residenza, #salva_data_nascita, #salva_mail, #salva_telefono
+{
+    margin-left: 250px;
+    height: 25px;
+    width: 70px;
+    color: #fff;
+    font-weight: bold;
+    opacity: 0.7;
+    border: 1px solid #999;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -moz-box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    -webkit-box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    -webkit-appearance: none;
+    -moz-transition: opacity .5s;
+    -webkit-transition: opacity .5s;
+    -o-transition: opacity .5s;
+    transition: opacity .5s;
+    display: block;
 }
 
 
@@ -1271,21 +1519,19 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     margin-top: 10px;
     font-size: 1.4em;
     color: blue;
-
 }
 
 
 
 
-/*CSS PER MESSAGGI*/
+/*CSS PER foto profilo*/
 
 
 
 
-.messaggi_profilo
+.foto_profilo
 {
     text-align: left;
-    background-image: url('../images/beige-background.jpg');
     -moz-border-radius: 10px 10px 10px 10px;
     -webkit-border-radius: 10px 10px 10px 10px;
     border-radius: 10px 10px 10px 10px;
@@ -1297,7 +1543,7 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     overflow: hidden;
 }
 
-.messaggi_profilo fieldset
+.foto_profilo fieldset
 {
     text-align: left;
     display: block;
@@ -1308,7 +1554,7 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     color: blue;
 }
 
-.messaggi_profilo legend
+.foto_profilo legend
 {
     text-align: left;
     display: block;
@@ -1317,7 +1563,7 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     color: blue;
 }
 
-.messaggi_profilo label
+.foto_profilo label
 {
     text-align: left;
     color: blue;
@@ -1330,7 +1576,7 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
 
 /*LABEL GENERATO DA VALIDATE*/
 
-.messaggi_profilo label.error
+.foto_profilo label.error
 {
     color: #f33;
     padding: 0;
@@ -1343,11 +1589,27 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
 }
 
 
-/*imput type submit, salta e reset*/
-.messaggi_profilo #j_submit, #messaggi_profilo #j_reset, #messaggi_profilo #j_salta
+.foto_profilo #carica{background: #0a0; margin-top: 40px;}
+
+
+.foto_profilo #carica:hover,
+.foto_profilo #carica:active
 {
-    height: 30px;
-    width: 220px;
+    cursor: pointer;
+    opacity: 2;
+}
+
+.foto_profilo div.error
+{
+    text-align: left;
+    color: red;
+}
+
+.foto_profilo #carica
+{
+    margin-left: 250px;
+    height: 25px;
+    width: 70px;
     color: #fff;
     font-weight: bold;
     opacity: 0.7;
@@ -1366,53 +1628,10 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     display: block;
 }
 
-.messaggi_profilo #j_submit{background: #0a0; margin-top: 40px;}
-.messaggi_profilo #j_reset{background: #f33; margin-top: 20px;}
-.messaggi_profilo #j_salta{background: #f33; margin-top: 20px;}
-
-.messaggi_profilo #j_submit:hover,
-.messaggi_profilo #j_submit:active,
-.messaggi_profilo #j_reset:hover,
-.messaggi_profilo #j_reset:active,
-.messaggi_profilo #j_salta:hover,
-.messaggi_profilo #j_salta:active
+.foto_profilo #foto_profilo
 {
-    cursor: pointer;
-    opacity: 2;
+    width: 200px;
 }
-
-.messaggi_profilo div.error
-{
-    text-align: left;
-    color: red;
-}
-
-.messaggi_profilo #modifica
-{
-    margin-right: 250px;
-    margin-left: 250px;
-    color: red;
-    font-size: 12px;
-}
-
-.messaggi_profilo #img
-{
-    margin-right: 250px;
-    margin-left: 250px;
-}
-
-.messaggi_profilo table tr td
-{
-    border-top: 0px solid #FFF;
-    background-color:transparent;
-    opacity:50;
-}
-
-.messaggi_profilo h5
-{
-    color: red;
-}
-
 
 
 
@@ -1423,15 +1642,12 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
 .galleria_profilo
 {
     text-align: left;
-    background-image: url('../images/beige-background.jpg');
     -moz-border-radius: 10px 10px 10px 10px;
     -webkit-border-radius: 10px 10px 10px 10px;
     border-radius: 10px 10px 10px 10px;
-    width: 590px;
-    margin-left: auto;
-    margin-right: auto;
+    width: 530px;
     padding: 0 4em 1.5em 1.5em;
-    margin: 0 auto;
+    margin-left: 0;
     overflow: hidden;
 }
 
@@ -1498,6 +1714,192 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     color: red;
 }
 
+.galleria_profilo #carica_galleria{background: #0a0; margin-top: 40px;}
+.galleria_profilo #cancella_galleria{background: #0a0; margin-top: 40px;}
+
+
+.galleria_profilo #carica_galleria:hover,
+.galleria_profilo #carica_galleria:active,
+.galleria_profilo #cancella_galleria:hover,
+.galleria_profilo #cancella_galleria:active
+{
+    cursor: pointer;
+    opacity: 2;
+}
+
+
+.galleria_profilo #carica_galleria
+{
+    margin-left: 250px;
+    height: 25px;
+    width: 70px;
+    color: #fff;
+    font-weight: bold;
+    opacity: 0.7;
+    border: 1px solid #999;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -moz-box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    -webkit-box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    -webkit-appearance: none;
+    -moz-transition: opacity .5s;
+    -webkit-transition: opacity .5s;
+    -o-transition: opacity .5s;
+    transition: opacity .5s;
+    display: block;
+}
+
+.galleria_profilo #cancella_galleria
+{
+    margin-left: 250px;
+    height: 25px;
+    width: 100px;
+    color: #fff;
+    font-weight: bold;
+    opacity: 0.7;
+    border: 1px solid #999;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -moz-box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    -webkit-box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    box-shadow: 0 0 .5em rgba(0, 0, 0, .6);
+    -webkit-appearance: none;
+    -moz-transition: opacity .5s;
+    -webkit-transition: opacity .5s;
+    -o-transition: opacity .5s;
+    transition: opacity .5s;
+    display: block;
+}
+
+.galleria_profilo #immagine
+{
+    width: 200px;
+}
+
+
+
+/*CSS PER AMMINISTRATORE*/
+
+
+
+#administrator, #administrator_modifiche
+{
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    border-top: 12px;
+    background: linear-gradient(#FFFFFF, #DDDDDD);
+    padding: 5px 5px 5px 5px;
+    width: 660px;
+}
+
+#administrator_mod, #administrator_modifiche
+{
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    border-top: 12px;
+    background: linear-gradient(#FFFFFF, #DDDDDD);
+    padding: 10px 10px 10px 10px;
+    width: 660px;
+}
+
+#administrator_mod label, #administrator_modifiche label
+{
+    text-align: left;
+    color: blue;
+    padding: 0px;
+    display: block;
+    font-size: 0.9em;
+    margin: 20px 0px 0px 0px;
+
+}
+
+#administrator_mod #adm_user,
+#administrator_mod #adm_nome,
+#administrator_mod #adm_cognome,
+#administrator_mod #adm_citta,
+#administrator_mod #adm_nazione,
+#administrator_mod #adm_citta,
+#administrator_mod #adm_email,
+#administrator_mod #adm_codattivazione,
+#administrator_mod #adm_password,
+#administrator_mod #adm_lavoro,
+#administrator_mod #adm_telefono,
+#administrator_mod #adm_sesso,
+#administrator_mod #adm_avvertimenti,
+#administrator_modifiche #adm_user,
+#administrator_modifiche #adm_nome,
+#administrator_modifiche #adm_cognome,
+#administrator_modifiche #adm_citta,
+#administrator_modifiche #adm_nazione,
+#administrator_modifiche #adm_citta,
+#administrator_modifiche #adm_email,
+#administrator_modifiche #adm_codattivazione,
+#administrator_modifiche #adm_password,
+#administrator_modifiche #adm_lavoro,
+#administrator_modifiche #adm_telefono,
+#administrator_modifiche #adm_sesso,
+#administrator_modifiche #adm_avvertimenti
+{
+    height: 30px;
+    width: 200px;
+    display: block;
+    border: none;
+    font-size: 16px;
+    line-height: 28px;
+    text-align: left;
+}
+
+#administrator_mod fieldset
+{
+    border: none;
+}
+
+#administrator table tr td
+{
+    margin-left:0px;
+    border-top: 0px solid #FFF;
+    background-color:transparent;
+
+}
+
+#administrator h3
+{
+    margin-left: 15px;
+    color:blue;
+}
+
+#administrator #numeroavvertimenti
+{
+    width: 80px;
+    text-align: center;
+
+}
+
+
+/*CSS PER LA PAGINA NO SCRIPT*/
+
+
+#noscript
+{
+    height: 300px;
+}
+
+#noscript a
+{
+    font-size: 25px;
+    color: #2b81af;
+    padding-left: 300px;
+}
+
+
+/*CSS PER FEEDBACK*/
+
+
 .feedback-citta {
     float: right;
 }
@@ -1544,26 +1946,44 @@ background: white url('../images/ui-anim_basic_16x16.gif') right center no-repea
     background-color: limegreen;
 }
 
-.avvertimento{display: none;}
-.elimina{display: none;}
+.avvertimento{}
+.elimina{}
 .elimina-segnalazione{color: red;}
 .elimina-viaggio{color: red;}
 .elimina-citta{color: red;}
 .elimina-luogo{color: red;}
 .elimina-commento{color:red;}
 .elimina-utente{color: red;}
-.gestisci-utente{display: none;}
+.gestisci-utente{}
 .salva-modifiche{display: none;}
+.salva{color: red;}
 .redirect{color:red;}
 .redirect-segnalazione{color:red;}
 .redirect-utenti{color:red;}
-
 .annulla{display: none;}
 
 
-
-#CommentoSegnalazione {
-    width: 320px;
-    height: 180px;
-    resize: none;
+.status {
+    margin-left: 5px;
 }
+
+
+#risposta-commento table tr td fieldset {
+    border: 1px dotted #A9A9A9;
+    border-radius: 4px;
+    text-align: left;
+    width: 565px;
+    height: auto;
+    padding: 8px 8px 8px 8px;
+
+}
+
+#SegnalazioneViaggio textarea , .SegnalazioneCitta textarea , #SegnalazioneLuogo textarea , .SegnalazioneCommento textarea
+{
+    height: 184px;
+    width: 320px;
+}
+
+.ui-button .ui-icon.ui-icon-squaresmall-close {
+    transform:scale(2,2);
+}​

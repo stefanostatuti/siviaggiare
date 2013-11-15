@@ -1,14 +1,11 @@
-{literal}
-    <!--<script type="text/javascript" src="//siviaggiare//script//jquery-2.0.3.min.js"></script>-->
-    <script src="http://code.jquery.com/jquery-2.0.3.js"></script>
-    <script type="text/javascript" src="script/admin.js"></script>
-{/literal}
+<script type="text/javascript" src="templates/main/template/js/admin.js"></script>
 
-<div class="content">
+<div class="content" >
+    <div id="administrator">
     <!--questa mi verra caricata quando si passerà un utente(quindi è passato da admin a utente)-->
     {if ($utente->username)}
     <h3>UTENTE DEGRADATO</h3>
-    <table>
+    <table id="administrator">
         <tr>
             <td> Nome:</td><td><span id= 'nomeutente'>{$utente->username}</span> </td>
         </tr>

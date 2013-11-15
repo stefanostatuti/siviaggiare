@@ -13,7 +13,7 @@ $(document).ready(function()
 	
 	$.validator.addMethod("costobiglietto_regex", function(value, element) 
 	{ 
-		return this.optional(element) || /^[0-9]{1,3}$/i.test(value); 
+		return this.optional(element) || /^[0-9]{1,4}$/i.test(value);
 	}, "dato non valido es.12 euro!");
 	
 	$.validator.addMethod("guida_regex", function(value, element) 
@@ -38,7 +38,7 @@ $(document).ready(function()
 		'nome':
 		{
 			required: true,
-			luogo_regex: true,
+			luogo_regex: true
 		},
 		
 		'sitoweb':
@@ -49,15 +49,11 @@ $(document).ready(function()
 		'costobiglietto':
 		{
 			costobiglietto_regex: true,
-			/*remote:
-			{   //ajax sottostante servirˆ a creare un collegamento php ripartendo dall'index cambiando task e controller e accedendo  infine al databasef
-				url: "index.php?controller=aggiunta_viaggio&task=verifica_costobiglietto",
+			remote:
+			{   url: "index.php?controller=aggiunta_viaggio&task=verifica_costobiglietto",
 				type: "post",
-				data: { costobiglietto: function() { //nome variabile inviata
-                                                return $("#costobiglietto").val(); //dato inviato  
-                                             }
-                      }                        	   
-		    } */
+                data: { idviaggio: $('input[name="idviaggio"]').val() }
+            }
 		},
 
 		'guida':
@@ -87,7 +83,7 @@ $(document).ready(function()
 		'costobiglietto':
 		{
 			costobiglietto_regex: "dato non valido es.12 euro!",
-			/*remote:""*/
+			remote:"costo biglietto maggiore del budget!"
 		},
 
 		'guida':

@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: francesco
- * Date: 26/08/13
- * Time: 15.36
- * To change this template use File | Settings | File Templates.
- */
 
 class FLuogo extends FDatabase
 {
@@ -20,25 +13,102 @@ class FLuogo extends FDatabase
     }
 
 
+    /**
+     * carica un determinato luogo
+     *
+     * @param $key
+     * @return mixed
+     */
     public function loadLuogo($key)
     {
         $query='SELECT * ' .
             'FROM `'.$this->tabella.'` ' .
-            'WHERE `'.$this->chiave[0].'` = \''.$key['idviaggio'].'\' AND '.'`'.$this->chiave[1].'` = \''.$key['nome'].'\' AND '.'`'.$this->chiave[2].'` = \''.$key['nomecitta'].'\'';
+            'WHERE `'.$this->chiave[0].'` = \''.$key['idviaggio'].'\' AND '.'`'.$this->chiave[1].'` = \''.mysql_real_escape_string($key['nome']).'\' AND '.'`'.$this->chiave[2].'` = \''.mysql_real_escape_string($key['nomecitta']).'\'';
         $obj=parent::getObject(parent::query($query));
         return $obj;
     }
 
-    public function deleteLuogo($key)       //DA VEDERE CONTROLLARE!!!!!!!
+
+    /**
+     * cancella un determinato luogo
+     *
+     * @param $key
+     * @return mixed
+     */
+    public function deleteLuogo($key)
     {
-        var_dump($key);
         $query='DELETE ' .
             'FROM `'.$this->tabella.'` ' .
             'WHERE `'.$this->chiave[0].'` = \''.$key['idviaggio']
-            .'\' AND '.'`'.$this->chiave[1].'` = \''.$key['nome']
-            .'\' AND '.'`'.$this->chiave[2].'` = \''.$key['nomecitta']
+            .'\' AND '.'`'.$this->chiave[1].'` = \''.mysql_real_escape_string($key['nome'])
+            .'\' AND '.'`'.$this->chiave[2].'` = \''.mysql_real_escape_string($key['nomecitta'])
             .'\'';
         $obj=parent::getObject(parent::query($query));
-        return $obj;;//mi serve per ottenere il metodo query da FDB
+        return $obj;
+    }
+
+
+    /**
+     * carica gli ultimi luoghi inseriti
+     *
+     * @param int $count
+     * @return array
+     */
+    public function loadLastLuoghi($count)
+    {
+        $query='SELECT * ' .
+            'FROM `'.$this->tabella.'` ' .
+            'ORDER BY `'.$this->chiave[0].'` DESC';
+        $this->query($query);
+        $ris_totale = parent::getObjectInArray(parent::query($query));
+        if($ris_totale!=false)
+        {
+            if(count($ris_totale)>=$count)
+            {
+                for($i=0;$i<$count;$i++)
+                {
+                    $ris[$i]=$ris_totale[$i];
+                }
+                return $ris;
+            }
+            elseif(count($ris_totale)<$count)
+            {
+                for($i=0;$i<count($ris_totale);$i++)
+                {
+                    $ris[$i]=$ris_totale[$i];
+                }
+                return $ris;
+            }
+        }
+        else return false;
+    }
+
+
+    /**
+     * aggiorna il numero di feedback
+     *
+     * @param array $key
+     * @return mixed
+     */
+    public function updateFeedback($key)
+    {
+        $query='UPDATE `'.$this->tabella.'` SET `feedback`=`feedback`+1 , `utentifeedback` = CONCAT(`utentifeedback`, "'.$key['username'].'", " ") WHERE '
+            .'`'.$this->chiave[0].'` = \''.$key['idviaggio'].'\''
+            .' AND `'.$this->chiave[1].'` = \''.mysql_real_escape_string($key['nomeluogo']).'\''
+            .' AND `'.$this->chiave[2].'` = \''.mysql_real_escape_string($key['nomecitta']).'\'';
+        $result=$this->query($query);
+        if($result!=false)
+        {
+            $query='SELECT * ' .
+                'FROM `'.$this->tabella.'` ' .
+                'WHERE `'.$this->chiave[0].'` = \''.$key['idviaggio']
+                .'\' AND '.'`'.$this->chiave[1].'` = \''.mysql_real_escape_string($key['nomeluogo'])
+            .'\' AND '.'`'.$this->chiave[2].'` = \''.mysql_real_escape_string($key['nomecitta']).'\'';
+            $obj=parent::getObject(parent::query($query));
+            return $obj->feedback;
+        }
+        else
+            return false;
     }
 }
+?>

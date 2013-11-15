@@ -1,6 +1,3 @@
------------------BUG E PROPOSTE----------------------
-
-
 aggiungere al tpl di compilazione viaggi:
 -numero componenti
 -paesi visitati/citta
@@ -9,10 +6,6 @@ crea nuovo viaggio :
 (CONTROLLARE I CONTROLLI PER LE DATE)
 inseriti i JQuery con i calendari e i controlli NON FUNZIONANO!!!!
 stampa 2 volte GG/MM/AA se si inseriscono entrambe le date errate
-
-email:
-se si inserisce una mail del tipo "admin@siviaggiare.it" in fase di creazione nuovo utente si riceve
-"formato email non valido - solo formati pippo.pluto@domain.it" , non funziona manco se scrivo "admin.htrfdgsf@siviaggiare.it"
 
 Quando si rispedisce la form si resetta mezzo di trasporto (torna al default)
 
@@ -29,33 +22,3 @@ in viaggi inseriti:
 
 rimuovere colonna ID e Utente. (utente è inutile metterlo perche è se stesso)
 Aggiungere la colonna della citta visitata
-
---------------
-se un utente non ha viaggi e si clicca su I miei Viaggi (lo stesso vale per luoghi...) il template esce storpio
-in VHome il metodo "public function impostaPaginaAutenticato()" ha una variabile non usata
-in CRegistrazione il metodo CreaUtente() ha una variabile non usata
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-DOPO IL COLLAGE
-
-
-potrebbe essere un problema in get utenteregistrato in CRegistrazione(unsetcontrollerTask)
-contollare deletecommento in FCommento

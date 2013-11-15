@@ -5,7 +5,7 @@
         </ul>
         <div id=tab-1>
             {section name=nr loop=$cittafeedback}
-                <button class="button-menu-citta" idviaggio="{$cittafeedback[nr]->idviaggio}" citta="{$cittafeedback[nr]->nome|replace:' ':''}">
+                <button class="button-menu-citta" idviaggio="{$cittafeedback[nr]->idviaggio}" citta="{$cittafeedback[nr]->nome|regex_replace:"/[\ \']/":''}">
                     <h6>{$cittafeedback[nr]->nome}</h6>
                     <span class="feedback-citta-laterale">
                         {$cittafeedback[nr]->feedback}
@@ -15,7 +15,7 @@
         </div>
         <div id=tab-2>
             {section name=nr loop=$ultimecitta}
-                <button class="button-menu-citta" idviaggio="{$ultimecitta[nr]->idviaggio}" citta="{$ultimecitta[nr]->nome|replace:' ':''}">
+                <button class="button-menu-citta" idviaggio="{$ultimecitta[nr]->idviaggio}" citta="{$ultimecitta[nr]->nome|regex_replace:"/[\ \']/":''}">
                     <h6>{$ultimecitta[nr]->nome}</h6>
                         <span class="feedback-citta-laterale">
                             {$ultimecitta[nr]->feedback}
@@ -33,7 +33,7 @@
     </ul>
     <div id=tab-1>
         {section name=nr loop=$luogofeedback}
-            <button class="button-menu-luogo" idviaggio="{$luogofeedback[nr]->idviaggio}" citta="{$luogofeedback[nr]->nomecitta|replace:' ':''}" luogo="{$luogofeedback[nr]->nome|replace:' ':''}">
+            <button class="button-menu-luogo" idviaggio="{$luogofeedback[nr]->idviaggio}" citta="{$luogofeedback[nr]->nomecitta|regex_replace:"/[\ \']/":''}" luogo="{$luogofeedback[nr]->nome|replace:' ':''}">
                 <h6>{$luogofeedback[nr]->nome}</h6>
                     <span class="feedback-luogo-laterale">
                         {$luogofeedback[nr]->feedback}
@@ -43,7 +43,7 @@
     </div>
     <div id=tab-2>
         {section name=nr loop=$ultimiluoghi}
-            <button class="button-menu-luogo" idviaggio="{$ultimiluoghi[nr]->idviaggio}" citta="{$ultimiluoghi[nr]->nomecitta|replace:' ':''}" luogo="{$ultimiluoghi[nr]->nome|replace:' ':''}">
+            <button class="button-menu-luogo" idviaggio="{$ultimiluoghi[nr]->idviaggio}" citta="{$ultimiluoghi[nr]->nomecitta|regex_replace:"/[\ \']/":''}" luogo="{$ultimiluoghi[nr]->nome|replace:' ':''}">
                 <h6>{$ultimiluoghi[nr]->nome}</h6>
                         <span class="feedback-luogo-laterale">
                             {$ultimiluoghi[nr]->feedback}

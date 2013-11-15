@@ -1,17 +1,16 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: Riso64Bit
- * Date: 20/08/13
- * Time: 16.47
- * To change this template use File | Settings | File Templates.
+ * @access public
+ * @package Controller
  */
-
 class CViaggio
 {
 
-
-
+    /**
+     * Smista le richieste ai vari metodi
+     * @author Riccardo
+     * @return mixed
+     */
     public function smista()
     {
         $view=USingleton::getInstance('VRegistrazione');
@@ -53,10 +52,6 @@ class CViaggio
             //controlli
             case 'verifica_alloggio':
                 return $this->ControllaCostoAlloggio();
-            case 'verifica_datafinecitta':
-                return $this->ControllaDataFine();
-            case 'verifica_datainiziocitta':
-                return $this->ControllaDataInizio();
             case 'verifica_costobiglietto':
                 return $this->ControllaCostoBiglietto();
         }
@@ -64,6 +59,13 @@ class CViaggio
 
 
     //COMPILAZIONI
+
+
+    /**
+     * imposta la pagina di compilazione viaggio
+     *
+     * @return string
+     */
     public function impostaPaginaCompilazioneViaggio()
     {
             $VViaggio=USingleton::getInstance('VViaggio');
@@ -82,6 +84,12 @@ class CViaggio
             }
     }
 
+
+    /**
+     * imposta la pagina di compilazione citta
+     *
+     * @return string
+     */
     public function impostaPaginaCompilazioneCitta()
     {
         $VViaggio=USingleton::getInstance('VViaggio');
@@ -96,6 +104,12 @@ class CViaggio
         return $VViaggio->processaTemplate();
     }
 
+
+    /**
+     * imposta la pagina di compilazione luogo
+     *
+     * @return string
+     */
     public function impostaPaginaCompilazioneLuogo()
     {
         $VViaggio=USingleton::getInstance('VViaggio');
@@ -105,6 +119,7 @@ class CViaggio
         $VViaggio->impostaDati('controller','aggiunta_viaggio');
         $VViaggio->impostaDati('task','salva_luogo');
         $VViaggio->impostaDati('autore',$session->leggi_valore('username'));
+        $VViaggio->impostaDati('inserimento_foto', '<label for="foto">Seleziona una foto: </label> <input id="immagine_luogo" type="file" name="immagini" id="immagine" />');
         $Fviaggio= new FViaggio();
         $viaggio = $Fviaggio->LastViaggioUtente($session->leggi_valore('username'));
         $VViaggio->impostaDati('idviaggio',$viaggio->id);
@@ -112,17 +127,22 @@ class CViaggio
     }
 
 
-    //salvataggi
+    //SALVATAGGI
+
+
+    /**
+     * Salva un viaggio
+     * @author Riccardo
+     * @return string
+     */
     public function salvaViaggio()
     {
         $view=USingleton::getInstance('VViaggio');
-        $FViaggio=new FViaggio();
         $session=USingleton::getInstance('USession');
         $view->impostaDati('autore',$session->leggi_valore('username') );
         $dati_viaggio=$view->getDatiViaggio();
         $viaggio=new EViaggio();
         $FViaggio=new FViaggio();
-        //viaggio non esistente (non esiste gia nel DB quindi lo scrivo)
         $keys=array_keys($dati_viaggio);
         $i=0;
         $validaviaggio=USingleton::getInstance('Vvalidaviaggio');
@@ -174,37 +194,40 @@ class CViaggio
 
     }
 
+
+    /**
+     * Salva una citta
+     * @author Riccardo
+     * @return string
+     */
     public function salvaCitta()
     {
-        $view=USingleton::getInstance('VViaggio');
-        $Fviaggio= new FViaggio();
-        $dati_citta=$view->getDatiCitta();
         $session=USingleton::getInstance('USession');
-        $viaggio = $Fviaggio->LastViaggioUtente($session->leggi_valore('username'));
-        $dati_citta['idviaggio']=$viaggio->id;
-        $aux['varie']=$session->leggi_valore('viaggio');
-        $aux['dati']=$dati_citta;
-        $validacitta=USingleton::getInstance('Vvalidacitta');
-        $validacitta->validacampi($aux);
-        $dati_citta['datainizio'] = $this->FormattaDataSQL($dati_citta['datainizio']);
-        $dati_citta['datafine'] = $this->FormattaDataSQL($dati_citta['datafine']);
-        if(!$validacitta->getErrors())
+        if($session->leggi_valore('citta') == false)
         {
-            $citta=new ECitta();
-            $FCitta=new FCitta();
-            $keys=array_keys($dati_citta);
-            $i=0;
-            foreach ($dati_citta as $dato)
+            $view=USingleton::getInstance('VViaggio');
+            $Fviaggio= new FViaggio();
+            $dati_citta=$view->getDatiCitta();
+            $viaggio = $Fviaggio->LastViaggioUtente($session->leggi_valore('username'));
+            $dati_citta['idviaggio']=$viaggio->id;
+            $aux['varie']=$viaggio;
+            $aux['dati']=$dati_citta;
+            $validacitta=USingleton::getInstance('Vvalidacitta');
+            $validacitta->validacampi($aux);
+            $dati_citta['datainizio'] = $this->FormattaDataSQL($dati_citta['datainizio']);
+            $dati_citta['datafine'] = $this->FormattaDataSQL($dati_citta['datafine']);
+            if(!$validacitta->getErrors())
             {
-                $citta->$keys[$i]=$dato;
-                $i++;
-            }
-            $session->imposta_valore('cittavisitata',$citta->nome);
-            $citta->nome = $this->FormattaApostrofoSQL($citta->nome);
-            $citta->stato = $this->FormattaApostrofoSQL($citta->stato);
-            $citta->tipoalloggio = $this->FormattaApostrofoSQL($citta->tipoalloggio);
-            if($session->leggi_valore('citta') == false)
-            {
+                $citta=new ECitta();
+                $FCitta=new FCitta();
+                $keys=array_keys($dati_citta);
+                $i=0;
+                foreach ($dati_citta as $dato)
+                {
+                    $citta->$keys[$i]=$dato;
+                    $i++;
+                }
+                $session->imposta_valore('cittavisitata',$citta->nome);
                 $db=$FCitta->store($citta);
                 if($db != false || $db != null)
                 {
@@ -221,28 +244,32 @@ class CViaggio
                 }
             }else
             {
-                return $this->impostaPaginaCompilazioneLuogo();
+                $view->setLayout('inserimento_citta');
+                $dati=$validacitta->getErrors();
+                $view->impostaDati('messaggi' , $dati);
+                $session=USingleton::getInstance('USession');
+                $view->impostaDati('controller','aggiunta_viaggio');
+                $view->impostaDati('task','salva_citta');
+                $view->impostaDati('autore',$session->leggi_valore('username') );
+                $datiutente=$validacitta->getdatipersonali();
+                $view->impostaDati('citta', $datiutente);
+                $this->_errore='DATI ERRATI';
+                $view->impostaErrore($this->_errore);
+                $this->_errore='';
             }
         }else
         {
-            $view->setLayout('inserimento_citta');
-            $dati=$validacitta->getErrors();
-            $view->impostaDati('messaggi' , $dati);
-            $session=USingleton::getInstance('USession');
-            $view->impostaDati('controller','aggiunta_viaggio');
-            $view->impostaDati('task','salva_citta');
-            $view->impostaDati('autore',$session->leggi_valore('username') );
-            $view->impostaDati('idviaggio',$session->leggi_valore('idviaggio') );
-            $datiutente=$validacitta->getdatipersonali();
-            $view->impostaDati('citta', $datiutente);
-            $this->_errore='DATI ERRATI';
-            $view->impostaErrore($this->_errore);
-            $this->_errore='';
+            return $this->impostaPaginaCompilazioneLuogo();
         }
         return $view->processaTemplate();
     }
 
 
+    /**
+     * Salva un luogo
+     * @author Riccardo
+     * @return string
+     */
     public function salvaLuogo()
     {
         $view=USingleton::getInstance('VViaggio');
@@ -267,10 +294,6 @@ class CViaggio
             }
             unset($luogo->budget);
             $luogo->nomecitta= $session->leggi_valore('cittavisitata');
-            $luogo->nome = $this->FormattaApostrofoSQL($luogo->nome);
-            $luogo->percorso = $this->FormattaApostrofoSQL($luogo->percorso);
-            $luogo->commentolibero = $this->FormattaApostrofoSQL($luogo->commentolibero);
-            $luogo->nomecitta = $this->FormattaApostrofoSQL($luogo->nomecitta);
             if($session->leggi_valore('luogo') == false)
             {
                 $db=$FLuogo->store($luogo);
@@ -300,9 +323,9 @@ class CViaggio
             $view->impostaDati('messaggi' , $dati);
             $view->impostaDati('controller','aggiunta_viaggio');
             $view->impostaDati('task','salva_luogo');
+            $view->impostaDati('inserimento_foto', '<label for="foto">Seleziona una foto: </label> <input type="file" name="immagini" id="immagine" />');
             $session=USingleton::getInstance('USession');
             $view->impostaDati('autore',$session->leggi_valore('username'));
-            $view->impostaDati('idviaggio',$dati_luogo['idviaggio']);
             $datiutente=$validaluogo->getdatipersonali();
             $view->impostaDati('luogo', $datiutente);
             $this->_errore='DATI ERRATI';
@@ -313,7 +336,12 @@ class CViaggio
     }
 
 
-    public function salvaCommento()
+    /**
+     * salva un commento
+     *
+     * @return string
+     */
+    public function salvaCommento()         ///NON DOVREBBE SERVIRE PERKE INSERIMENTI SOLO CON AJAX() DA CRicerca
     {
         $view=USingleton::getInstance('VViaggio');
         $dati_luogo=$view->getDatiLuogo();
@@ -327,18 +355,25 @@ class CViaggio
             $i++;
         }
         $FLuogo->store($luogo);
-        return $view->show('conferma_inserimento_luogo.tpl'); //verifica
-    }//da sistemare
+        return $view->show('conferma_inserimento_luogo.tpl');
+    }
 
 
     //VISUALIZZAZIONI TABLE
+
+
+    /**
+     * visualizza l'elenco di tutti i viaggi inseriti dall utente
+     *
+     * @return string
+     */
     public function visualizzaViaggiTable()
-    {   //questa versiona ELIMINA I CLONI
+    {
         $session=USingleton::getInstance('USession');
         $user=$session->leggi_valore('username');
         $FUtente=new FUtente();
         $EUtente=$FUtente->load($user);
-        $lista_viaggi=$EUtente->getElencoViaggi(); //qua recupero i viaggi dell'utente
+        $lista_viaggi=$EUtente->getElencoViaggi();
         $VViaggio=USingleton::getInstance('VViaggio');
         $VViaggio->setLayout('elenco_viaggi');
         $VViaggio->impostaDati('results',$lista_viaggi);
@@ -346,36 +381,37 @@ class CViaggio
     }
 
 
+    /**
+     * visualizza l'elenco di tutte le citta inserite dall utente
+     *
+     * @return string
+     */
     public function visualizzaCittaTable()
-    {   //questa versiona ELIMINA I CLONI
+    {
         $view=USingleton::getInstance('VViaggio');
         $view->setLayout('elenco_citta');
         if($view->getIdViaggio()==false)
         {
-        $session=USingleton::getInstance('USession');
-        $user=$session->leggi_valore('username');
-        $FUtente=new FUtente();
-        $EUtente=$FUtente->load($user);
-        $lista_viaggi=$EUtente->getElencoViaggi(); //qua recupero i viaggi dell'utente
-        $cont=0; //memorizza le posizioni dei PDI inseriti in luoghi risultato
-        $citta_risultato=array();//è quello che poi mandero in stampa al TPL
-        foreach($lista_viaggi as $viaggio)
-        {
-            $lista_citta=$viaggio->getElencoCitta(); //qua recupero le citta del viaggi
-            foreach($lista_citta as $citta)
+            $session=USingleton::getInstance('USession');
+            $user=$session->leggi_valore('username');
+            $FUtente=new FUtente();
+            $EUtente=$FUtente->load($user);
+            $lista_viaggi=$EUtente->getElencoViaggi();
+            $cont=0;
+            $citta_risultato=array();
+            foreach($lista_viaggi as $viaggio)
             {
-                $verifica=in_array($citta,$citta_risultato);//verifica se un elemento è presente in un array
-                if ($verifica==true)//quindi è presente
+                $lista_citta=$viaggio->getElencoCitta();
+                foreach($lista_citta as $citta)
                 {
-                    //debug("è presente quindi non lo aggiungo");
-                }
-                else if($verifica==false)  //quindi non è presente
-                {
-                    $citta_risultato[$cont]=$citta; //metto in pos $cont il luogo testato
-                    $cont++; //sposto cont
+                    $verifica=in_array($citta,$citta_risultato);
+                    if ($verifica==false)
+                    {
+                        $citta_risultato[$cont]=$citta;
+                        $cont++;
+                    }
                 }
             }
-        }
         }
         else
         {
@@ -390,47 +426,45 @@ class CViaggio
     }
 
 
+    /**
+     * visualizza l'elenco di tutti i luoghi inseriti dall utente
+     *
+     * @return string
+     */
     public function visualizzaLuoghiTable()
-    {   //questa versiona ELIMINA I CLONI
+    {
         $view=USingleton::getInstance('VViaggio');
         $view->setLayout('elenco_luoghi');
         if($view->getIdViaggio()==false || $view->getNomeCitta()==false)
         {
-        $session=USingleton::getInstance('USession');
-        $user=$session->leggi_valore('username');
-        $FUtente=new FUtente();
-        $EUtente=$FUtente->load($user);
-        $lista_viaggi=$EUtente->getElencoViaggi(); //qua recupero i viaggi dell'utente
-        $cont=0; //memorizza le posizioni dei PDI inseriti in luoghi risultato
-        $luoghi_risultato=array();//è quello che poi mandero in stampa al TPL
-
-        foreach($lista_viaggi as $viaggio)
-        {
-            $lista_citta=$viaggio->getElencoCitta(); //qua recupero le citta del viaggio
-            foreach($lista_citta as $citta)
+            $session=USingleton::getInstance('USession');
+            $user=$session->leggi_valore('username');
+            $FUtente=new FUtente();
+            $EUtente=$FUtente->load($user);
+            $lista_viaggi=$EUtente->getElencoViaggi();
+            $cont=0;
+            $luoghi_risultato=array();
+            foreach($lista_viaggi as $viaggio)
             {
-                $lista_luoghi= $citta->getElencoLuoghi(); //qua recupero le citta di un singolo viaggio
-                if ($lista_luoghi !=  false) { //quindi ci sono elementi
-
-                    foreach($lista_luoghi as $luogo)
+                $lista_citta=$viaggio->getElencoCitta();
+                foreach($lista_citta as $citta)
+                {
+                    $lista_luoghi= $citta->getElencoLuoghi();
+                    if ($lista_luoghi !=  false)
                     {
-
-                        $verifica=in_array($luogo,$luoghi_risultato);//verifica se un elemento è presente in un array
-
-                        if ($verifica==true)//quindi è presente
+                        foreach($lista_luoghi as $luogo)
                         {
-                            //debug("è presente quindi non lo aggiungo");
-                        }
 
-                        else if($verifica==false)  //quindi non è presente
-                        {
-                            $luoghi_risultato[$cont]=$luogo; //metto in pos $cont il luogo testato
-                            $cont++; //sposto cont
+                            $verifica=in_array($luogo,$luoghi_risultato);
+                            if($verifica==false)
+                            {
+                                $luoghi_risultato[$cont]=$luogo;
+                                $cont++;
+                            }
                         }
                     }
                 }
             }
-        }
         }
         else
         {
@@ -442,29 +476,32 @@ class CViaggio
             $view->impostaDati('idviaggio',$view->getIdViaggio());
             $view->impostaDati('nomecitta',$view->getNomeCitta());
         }
-        //mando in stampa tutto
-
         $view->impostaDati('results',$luoghi_risultato);
         return $view->processaTemplate();
     }
 
+
+    /**
+     * visualizza l'elenco di tutti i commenti inseriti dall utente
+     *
+     * @return string
+     */
     public function visualizzaCommentiTable()       ///LASCIATO COSI MA SECONDO ME NON SERVE DA $cont=0 FINO A CHIUSURA IF
     {                                               ///BASTA PASSARE $listaCommenti AL TPL.....GIA PROVATO!!!
         $view=USingleton::getInstance('VViaggio');
         if($view->getIdViaggio()==false && $view->getNomeCitta()==false && $view->getNomeLuogo()==false)
         {
             $session=USingleton::getInstance('USession');
-            $user=$session->leggi_valore('username');
             $FCommento = new FCommento();
             $listaCommenti = $FCommento->loadRicerca('autore',$session->leggi_valore('username'));
-            $cont=0; //memorizza le posizioni dei commenti inseriti in luoghi risultato
-            $commenti_risultato=array();//è quello che poi mandero in stampa al TPL
+            $cont=0;
+            $commenti_risultato=array();
             if ($listaCommenti !=  false)
             {
                 foreach($listaCommenti as $commento)
                 {
-                    $commenti_risultato[$cont]=$commento; //metto in pos $cont il commento testato
-                    $cont++; //sposto cont
+                    $commenti_risultato[$cont]=$commento;
+                    $cont++;
                 }
             }
         }
@@ -488,6 +525,12 @@ class CViaggio
 
     //VISUALIZZAZIONE IN DETTAGLIO
 
+
+    /**
+     * visualizza in dettaglio un viaggio inserito dall utente
+     *
+     * @return string
+     */
     public function VisualizzaViaggio()
     {
         $VViaggio=USingleton::getInstance('VViaggio');
@@ -498,259 +541,124 @@ class CViaggio
         return $VViaggio->processaTemplate();
     }
 
+
+    /**
+     * visualizza in dettaglio una citta inserita dall utente
+     *
+     * @return string
+     */
     public function visualizzaCitta()
     {
         $VViaggio=USingleton::getInstance('VViaggio');
         $FCitta=new FCitta();
-        $key=array('idviaggio'=>$VViaggio->getIdViaggio(),'nome'=>$this->FormattaApostrofoSQL($VViaggio->getNomeCitta()));
+        $key=array('idviaggio'=>$VViaggio->getIdViaggio(),'nome'=>$VViaggio->getNomeCitta());
         $citta=$FCitta->loadCitta($key);
-        $citta->nome = $this->FormattaApostrofofromSQL($citta->nome);
-        $citta->stato = $this->FormattaApostrofofromSQL($citta->stato);
-        $citta->tipoalloggio = $this->FormattaApostrofofromSQL($citta->tipoalloggio);
         $VViaggio->setLayout('dettagli_citta');
         $VViaggio->impostaDati('citta',$citta);
         return $VViaggio->processaTemplate();
     }
 
+
+    /**
+     * visualizza in dettaglio un luogo inserito dall utente
+     *
+     * @return string
+     */
     public function VisualizzaLuogo()
     {
         $VViaggio=USingleton::getInstance('VViaggio');
         $FLuogo=new FLuogo();
-        $key=array('idviaggio'=>$VViaggio->getIdViaggio(),'nome'=>$this->FormattaApostrofoSQL($VViaggio->getNomeLuogo()),'nomecitta'=>$this->FormattaApostrofoSQL($VViaggio->getNomeCitta()));
+        $key=array('idviaggio'=>$VViaggio->getIdViaggio(),'nome'=>$VViaggio->getNomeLuogo(),'nomecitta'=>$VViaggio->getNomeCitta());
         $luogo=$FLuogo->loadLuogo($key);
         $VViaggio->setLayout('dettagli_luogo');
         $VViaggio->impostaDati('luogo',$luogo);
+        $VViaggio->impostaDati('immagine_luogo',"<img width='300' alt='' src=templates/main/template/images/foto_luogo/".$luogo->immagini.">");
         return $VViaggio->processaTemplate();
     }
 
+
+    /**
+     * visualizza in dettaglio un commento inserito dall utente
+     *
+     * @return string
+     */
     public function VisualizzaCommento()
     {
         $VViaggio=USingleton::getInstance('VViaggio');
         $FCommento=new FCommento();
         $idcommento=$VViaggio->getIDCommento();
-        $commento=$FCommento->loadCommento($idcommento);//qua copio in commento il risultato della query
+        $commento=$FCommento->loadCommento($idcommento);
         $VViaggio->setLayout('dettagli_commento');
         $VViaggio->impostaDati('commento',$commento);
         return $VViaggio->processaTemplate();
     }
 
 
-    //controlli validazioni ajax da veder!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //CONTROLLI VALIDAZIONE AJAX
 
+
+    /**
+     * fa il controllo sul costo dell'alloggio
+     * @author Riccardo
+     * @return string
+     */
     public function ControllaCostoAlloggio()
     {
-        $costo = $_POST['costoalloggio'];
-        $session=USingleton::getInstance('USession');
+        $VViaggio=USingleton::getInstance('VViaggio');
+        $costo=$VViaggio->getCostoAlloggio();
+        $VViaggio=USingleton::getInstance('VViaggio');
         $FViaggio=new FViaggio();
-        $alloggio=$FViaggio->loadViaggio($session->leggi_valore('viaggio')->getID());
+        $alloggio=$FViaggio->loadViaggio($VViaggio->getIdViaggio());
         $aux=$alloggio->budget;
-        if($aux != null)//per precauzione aggiunto controllo su esistenza campo
+        if($aux != null)
         {
             if($costo > $aux)
             {
-                echo"false";
+                echo json_encode(false);
             }else
             {
-                echo"true";
+                echo json_encode(true);
             }
         }
     }
 
 
-    public function ControllaDataFine()
-    {
-        $datafine = $_POST['datafine'];
-        //deve partire controlla giorno mese anno
-
-    }
-
-
-    public function ControllaDataInizio()
-    {
-        $datainizio = $_POST['datainizio'];
-        //deve partire controlla giorno mese anno
-
-    }
-
-
+    /**
+     * fa il controllo sul costo del biglietto
+     * @author Riccardo
+     * @return string
+     */
     public function ControllaCostoBiglietto()
     {
-        $costobiglietto = $_POST['costobiglietto'];
-        $session=USingleton::getInstance('USession');
+        $VViaggio=USingleton::getInstance('VViaggio');
+        $costobiglietto = $VViaggio->getCostoBiglietto();
+        $VViaggio=USingleton::getInstance('VViaggio');
         $FViaggio=new FViaggio();
-        $alloggio=$FViaggio->loadViaggio($session->leggi_valore('viaggio')->getID());
+        $alloggio=$FViaggio->loadViaggio($VViaggio->getIdViaggio());
         $aux=$alloggio->budget;
         if($aux != null)//per precauzione aggiunto controllo su esistenza campo
         {
             if($costobiglietto > $aux)
             {
-                echo"false";
+                echo json_encode(false);
             }else
             {
-                echo"true";
+                echo json_encode(true);
             }
         }
     }
 
 
+    /**
+     * formatta la data acquisita dal template per poterla correttamente salvare su db
+     * @author Riccardo
+     * @return string
+     */
     public function FormattaDataSQL($dato)
     {
         $aux= explode('/',$dato);
         return $result = $aux[2]."-".$aux[0]."-".$aux[1];
     }
 
-
-    public function VerificaAnnoIn($annoin1,$annoin)
-    {
-        if($annoin1 <= $annoin )
-        {
-            $result='true';//non ci sono errori
-        }else
-        {
-            $result='false';//ci sono errori
-        }
-        return $result;
-    }
-
-
-    public function VerificaAnnoFin($annofin1, $annofin)
-    {
-        if( $annofin1 >= $annofin )
-        {
-            $result='true';//non ci sono errori
-        }else
-        {
-            $result='false';//ci sono errori
-        }
-        return $result;
-    }
-
-
-    public function VerificaMeseIniziale($mesein1, $mesein, $annoin, $annofin)
-    {
-        if( $annoin == $annofin )
-        {//stesso anno per inizio e fine viaggio,visita citta
-            if($mesein1 <= $mesein )
-            {
-                $result='true';//non ci sono errori
-            }else
-            {
-                $result='false';//ci sono errori
-            }
-        }else
-        {//anni diversi
-            if(($mesein >= $mesein1 || $mesein <= $mesefin1) && ($mesefin <= $mesefin1 || $mesefin >= $mesein1  ))
-            {
-                $result='true';//non ci sono errori
-            }else
-            {
-                $result='false';//ci sono errori
-            }
-        }
-        return $result;
-    }
-
-
-    public function VerificaMeseFinale($mesefin1, $mesefin, $annoin, $annofin)
-    {
-        if( $annoin == $annofin )
-        {//stesso anno per inizio e fine viaggio,visita citta
-            if($mesefin1 >= $mesefin )
-            {
-                $result='true';//non ci sono errori
-            }else
-            {
-                $result='false';//ci sono errori
-            }
-        }else
-        {//anni diversi???????!!!!!!!!!!!!
-            if(($mesein >= $mesein1 || $mesein <= $mesefin1) && ($mesefin <= $mesefin1 || $mesefin >= $mesein1 ))
-            {
-                $result='true';//non ci sono errori
-            }else
-            {
-                $result='false';//ci sono errori
-            }
-        }
-        return $result;
-    }
-
-
-    public function VerificaGiornoIn($giornoin1, $giornoin, $mesein, $mesefin)
-    {
-        if( $mesein == $mesefin )
-        {//stesso mese per inizio e fine viaggio,visita citta
-            if($giornoin1 <= $giornoin )
-            {
-                $result='true';//non ci sono errori
-            }else
-            {
-                $result='false';//ci sono errori
-            }
-        }else
-        {//mesi diversi
-            if(($mesein >= $mesein1 || $mesein <= $mesefin1) && ($mesefin <= $mesefin1 || $mesefin >= $mesein1 ))
-            {
-                $result='true';//non ci sono errori
-            }else
-            {
-                $result='false';//ci sono errori
-            }
-        }
-        return $result;
-    }
-
-
-    public function VerificaGiornoFin($giornofin1, $giornofin, $mesein, $mesefin)
-    {
-        if( $mesein == $mesefin )
-        {//stesso mese per inizio e fine viaggio,visita citta
-            if( $giornofin1 >= $giornofin)
-            {
-                $result='true';//non ci sono errori
-            }else
-            {
-                $result='false';//ci sono errori
-            }
-        }else
-        {//mesi diversi?????????????!!!!!!!!!!!!!!!
-            if(($mesein >= $mesein1 || $mesein <= $mesefin1) && ($mesefin <= $mesefin1 || $mesefin >= $mesein1 ))
-            {
-                $result='true';//non ci sono errori
-            }else
-            {
-                $result='false';//ci sono errori
-            }
-        }
-        return $result;
-    }
-
-
-    public function FormattaApostrofoSQL($dato)
-    {
-        if(stripos($dato,"'")!=false)
-        {
-            $result=str_replace("'","''",$dato);
-            return $result;
-        }
-        else
-        {
-            return $dato;
-        }
-    }
-
-
-    public function FormattaApostrofofromSQL($dato)
-    {
-        if(stripos($dato,"''")!=false)
-        {
-            $result=str_replace("''","'",$dato);
-            return $result;
-        }
-        else
-        {
-            return $dato;
-        }
-    }
 }
 ?>

@@ -1,17 +1,9 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: francesco
- * Date: 16/08/13
- * Time: 15.59
- * To change this template use File | Settings | File Templates.
- */
 
 class VRegistrazione extends View
 {
 
     private $_layout='default';
-
 
 
     /**
@@ -44,6 +36,11 @@ class VRegistrazione extends View
     }
 
 
+    /**
+     * Restituisce il task
+     *
+     * @return mixed
+     */
     public function getTask()
     {
         if (isset($_REQUEST['task']))
@@ -53,6 +50,11 @@ class VRegistrazione extends View
     }
 
 
+    /**
+     * Restituisce il controller
+     *
+     * @return mixed
+     */
     public function getController()
     {
         if (isset($_REQUEST['controller']))
@@ -61,6 +63,13 @@ class VRegistrazione extends View
             return false;
     }
 
+
+    /**
+     *
+     *Rimuove controller e task
+     *
+     * @return mixed
+     */
     public function unsetControllerTask()
     {
         if (isset($_REQUEST['controller']))
@@ -99,6 +108,12 @@ class VRegistrazione extends View
             return false;
     }
 
+
+    /**
+     * Verifica se l'user loggato sia amministratore o meno
+     *
+     * @return mixed
+     */
     public function getAdmin()
     {
         if (isset($_REQUEST['admin']))
@@ -108,6 +123,11 @@ class VRegistrazione extends View
     }
 
 
+    /**
+     * Restituisce l'e-mail dell'user
+     *
+     * @return mixed
+     */
     public function getEmail()
     {
         if (isset($_REQUEST['mail']))
@@ -117,6 +137,11 @@ class VRegistrazione extends View
     }
 
 
+    /**
+     * Processa i dati in un template
+     *
+     * @return string
+     */
     public function processaTemplate()
     {
         $contenuto=$this->fetch('registrazione_'.$this->_layout.'.tpl');
@@ -124,6 +149,11 @@ class VRegistrazione extends View
     }
 
 
+    /**
+     * Imposta il layout
+     *
+     * @return string
+     */
     public function setLayout($layout)
     {
         $this->_layout=$layout;

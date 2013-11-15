@@ -4,8 +4,6 @@
         {if $results}
         <table id="form_journey">
             <tr>
-                <td><h5>IdCommento</h5></td>
-                <td><h5>IdViaggio</h5></td>
                 <td><h5>Nome Luogo</h5></td>
                 <td><h5>Citta</h5></td>
                 <td><h5>Autore</h5></td>
@@ -13,13 +11,7 @@
             </tr>
             {/if}
     {section name=nr loop=$results}
-        <tr {if $smarty.section.nr.iteration is odd} bgcolor="#ccc" {/if}>
-            <td>
-                {$results[nr]->id}
-            </td>
-            <td>
-                {$results[nr]->idviaggio}
-            </td>
+        <tr>
             <td>
                 {$results[nr]->nomeluogo}
             </td>

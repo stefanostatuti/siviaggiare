@@ -1,5 +1,6 @@
 <div class="content">
     <div class="form_settings">
+        <div id="password_dimenticata">
         <form method="post" action="index.php">
             <p class="error">{$errore}</p>
             <h3>Recupero Password:</h3>
@@ -19,4 +20,5 @@
             <input type="submit" class="submit" value="invia dati" />
         </form>
     </div>
+</div>
 </div>

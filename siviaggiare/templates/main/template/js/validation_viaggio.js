@@ -10,14 +10,14 @@ $(document).ready(function()
 	{ 
 		return this.optional(element) || /^[0-9]{1,6}$/i.test(value); 
 	}, "dato non valido es.12 euro!");
-	
-	$.validator.addMethod("datafine_regex", function( value, element, params) 
-	{ 
-		if (!/Invalid|NaN/.test(new Date(value))) {
-        return new Date(value) >= new Date($(params).val());
-    }
 
-        return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val())); 
+    $.validator.addMethod("datafine_regex", function( value, element, params)
+    {
+        if (!/Invalid|NaN/.test(new Date(value)))
+        {
+            return new Date(value) >= new Date($(params).val());
+        }
+        return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val()));
     },"data inizio maggiore data fine?");
 	
 	$.validator.addMethod("costi_regex", function(value, element, params) 
@@ -40,7 +40,7 @@ $(document).ready(function()
 		'costotrasporto':
 		{
 			required: true,
-			trasporto_regex: true,
+			trasporto_regex: true
 		},
 		
 		'datainizio':

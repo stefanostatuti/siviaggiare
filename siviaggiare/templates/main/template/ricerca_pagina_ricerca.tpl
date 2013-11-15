@@ -2,8 +2,8 @@
     <div id="barraricerca">
         <fieldset>
         <input type="text" name="ricerca" id="ricerca" placeholder="Cerca"><span id="buttonclear">Clear</span><span id="buttonsearch">Ricerca</span>
+        </fieldset>
     </div>
-    </fieldset>
     <br>
     <br>
 

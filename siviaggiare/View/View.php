@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: francesco
- * Date: 16/08/13
- * Time: 15.33
- * To change this template use File | Settings | File Templates.
- */
 
 require('lib/smarty/Smarty.class.php');
     /**

@@ -5,8 +5,9 @@
     <meta name="description" content="website description" />
     <meta name="keywords" content="website keywords, website keywords" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="icon" href="templates/main/template/images/logo.png" />
     <link rel="stylesheet" type="text/css" href="templates/main/template/css/style.css" />
-    <link rel="stylesheet" type="text/css" href="templates/main/template/css/segnalazione.css" />
+    <link rel="stylesheet" type="text/css" href="templates/main/template/css/ratingbar.css" />
     <link rel="stylesheet" href="templates/main/template/js/jquery-ui-1.10.3.custom/development-bundle/themes/base/jquery.ui.all.css" />
     <script type="text/javascript" src="templates/main/template/js/jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="templates/main/template/js/jquery.validate.js"></script>
@@ -14,10 +15,15 @@
     <script type="text/javascript" src="templates/main/template/js/jquery-ui-1.10.3.custom/development-bundle/ui/jquery.ui.widget.js"></script>
     <script type="text/javascript" src="templates/main/template/js/jquery-ui-1.10.3.custom/development-bundle/ui/jquery.ui.autocomplete.js"></script>
     <script type="text/javascript" src="templates/main/template/js/jquery-ui-1.10.3.custom/development-bundle/ui/jquery.ui.accordion.js"></script>
-    <script type="text/javascript" src="templates/main/template/js/mio.js"></script>
+    <script type="text/javascript" src="templates/main/template/js/ricerca.js"></script>
     <script type="text/javascript" src="templates/main/template/js/jquery.ratingbar.js"></script>
     <script type="text/javascript" src="templates/main/template/js/jquery.complexify.js"></script>
-    <script type="text/javascript" src="templates/main/template/js/jquery.ui.dialog.min.js"></script>
+    <script type="text/javascript" src="templates/main/template/js/jquery.easing-sooper.js"></script>
+    <script type="text/javascript" src="templates/main/template/js/jquery.sooperfish.js"></script>
+    <script type="text/javascript" src="templates/main/template/js/home.js"></script>
+    <noscript>
+        <meta http-equiv="Refresh" content="0; url=/siviaggiare/siviaggiare/noscript.html" />
+    </noscript>
 
 </head>
 
@@ -52,11 +58,11 @@
         {$contenuto_principale}
     </div>
     <div id="scroll">
-        <a title="Scroll to the top" class="top" href="#"><img src="images/top.png" alt="top" /></a>
+        <a title="Scroll to the top" class="top" href="#"><img src="templates/main/template/images/top.png" alt="top" /></a>
     </div>
     <footer>
-        <p><img src="/images/twitter.png" alt="twitter" />&nbsp;<img src="/images/facebook.png" alt="facebook" />&nbsp;<img src="/images/rss.png" alt="rss" /></p>
-        <p><a href="index.php">Home</a>   <a href="index.php?controller=contattaci">Contattaci</a></p>   <a href="index.php?controller=info">Info</a></p>
+        <p><img src="templates/main/template/images/twitter.png" alt="twitter" />&nbsp;<img src="templates/main/template/images/facebook.png" alt="facebook" />&nbsp;<img src="templates/main/template/images/rss.png" alt="rss" /></p>
+        <p><a href="index.php">Home</a>   <a href="index.php?controller=contattaci">Contattaci</a>   <a href="index.php?controller=info">Info</a></p>
         <p>Copyright &copy; CSS3_grass | <a href="http://www.css3templates.co.uk">design from css3templates.co.uk</a></p>
     </footer>
 </div>

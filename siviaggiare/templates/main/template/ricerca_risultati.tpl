@@ -10,7 +10,7 @@
                         {if isset($utente_luogo_logged) && $utente_luogo_logged[nr]==$utente_sessione}
                             <td><a href="index.php?controller=profilo&task=visualizza"><h5>{$utente_luogo_logged[nr]}</h5></a></td>
                         {elseif isset($utente_luogo_logged)}
-                            <td><a class="button-profilo" href="javascript:void(0)" utente="{$utente_luogo_logged[nr]}"><h5>{$utente_luogo_logged[nr]}</h5></a></td>
+                            <td><a class="button-profilo" href="javascript:void(0)" utente="{$utente_luogo_logged[nr]}" pagina="1"><h5>{$utente_luogo_logged[nr]}</h5></a></td>
                             {else}
                             <td><h5>{$utente_luogo[nr]}</h5></td>
                         {/if}
@@ -22,7 +22,7 @@
                         <td><h5>Data:</h5></td>  <td><h5>{$data[nr]}</h5></td>
                     </tr>
                     <tr>
-                        <td><button class="button-dettaglio-viaggio" citta="{$luoghi[nr]->nomecitta}" luogo="{$luoghi[nr]->nome}" idviaggio={$luoghi[nr]->idviaggio}>Visualizza intero viaggio</button></td>
+                        <td><a class="link-dettaglio-viaggio" href="javascript:void(0)" citta="{$luoghi[nr]->nomecitta|regex_replace:"/[\ \']/":''}" luogo="{$luoghi[nr]->nome|regex_replace:"/[\ \']/":''}" idviaggio="{$luoghi[nr]->idviaggio}"><h5>Visualizza viaggio</h5></a></td>
                     </tr>
                 </table>
             </div>
@@ -56,7 +56,7 @@
                         <td><h5>Data:</h5></td>  <td><h5>{$citta[nr]->datafine}</h5></td>
                     </tr>
                     <tr>
-                        <td><button class="button-dettaglio-viaggio" citta="{$citta[nr]->nome}" idviaggio={$citta[nr]->idviaggio}>Visualizza intero viaggio</button></td>
+                        <td><a class="link-dettaglio-viaggio" href="javascript:void(0)" citta="{$citta[nr]->nome|regex_replace:"/[\ \']/":''}" idviaggio={$citta[nr]->idviaggio}><h5>Visualizza viaggio</h5></a></td>
                     </tr>
                 </table>
             </div>

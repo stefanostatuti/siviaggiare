@@ -4,28 +4,52 @@
  * @author Alessandro Verzicco
  * @package System
  */
-class USession {
-    public function __construct() {
+class USession
+{
+
+    public function __construct()
+    {
         session_start();
         debug("Sessione:");
         debug($_SESSION);
     }
-    function imposta_valore($chiave,$valore) {
+
+
+    /**
+     * imposta un valore nella sessione
+     */
+    function imposta_valore($chiave,$valore)
+    {
         $_SESSION[$chiave]=$valore;
     }
-    function cancella_valore($chiave) {
+
+
+    /**
+     * cancella un valore nella sessione
+     */
+    function cancella_valore($chiave)
+    {
         unset($_SESSION[$chiave]);
     }
-    function leggi_valore($chiave) {
+
+
+    /**
+     * legge un valore nella sessione
+     */
+    function leggi_valore($chiave)
+    {
         if (isset($_SESSION[$chiave]))
             return $_SESSION[$chiave];
         else
             return false;
     }
 
-    function chiudi() {
-        debug("Chiudo sessione ");
+
+    function chiudi()
+    {
+        debug("Chiudo sessione");
         session_destroy();
+
     }
 }
 ?>

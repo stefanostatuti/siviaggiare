@@ -1,16 +1,22 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: francesco
- * Date: 18/09/13
- * Time: 10.46
- * To change this template use File | Settings | File Templates.
+ * @access public
+ * @package Controller
  */
+class CRicerca
+{
 
-class CRicerca {
+    /**
+     * @var $_term Variabile dove il plugin autocomplete imposta la parola da cercare
+     */
+    private $_term = null;
 
-    private $_term = null;      //$_REQUEST['term']---->variabile dove l'autocomplete mette la parola da cerca
 
+    /**
+     * Smista le richieste ai vari metodi
+     *
+     * @return mixed
+     */
     public function smista()
     {
         $view=USingleton::getInstance('VRicerca');
@@ -37,14 +43,25 @@ class CRicerca {
         }
     }
 
+
+    /**
+     * Imposta la pagina di ricerca
+     *
+     * @return string
+     */
     public function impostaPaginaRicerca()
     {
         $VRicerca=USingleton::getInstance('VRicerca');
         $VRicerca->setLayout('pagina_ricerca');
-        //var_dump($modulo);
         return $VRicerca->processatemplate();
     }
 
+
+    /**
+     * Imposta per la ricerca dai menu laterali il contenuto della pagina principale
+     * @author francesco
+     * @return void
+     */
     public function RicercaMenuLaterale()
     {
         $VRicerca=USingleton::getInstance('VRicerca');
@@ -52,6 +69,12 @@ class CRicerca {
         echo $VRicerca->processatemplate();
     }
 
+
+    /**
+     * Esegue la ricerca per il plugin autocomplete
+     * @author francesco
+     * @return void
+     */
     public function eseguiRicercaAutocomplete()
     {
         if ( !isset($_REQUEST['term']) )
@@ -59,7 +82,7 @@ class CRicerca {
 
         $this->_term = mysql_real_escape_string($_REQUEST['term']);
         $Fdb=USingleton::getInstance('FDatabase');
-        $query = 'SELECT distinct nome, nomecitta, idviaggio FROM luogo WHERE nome like "%'. $this->_term .'%" group by nome order by nome asc limit 0,10';
+        $query = 'SELECT DISTINCT nome, nomecitta, idviaggio FROM luogo WHERE nome like "%'. $this->_term .'%" group by nome order by nome asc limit 0,10';
         $Fdb->query($query);
         $array=$Fdb->getQueryInArray();
         $return = array();
@@ -89,6 +112,12 @@ class CRicerca {
         flush();
     }
 
+
+    /**
+     * Esegue la ricerca e imposta i dati nel relativo template
+     * @author francesco
+     * @return string
+     */
     public function ricerca()
     {
         $VRicerca=USingleton::getInstance('VRicerca');
@@ -134,14 +163,22 @@ class CRicerca {
         echo $VRicerca->ProcessaTemplate();
     }
 
+
+    /**
+     * Carica i dati del viaggio selezionato
+     * @author francesco
+     */
     public function visualizzaViaggio()
     {
         $VViaggio=USingleton::getInstance('VViaggio');
+        $session=USingleton::getInstance('USession');
+        $autenticato=$session->leggi_valore('username');
         $Fviaggio = new FViaggio();
         $viaggio=$Fviaggio->loadViaggio($VViaggio->getIdViaggio());
         $viaggio->getElencoCitta();
         foreach ($viaggio->getElencoCitta() as $citta)
         {
+            $rilasciato_citta[]=$citta->verificaFeedbackUtente($session->leggi_valore('username'));
             $citta->getElencoLuoghi();
         }
         foreach ($citta->getElencoLuoghi() as $luogo)
@@ -150,13 +187,18 @@ class CRicerca {
         }
         $VRicerca=USingleton::getInstance('VRicerca');
         $VRicerca->setLayout('pagina_viaggio');
+        if (isset($rilasciato_citta))
+            $VRicerca->impostaDati('rilasciato_citta',$rilasciato_citta);
         $VRicerca->impostaDati('viaggio',$viaggio);
-        $session=USingleton::getInstance('USession');
-        $autenticato=$session->leggi_valore('username');
         $VRicerca->impostaDati('autenticato',$autenticato);
         echo $VRicerca->ProcessaTemplate();
     }
 
+
+    /**
+     * Carica i commenti relativi ad un viaggio
+     * @author francesco
+     */
     public function visualizzaCommenti()
     {
         $VViaggio=USingleton::getInstance('VViaggio');
@@ -181,9 +223,16 @@ class CRicerca {
         $FViaggio = new FViaggio();
         $viaggio=$FViaggio->loadViaggio($VViaggio->getIdViaggio());
         $VRicerca->impostaDati('utente', $viaggio->utenteusername);
+        $rilasciato_luogo = $luogo->verificaFeedbackUtente($session->leggi_valore('username'));
+        $VRicerca->impostaDati('rilasciato_luogo', $rilasciato_luogo);
         echo $VRicerca->processaTemplate();
     }
 
+
+    /**
+     * Salva un commento inserito da un utente e lo restituisce in visualizzazione
+     * @author francesco
+     */
     public function inserisciCommento()
     {
         $VRicerca=USingleton::getInstance('VRicerca');
@@ -197,7 +246,6 @@ class CRicerca {
             $commento->$keys[$i]=$dato;
             $i++;
         }
-        //debug($luogo);
         $FCommento->store($commento);
         $VRicerca=USingleton::getInstance('VRicerca');
         $VRicerca->setLayout('ultimo_commento_inserito');
@@ -206,10 +254,17 @@ class CRicerca {
         echo $VRicerca->processaTemplate();
     }
 
+
+    /**
+     * Aggiunge un feedback ad una città
+     * @author francesco
+     */
     public function aggiungiFeedbackCitta()
     {
         $VRicerca=USingleton::getInstance('VRicerca');
         $dati=$VRicerca->getDatiCitta();
+        $session=USingleton::getInstance('USession');
+        $dati['username']=$session->leggi_valore('username');
         $FCitta=new FCitta();
         $feedback = $FCitta->updateFeedback($dati);
         $session=USingleton::getInstance('USession');
@@ -220,10 +275,17 @@ class CRicerca {
         }
     }
 
+
+    /**
+     * Aggiunge un feedback ad una luogo
+     * @author francesco
+     */
     public function aggiungiFeedbackLuogo()
     {
         $VRicerca=USingleton::getInstance('VRicerca');
         $dati=$VRicerca->getDatiLuogo();
+        $session=USingleton::getInstance('USession');
+        $dati['username']=$session->leggi_valore('username');
         $FLuogo=new FLuogo();
         $feedback = $FLuogo->updateFeedback($dati);
         if($feedback!=false)
@@ -232,3 +294,4 @@ class CRicerca {
         }
     }
 }
+?>

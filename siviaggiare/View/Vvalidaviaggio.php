@@ -1,15 +1,12 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: francesco
- * Date: 16/08/13
- * Time: 15.59
- * To change this template use File | Settings | File Templates.
- */
 
 class Vvalidaviaggio extends View
 {
 
+    /**
+     * @var $fields  Rappresenta l'arrray degli attributi dell'oggetto viaggio inizialmente impostati a null
+     * @author Riccardo
+     */
       private $fields =
       array ( "datainizio" => null,
               "datafine" => null,
@@ -19,7 +16,11 @@ class Vvalidaviaggio extends View
               "utenteusername" => null
             );
 
-  // messaggi in caso di eventuali errori di input
+
+    /**
+     * @var $errors_msg  Rappresenta l'array dei messaggi d'errore
+     * @author Riccardo
+     */
     private $errors_msg =
       array (
               "datainizio" => "data non valida!",
@@ -30,20 +31,36 @@ class Vvalidaviaggio extends View
               "costo_budget" => "budget minore del costo trasporto? ",
               "campo" => "campo obbligatorio! "
             );
-              
-              
+
+
+    /**
+     * @var $retrivedFields  Variabile inizialmente impostata a false, verifica se un un attributo dell'oggetto viaggio è stato settato
+     * @author Riccardo
+     */
     private $retrivedFields = false;//inizialmente i dati non sono caricati
-    
-    // nomi dei campi che contengono errori di input
+
+
+    /**
+     * @var $wrong_fields  Array che identifica se un campo dell'oggetto viaggio contiene errori
+     * @author Riccardo
+     */
     private $wrong_fields = array();
-    
-    //restituisce array messaggi
+
+    /**
+     * @var $messaggi  Array che restituisce al template i campi con i relativi messaggi di errore
+     * @author Riccardo
+     */
     private $messaggi = array();
     
     
     // ------------------------------- public methods
-    
-    
+
+
+    /**
+     * assegna agli attributi il valore passatogli da template
+     * @author Riccardo
+     * @return boolean
+     */
     public function retriveFields($dati) 
     {  
        if (!$this->retrivedFields) 
@@ -58,9 +75,14 @@ class Vvalidaviaggio extends View
          
        }
        		$this->retrivedFields = true;
-    } 
-            
-     
+    }
+
+
+    /**
+     * restituisce l'array che identifica se un campo dell'oggetto viaggio contiene errori, se non ci sono errori,altrimenti ritorna false
+     * @author Riccardo
+     * @return mixed
+     */
      public function validacampi($input) 
     {
        $this->retriveFields($input);
@@ -77,8 +99,13 @@ class Vvalidaviaggio extends View
           return $this->fields;
           
     }
-    
-    
+
+
+    /**
+     * restituisce array messagi di errore se ci sono errori altrimenti false
+     * @author Riccardo
+     * @return mixed
+     */
     public function getErrors() 
     {
        if ( in_array("true", $this->wrong_fields ) )
@@ -89,8 +116,13 @@ class Vvalidaviaggio extends View
        else
           return false; 
     }
-    
-    
+
+
+    /**
+     * restituisce i dati usati per la validazione al template
+     * @author Riccardo
+     * @return array
+     */
     public function getdatipersonali()
     {
          $arraydata['datainizio']=$this->fields['datainizio'];
@@ -107,7 +139,12 @@ class Vvalidaviaggio extends View
 // -------------------------------------------- private functions
 
 
-   
+
+    /**
+     * se il costo del trasporto è settato verifica se quest'ultimo è un intero di al più 6 cifre, se non è settato rilascia errore
+     * @author Riccardo
+     * @return array
+     */
    private function validacosto()
    { 
       if ($this->fields['costotrasporto'] != null)
@@ -131,8 +168,13 @@ class Vvalidaviaggio extends View
       }      
       
    }
-   
-   
+
+
+    /**
+     * se il budget è settato verifica se quest'ultimo è un intero di al più 6 cifre, se non è settato rilascia errore
+     * @author Riccardo
+     * @return array
+     */
    private function validabudget()
    {  
       if ($this->fields['budget'] != null)
@@ -155,8 +197,13 @@ class Vvalidaviaggio extends View
       }  
       
     }
-   
-    
+
+
+    /**
+     * controlla che il budget sia maggiore del costo del trasporto
+     * @author Riccardo
+     * @return array
+     */
     private function validacosti()
     {    
          if($this->fields['budget'] < $this->fields['costotrasporto'])
@@ -168,8 +215,13 @@ class Vvalidaviaggio extends View
              $this->wrong_fields['costo_budget'] = "false";
          }
     }
-    
-    
+
+
+    /**
+     * verifica che il campo datainizio sia settato, non serve la validazione della data in quanto si prende da datapicker
+     * @author Riccardo
+     * @return array
+     */
     private function validadatainizio()
     {
       if ($this->fields['datainizio'] != null)
@@ -180,20 +232,30 @@ class Vvalidaviaggio extends View
            $this->messaggi['campodatainizio']= $this->errors_msg['campo'];
       } 
     }
-    
-    
+
+
+    /**
+     * verifica che il campo datafine sia settato, non serve la validazione della data in quanto si prende da datapicker
+     * @author Riccardo
+     * @return array
+     */
     private function validadatafine()
     {
       if ($this->fields['datafine'] != null)
-      {  
+      {
       }else
       {
              $this->wrong_fields['campodatafine'] = "true";
              $this->messaggi['campodatafine']= $this->errors_msg['campo'];
       } 
     }
-    
-    
+
+
+    /**
+     * verfifica che la data di inizio del viaggio sia minore della data di fine
+     * @author Riccardo
+     * @return array
+     */
     private function validadate()
     {
             $datain=list( $monthi , $dayi, $yeari ) = explode('/',$this->fields['datainizio']);

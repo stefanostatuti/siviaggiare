@@ -1,22 +1,22 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Riso64Bit
- * Date: 20/08/13
- * Time: 16.58
- * To change this template use File | Settings | File Templates.
- */
 
 class VModifica extends View
 {
 
+    /**
+     * @var $_layout  Variabile dove dove si impostano i i tipi di layout
+     */
     private $_layout='default';
 
 
+    //METODI GET:
 
-              //metodi get:
-              
-              
+
+    /**
+     * restituisce su un array i dati del viaggio acquisiti dal template
+     * @author Riccardo
+     * @return array
+     */
     public function getDatiViaggio()
     {
         $dati_viaggio=array('datainizio','datafine','mezzotrasporto','costotrasporto', 'valutatrasporto','budget', 'valutabudget');//tolto username e citta
@@ -32,6 +32,11 @@ class VModifica extends View
     }
 
 
+    /**
+     * restituisce su un array i dati del luogo acquisiti dal template
+     * @author Riccardo
+     * @return array
+     */
     public function getDatiLuogo()
     {
         $dati_viaggio=array('idviaggio','nome','sitoweb','percorso','costobiglietto', 'valuta', 'guida','coda','durata','commentolibero');//tolto 'idviaggio',
@@ -40,28 +45,47 @@ class VModifica extends View
         {
             if (isset($_REQUEST[$dato]))
                 $dati[$dato]=$_REQUEST[$dato];
-        }   
+        }
+        if(isset($_FILES["immagini"]['name']))
+        {
+            $session=USingleton::getInstance('USession');
+            $user=$session->leggi_valore('username');
+            $upload_dir = "templates/main/template/images/foto_luogo"; // cartella in cui il file sarà salvato
+            $file_name = str_replace(" ","",$_FILES["immagini"]['name']);
+            $file_name=$user.$file_name;
+            if(@is_uploaded_file($_FILES["immagini"]["tmp_name"]))
+            {
+                @move_uploaded_file(str_replace(" ","",$_FILES["immagini"]["tmp_name"]), "$upload_dir/$file_name");
+                $dati['immagini']=$file_name;
+            }
+        }
         return $dati;
     }
-    
-    
+
+
+    /**
+     * restituisci su un array i dati della citta acquisiti dal template
+     * @author Riccardo
+     * @return array
+     */
     public function getDatiCitta()
     {
-        $dati_citta=array('idviaggio','datainizio','datafine','nome','stato','tipoalloggio','costoalloggio','valuta', 'voto', 'nomevecchio'); 
-        debug("questo è quello che ricevo dal TPL");
-        debug($dati_citta);
+        $dati_citta=array('idviaggio','datainizio','datafine','nome','stato','tipoalloggio','costoalloggio','valuta', 'voto', 'nomevecchio');
         $dati=array();
         foreach ($dati_citta as $dato)
         {
             if (isset($_REQUEST[$dato]))
                 $dati[$dato]=$_REQUEST[$dato];
         }
-        //questo mi scrive l'username senno me manca
-        $session= USingleton::getInstance('USession');
         return $dati;
-    }          
+    }
 
 
+    /**
+     * se è settato restituisce il task su una variabile
+     *
+     * @return mixed
+     */
     public function getTask()
     {
         if (isset($_REQUEST['task']))
@@ -71,6 +95,11 @@ class VModifica extends View
     }
 
 
+    /**
+     * se è settato restituisce il controller su una variabile
+     *
+     * @return mixed
+     */
     public function getController()
     {
         if (isset($_REQUEST['controller']))
@@ -80,6 +109,11 @@ class VModifica extends View
     }
 
 
+    /**
+     * se è settato restituisce l'id del viaggio su una variabile
+     *
+     * @return mixed
+     */
     public function getIdViaggio()
     {
         if (isset($_REQUEST['idviaggio']))
@@ -91,17 +125,27 @@ class VModifica extends View
     }
 
 
+    /**
+     * se è settato restituisce il nome del luogo su una variabile
+     * @author Riccardo
+     * @return mixed
+     */
     public function getNomeLuogo()
     {
         if (isset($_REQUEST['nome']))
             return $_REQUEST['nome'];
         elseif (isset($_REQUEST['nomeluogo']))
-            return $_REQUEST['nomeluogo'];    
+            return $_REQUEST['nomeluogo'];
         else
             return false;
     }
 
 
+    /**
+     * se è settato restituisce il nome della citta su una variabile
+     * @author Riccardo
+     * @return mixed
+     */
     public function getNomeCitta()
     {
         if (isset($_REQUEST['nomecitta']))
@@ -113,20 +157,53 @@ class VModifica extends View
     }
 
 
-    
-               //metodi set:
+    /**
+     * se è settato restituisce il costo dell'alloggio su una variabile
+     * @author Riccardo
+     * @return mixed
+     */
+    public function getCostoAlloggio()
+    {
+        if (isset($_REQUEST['costoalloggio']))
+            return  $costo = $_REQUEST['costoalloggio'];
+    }
 
 
+    /**
+     * se è settato restituisce il costo del biglietto su una variabile
+     * @author Riccardo
+     * @return mixed
+     */
+    public function getCostoBiglietto()
+    {
+        if (isset($_REQUEST['costobiglietto']))
+            return  $costo = $_REQUEST['costobiglietto'];
+    }
+
+
+    //METODI SET:
+
+
+    /**
+     * imposta il layout
+     * @param string $layout
+     *
+     * @return string
+     */
     public function setLayout($layout)
     {
         $this->_layout=$layout;
     }
 
 
-               //altri metodi:
+    //ALTRI METODI:
 
 
-
+    /**
+     * processa il template secondo il layout precedentemente selezionato
+     *
+     * @return string
+     */
     public function processaTemplate()
     {
         return $this->fetch('viaggio_'.$this->_layout.'.tpl');
@@ -140,8 +217,24 @@ class VModifica extends View
      * @param mixed $valore
      */
     public function impostaDati($key,$valore)
-    { //chiave , valore
+    {
         $this->assign($key,$valore);
+    }
+
+
+    /**
+     * imposta task e controller == null
+     * @author Francesco
+     * @return mixed
+     */
+    public function unsetControllerTask()
+    {
+        if (isset($_REQUEST['controller']))
+            unset($_REQUEST['controller']);
+        if (isset($_REQUEST['task']))
+            unset($_REQUEST['task']);
+        else
+            return false;
     }
 
 

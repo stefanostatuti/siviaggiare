@@ -8,22 +8,22 @@ $(document).ready(function()
 	
 	$.validator.addMethod("cognome_regex", function(value, element) 
 	{ 
-		return this.optional(element) || /^[a-z ]{3,20}$/i.test(value); 
+		return this.optional(element) || /^[a-z \']{3,20}$/i.test(value);
 	}, "Usare solo caratteri alfanumerici!");
 		
 	$.validator.addMethod("nome_regex", function(value, element) 
 	{ 
-		return this.optional(element) || /^[a-z ]{3,20}$/i.test(value); 
+		return this.optional(element) || /^[a-z \']{3,20}$/i.test(value);
 	}, "Usare solo caratteri alfanumerici!");	
 	
 	$.validator.addMethod("nazione_regex", function(value, element) 
 	{ 
-		return this.optional(element) || /^[a-z ]{3,20}$/i.test(value); 
+		return this.optional(element) || /^[a-z \']{3,20}$/i.test(value);
 	}, "Usare solo caratteri alfanumerici!");
 	
 	$.validator.addMethod("citta_regex", function(value, element) 
 	{ 
-		return this.optional(element) || /^[a-z ]{3,20}$/i.test(value); 
+		return this.optional(element) || /^[a-z \']{3,20}$/i.test(value);
 	}, "Usare solo caratteri alfanumerici!");
 	
 	$.validator.addMethod("email_regex", function(value, element) 
@@ -39,8 +39,7 @@ $(document).ready(function()
 	
 	$("#form_register").validate
 	(
-	{   onkeyup: true,
-        onblur: true,
+	{
         rules:
         {
 		'username':
@@ -52,9 +51,7 @@ $(document).ready(function()
 			{   /*AJAX*/
 				url: "index.php?controller=registrazione&task=verifica_registrazione",
 				type: "post"                      	   
-		    } /*altri dati si possono passare cos“ data: { username: function() { //nome variabile inviata
-                                                return $("#reg_user").val(); //dato inviato}
-                      */  
+		    }
 		}, 
 		
 		'cognome':
@@ -166,7 +163,7 @@ $(document).ready(function()
 		{
 		    required: "Campo obbligatorio!",
 			equalTo: "Le due password non coincidono!"
-		},
+		}
 		}
 	});
 });

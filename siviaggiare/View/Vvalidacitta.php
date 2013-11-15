@@ -1,15 +1,12 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: francesco
- * Date: 16/08/13
- * Time: 15.59
- * To change this template use File | Settings | File Templates.
- */
 
 class Vvalidacitta extends View
 {
 
+    /**
+     * @var $fields  Rappresenta l'arrray degli attributi dell'oggetto citta inizialmente impostati a null
+     * @author Riccardo
+     */
       private $fields =
       array ( 
               "stato" => null,
@@ -22,7 +19,11 @@ class Vvalidacitta extends View
             );
 
 
-  // messaggi in caso di eventuali errori di input
+
+    /**
+     * @var $errors_msg  Rappresenta l'array dei messaggi d'errore
+     * @author Riccardo
+     */
     private $errors_msg =
       array ( 
               "date" => "data inizio maggiore data fine?",
@@ -33,20 +34,37 @@ class Vvalidacitta extends View
               "dateviaggio" => "le date inserite non sono coerenti con quelle inserite in viaggio!",
               "citta" => "dato non valido es.Roma!"
             );
-              
-           
+
+
+    /**
+     * @var $retrivedFields  Variabile inizialmente impostata a false, verifica se un un attributo dell'oggetto citta è stato settato
+     * @author Riccardo
+     */
     private $retrivedFields = false;//inizialmente i dati non sono caricati
-    
-    // nomi dei campi che contengono errori di input
+
+
+    /**
+     * @var $wrong_fields  Array che identifica se un campo dell'oggetto citta contiene errori
+     * @author Riccardo
+     */
     private $wrong_fields = array();
 
 
+    /**
+     * @var $messaggi  Array che restituisce al template i campi con i relativi messaggi di errore
+     * @author Riccardo
+     */
     private $messaggi = array();
     
     
     // ------------------------------- public methods
-    
-    
+
+
+    /**
+     * assegna agli attributi il valore passatogli da template
+     * @author Riccardo
+     * @return boolean
+     */
     public function retriveFields($dati) 
     {  
        if (!$this->retrivedFields) 
@@ -60,9 +78,14 @@ class Vvalidacitta extends View
          $this->fields['tipoalloggio']=$dati['dati']['tipoalloggio'];
        }
        		$this->retrivedFields = true;
-    } 
-            
-     
+    }
+
+
+    /**
+     * restituisce l'array che identifica se un campo dell'oggetto citta contiene errori, se non ci sono errori,altrimenti ritorna false
+     * @author Riccardo
+     * @return mixed
+     */
      public function validacampi($input) 
     { 
        $this->retriveFields($input);
@@ -72,8 +95,7 @@ class Vvalidacitta extends View
        $this->validadatafine();
        $this->validadate();
        $this->validacitta();
-       $this->validacosti($input);//verifica se budget è > costo_... 
-       //$this->validadateviaggio($input);
+       $this->validacosti($input);//verifica se budget è > costo_...
       
        if ( in_array("true", $this->wrong_fields ) )
           return false; // esiste almeno un campo di input errato
@@ -81,8 +103,13 @@ class Vvalidacitta extends View
           return $this->fields;
           
     }
-    
-    
+
+
+    /**
+     * restituisce array messagi di errore se ci sono errori altrimenti false
+     * @author Riccardo
+     * @return mixed
+     */
     public function getErrors() 
     {  
        if ( in_array("true", $this->wrong_fields ) )
@@ -92,8 +119,13 @@ class Vvalidacitta extends View
        }else
           return false; 
     }
-    
-    
+
+
+    /**
+     * restituisce i dati usati per la validazione al template
+     * @author Riccardo
+     * @return array
+     */
     public function getdatipersonali()
     {    
          $arraydata['stato']=$this->fields['stato'];
@@ -109,8 +141,13 @@ class Vvalidacitta extends View
 
 // -------------------------------------------- private functions
 
-    
-    
+
+
+    /**
+     * verifica se la data d'inizio del soggiorno in citta è settata , se non è settato rilascia errore
+     * @author Riccardo
+     * @return array
+     */
     private function validadatainizio()
     {
       if ($this->fields['datainizio'] != null)
@@ -121,8 +158,13 @@ class Vvalidacitta extends View
            $this->messaggi['campodatainizio']= $this->errors_msg['campo'];
       } 
     }
-    
-    
+
+
+    /**
+     * verifica se la data di fine del soggiorno in citta è settata , se non è settato rilascia errore
+     * @author Riccardo
+     * @return array
+     */
     private function validadatafine()
     {
       if ($this->fields['datafine'] != null)
@@ -133,8 +175,13 @@ class Vvalidacitta extends View
              $this->messaggi['campodatafine']= $this->errors_msg['campo'];
       } 
     }
-    
-    
+
+
+    /**
+     * verifica se la data d'inizio del soggiorno in citta sia minore della data di fine, altrimenti genera errore
+     * @author Riccardo
+     * @return array
+     */
     private function validadate()
     {        
             $datain=list( $monthi , $dayi, $yeari ) = explode('/',$this->fields['datainizio']);
@@ -153,47 +200,13 @@ class Vvalidacitta extends View
             }
             
     }
-    
-    
-    private function validadateviaggio($a)
-    {    //manca validazione mesi perche troppo complicato
-            $dataincitta=list( $month , $day, $year ) = explode('/',$this->fields['datainizio']);
-            $datafincitta=list( $month , $day, $year ) = explode('/',$this->fields['datafine']);
-            $datainviaggio=list( $month , $day, $year ) = explode('/',$a['varie']->datainizio);
-            $datafinviaggio=list( $month , $day, $year ) = explode('/',$a['varie']->datafine);
-            $dataincitta[1]=intval($dataincitta[1]);
-            $datafincitta[1]=intval($datafincitta[1]);
-            $datainviaggio[1]=intval($datainviaggio[1]);
-            $datafinviaggio[1]=intval($datafinviaggio[1]);
-            if($dataincitta[2] != $datainviaggio[2] || $datafincitta[2] != $datafinviaggio[2])
-            {       
-                   $this->wrong_fields['dateviaggio'] = "true";
-                   $this->messaggi['dateviaggio']= $this->errors_msg['dateviaggio'];   
-            }elseif($dataincitta[1] < $datainviaggio[1] || $datafincitta[1] > $datafinviaggio[1])
-            {      
-                   $this->wrong_fields['dateviaggio'] = "true";
-                   $this->messaggi['dateviaggio']= $this->errors_msg['dateviaggio'];    
-            }else
-            {    
-                   $this->wrong_fields['date'] = "false";      
-            }
-            
-            
-            
-            
-            $datain=list( $monthi , $dayi, $yeari ) = explode('/',$this->fields['datainizio']);
-            $datafin=list( $monthf , $dayf, $yearf ) = explode('/',$this->fields['datafine']);
-            if($datain[0] < $datafin[0] || $datain[1] < $datafin[1] || $datain[2]< $datafin[2])
-            {
-                   $this->wrong_fields['date'] = "false";                    
-            }else
-            {  
-                   $this->wrong_fields['date'] = "true";
-                   $this->messaggi['date']= $this->errors_msg['date'];
-            }        
-    }
-   
-    
+
+
+    /**
+     * se la nazione è settata verifica se quest'ultima è un alfanumerico, se non è settato rilascia errore
+     * @author Riccardo
+     * @return array
+     */
     private function validastato()
    {
       if($this->fields['stato'] != null)
@@ -214,8 +227,13 @@ class Vvalidacitta extends View
             $this->messaggi['campostato'] = $this->errors_msg['campo'];
        } 
    }
-   
-     
+
+
+    /**
+     * se il campo è settato, verifica che il costo dell'alloggio sia inferiore al budget definito in viaggio
+     * @author Riccardo
+     * @return array
+     */
     private function validacosti($a)
     {
        if($this->fields['costoalloggio'] != null)
@@ -233,8 +251,13 @@ class Vvalidacitta extends View
              $this->wrong_fields['costo_budget'] = "false";
         } 
     }
-    
-    
+
+
+    /**
+     * se il costo dell alloggio è settato verifica se quest'ultimo è un intero di al più 6 cifre
+     * @author Riccardo
+     * @return array
+     */
     private function validacostoalloggio()
     {
       if($this->fields['tipoalloggio'] != null )
@@ -262,8 +285,13 @@ class Vvalidacitta extends View
            $this->wrong_fields['costoalloggio'] = "false";
         } 
    }
-   
-   
+
+
+    /**
+     * se il nome della citta è settata verifica se quest'ultima è un alfanumerico, se non è settata rilascia errore
+     * @author Riccardo
+     * @return array
+     */
     private function validacitta()
     {
          if ($this->fields['citta'] != null)

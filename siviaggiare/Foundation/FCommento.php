@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: francesco
- * Date: 16/08/13
- * Time: 12.21
- * To change this template use File | Settings | File Templates.
- */
 
 class FCommento extends FDatabase
 {
@@ -19,6 +12,13 @@ class FCommento extends FDatabase
         USingleton::getInstance('FDatabase');
     }
 
+
+    /**
+     * salva in database un commento
+     *
+     * @param $object
+     * @return mixed
+     */
     public function store( $object )
     {
         $id = parent::store($object);
@@ -26,6 +26,12 @@ class FCommento extends FDatabase
     }
 
 
+    /**
+     * carica dal database un commento
+     *
+     * @param $idcommento
+     * @return array
+     */
     public function loadCommento($idcommento)
     {
         $query='SELECT * ' .
@@ -36,13 +42,18 @@ class FCommento extends FDatabase
     }
 
 
-    //questo metodo sotto probabilmente è deprecabile richiamando la load in FDatabase
-    // e si lascia come chiave SOLO idcommento
-    public function loadCommentiUtente($array)
+    /**
+     * Cancella dal database un commento
+     *
+     * @param $id
+     * @return array
+     */
+    public function deleteCommento($id)     //CONTROLLARE SE FUNZIONA (DAVEDERE)
     {
-        $query='SELECT * ' .
+        $query='DELETE ' .
             'FROM `'.$this->tabella.'` ' .
-            'WHERE `'.$this->chiave['1'].'` = \''.$array[0].'\''; //chiave ['1'] è l'indice della chiave al posto 1 cioè 'autore'
+            'WHERE `'.$this->chiave.'` = \''.$id.'\'';
+        unset($object);////CONTROLLARE SE SERVE!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         $obj=parent::getObjectInArray(parent::query($query));
         return $obj;
     }

@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: francesco
- * Date: 16/08/13
- * Time: 15.37
- * To change this template use File | Settings | File Templates.
- */
 
 class VHome extends View
 {
@@ -17,9 +10,14 @@ class VHome extends View
     private $_contenuto_laterale_sinistro_alto;
 
 
-           //metodi pubblic:
+    //METODI PUBLIC:
 
 
+    /**
+     * se è settato restituisce il controller su una variabile
+     *
+     * @return mixed
+     */
     public function getController()
     {
         if (isset($_REQUEST['controller']))
@@ -28,6 +26,12 @@ class VHome extends View
             return false;
     }
 
+
+    /**
+     * se è settato restituisce il task su una variabile
+     *
+     * @return mixed
+     */
     public function getTask()
     {
         if (isset($_REQUEST['task']))
@@ -39,6 +43,7 @@ class VHome extends View
 
     /**
      * Assegna il contenuto al template e lo manda in output
+     * @return mixed
      */
     public function mostraPagina()
     {
@@ -50,6 +55,12 @@ class VHome extends View
     }
 
 
+    /**
+     * Imposta i dati nel template identificati da una chiave ed il relativo valore
+     *
+     * @param string $key
+     * @param mixed $valore
+     */
     public function impostaDati($key,$valore)
     {
         $this->assign($key,$valore);
@@ -58,6 +69,7 @@ class VHome extends View
 
     /**
      * imposta il contenuto principale alla variabile privata della classe
+     * @return mixed
      */
     public function impostaContenuto($contenuto)
     {
@@ -65,45 +77,61 @@ class VHome extends View
     }
 
 
+    /**
+     * imposta il template pre l'utente non loggato
+     * @return mixed
+     */
     public function impostaPaginaOspite()
     {
         $this->assign('titolo','YesYouTravel - Home');
+        $this->aggiungiModuloRicerca();
         $this->aggiungiModuloLogin();
         $this->aggiungiModuloAboutRegistrazione();
-        $this->aggiungiModuloRicerca();
     }
 
 
+    /**
+     * aggiunge il modulo del login al template
+     * @return mixed
+     *
+     */
     public function aggiungiModuloLogin()
     {
         $VRegistrazione=USingleton::getInstance('VRegistrazione');
         $VRegistrazione->setLayout('login');
         $modulo_login=$VRegistrazione->processaTemplate();
-        $this->_contenuto_laterale_destro.=$modulo_login;
+        $this->_contenuto_laterale_sinistro_alto.=$modulo_login;
 
     }
 
 
+    /**
+     * aggiunge il modulo banner per favorire la registrazione di un utente al template
+     * @return mixed
+     *
+     */
     public function aggiungiModuloAboutRegistrazione()
     {
         $VRegistrazione=USingleton::getInstance('VRegistrazione');
         $VRegistrazione->setLayout('about');
         $modulo_about=$VRegistrazione->processaTemplate();
-        $this->_contenuto_laterale_sinistro_alto.=$modulo_about;
+        $this->_contenuto_laterale_sinistro_basso.=$modulo_about;
     }
 
 
     /**
      * Imposta la pagina per gli utenti registrati/autenticati
+     * @return mixed
      */
     public function impostaPaginaAutenticato()
     {
         $session=USingleton::getInstance('USession');
-        if($session->leggi_valore('admin')=='Amministratore') //se è un admin
+        if($session->leggi_valore('admin')=='Amministratore')
         {
-            $this->impostaPaginaAdmin(); //metto il tpl admin
+            $this->impostaPaginaAdmin();
         }
-        else{
+        else
+        {
             $this->assign('titolo','YesYouTravel - Home Loggato');
             $this->aggiungiModuloAutenticato();
             $this->aggiungiModuloRicerca();
@@ -112,15 +140,19 @@ class VHome extends View
         }
     }
 
+
     public function impostaPaginaAdmin()
     {
-        //$session=USingleton::getInstance('USession');
         $this->assign('titolo','YesYouTravel - Home Admin');
         $this->aggiungiModuloAdmin();
     }
 
 
-
+    /**
+     * aggiunge il modulo al template per indicare all'utente che è autenticato
+     * @return mixed
+     *
+     */
     public function aggiungiModuloAutenticato()
     {
         $session=USingleton::getInstance('USession');
@@ -129,34 +161,50 @@ class VHome extends View
         $VRegistrazione->setLayout('autenticato');
         $VRegistrazione->impostaDati('username',$username);
         $modulo_logout=$VRegistrazione->processaTemplate();
-        $this->_contenuto_laterale_destro.=$modulo_logout;
+        $this->_contenuto_laterale_sinistro_basso.=$modulo_logout;
     }
+
 
     public function aggiungiModuloAdmin()
     {
         $session=USingleton::getInstance('USession');
         $username=$session->leggi_valore('username');
         $VRegistrazione=USingleton::getInstance('VRegistrazione');
-        $VRegistrazione->setLayout('admin_autenticato'); //carica il TPL
-        $VRegistrazione->impostaDati('username',$username);
-        $modulo_logout=$VRegistrazione->processaTemplate();
-        $this->_contenuto_laterale_destro.=$modulo_logout;
-    }
-
-
-    public function aggiungiModuloProfilo()
-    {
-        $session=USingleton::getInstance('USession');//contenuto laterale sx
-        $username=$session->leggi_valore('username');
-        $nome=$session->leggi_valore('nome_cognome');
-        $VRegistrazione=USingleton::getInstance('VRegistrazione');
-        $VRegistrazione->setLayout('profilo');
+        $VRegistrazione->setLayout('admin_autenticato');
         $VRegistrazione->impostaDati('username',$username);
         $modulo_logout=$VRegistrazione->processaTemplate();
         $this->_contenuto_laterale_sinistro_alto.=$modulo_logout;
     }
 
 
+    /**
+     * aggiunge il modulo del profilo al template
+     *  @author Riccardo
+     * @return mixed
+     *
+     */
+    public function aggiungiModuloProfilo()
+    {
+        $session=USingleton::getInstance('USession');
+        $username=$session->leggi_valore('username');
+        $VRegistrazione=USingleton::getInstance('VRegistrazione');
+        $Futente=USingleton::getInstance('FUtente');
+        $dati_utente=$Futente->load($username);
+        $utente['foto']=$dati_utente->foto;
+        $VRegistrazione->setLayout('profilo');
+        $VRegistrazione->impostaDati('username',$username);
+        $VRegistrazione->impostaDati('foto',$utente['foto']);
+        $modulo_logout=$VRegistrazione->processaTemplate();
+        $this->_contenuto_laterale_sinistro_alto.=$modulo_logout;
+    }
+
+
+    /**
+     * aggiunge il modulo della ricerca al template
+     *  @author Francesco
+     * @return mixed
+     *
+     */
     public function aggiungiModuloRicerca()
     {
         $VRicerca=USingleton::getInstance('VRicerca');
@@ -164,13 +212,24 @@ class VHome extends View
         $FCitta= new FCitta;
         $citta=$FCitta->loadRicercaFeedbackLimite(5);
         $VRicerca->impostaDati('cittafeedback',$citta);
-        $FLuogo= new FCitta;
+        $citta=$FCitta->loadLastCitta(5);
+        $VRicerca->impostaDati('ultimecitta',$citta);
+        $FLuogo= new FLuogo;
         $luogo=$FLuogo->loadRicercaFeedbackLimite(5);
+        $VRicerca->impostaDati('luogofeedback',$luogo);
+        $luogo=$FLuogo->loadLastLuoghi(5);
+        $VRicerca->impostaDati('ultimiluoghi',$luogo);
         $modulo_ricerca=$VRicerca->processaTemplate();
-        $this->_contenuto_laterale_sinistro_basso.=$modulo_ricerca;
+        $this->_contenuto_laterale_destro.=$modulo_ricerca;
 
     }
 
+
+    /**
+     * processa il template secondo il layout precedentemente selezionato
+     *
+     * @return string
+     */
     public function processaTemplate($layout)
     {
         return $this->fetch($layout);

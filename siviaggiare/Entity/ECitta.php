@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Riso64Bit
- * Date: 23/08/13
- * Time: 17.05
- * To change this template use File | Settings | File Templates.
- */
 
 class ECitta 
 {
@@ -20,27 +13,44 @@ class ECitta
     public $valuta;
     public $voto;
     public $feedback;
-    public $_elenco_luoghi = array();//tiene l'elenco dei POI
+    public $utentifeedback;
+    public $_elenco_luoghi = array();
 
 
-    public function getNomeCitta()
-    {
-        return $this->nome;
-    }
-
-
-    public function addLuogo(ELuogo $luogo) 
-    {
-        $this->_elenco_luoghi[] = $luogo;
-    }
-
-
+    /**
+     * Carica tutti i luoghi associati alla città nell'attributo $_elenco_luoghi
+     *
+     * @return array
+     */
     public function getElencoLuoghi() 
     {
         $FLuogo=new FLuogo();
-        $this->_elenco_luoghi=$FLuogo->loadRicercaConDueValori('idviaggio',$this->idviaggio,'nomecitta',$this->nome);
-        //debug($this->_elenco_luoghi);
+        $key[0]='idviaggio';
+        $value[0]=$this->idviaggio;
+        $key[1]='nomecitta';
+        $value[1]=mysql_real_escape_string($this->nome);
+        $this->_elenco_luoghi=$FLuogo->loadRicerca($key,$value);
         return $this->_elenco_luoghi;
+    }
+
+
+    /**
+     * Verifica se un utente ha già rilasciato o meno un feedback per la città
+     *
+     * @param $user username dell'utente da verificare
+     * @return bool
+     */
+    public function verificaFeedbackUtente($user)
+    {
+        $lista_utenti= rtrim($this->utentifeedback);
+        $lista_utenti= explode(" ", $lista_utenti);
+        $rilasciato=false;
+        foreach ($lista_utenti as $utente)
+        {
+            if ($user==$utente)
+                $rilasciato=true;
+        }
+        return $rilasciato;
     }
 
 }

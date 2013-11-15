@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Riso64Bit
- * Date: 20/08/13
- * Time: 15.56
- * To change this template use File | Settings | File Templates.
- */
 
 class EViaggio
 {
@@ -22,13 +15,11 @@ class EViaggio
     public $_elenco_citta = array();//tiene l'elenco dei POI
 
 
-
-    public function addCitta(ECitta $citta)
-    {
-        $this->_elenco_citta[] = $citta;
-    }
-
-
+    /**
+     * Carica tutte le città associate al viaggio nell'attributo $_elenco_citta
+     *
+     * @return array
+     */
     public function getElencoCitta()
     {
         $FCitta=new FCitta();
@@ -37,9 +28,15 @@ class EViaggio
     }
 
 
+    /**
+     * restituisce l'id
+     *
+     * @return int
+     */
     public function getID()
     {
         return $this->id;
     }
 
 }
+?>

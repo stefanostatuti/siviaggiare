@@ -5,9 +5,14 @@ require("lib/phpmailer/class.phpmailer.php");
  * @author Alessandro Verzicco
  * @package System
  */
-class UEmail {
+class UEmail
+{
     private $_mail;
-    public function __construct() {
+
+
+
+    public function __construct()
+    {
         global $config;
         $this->_mail = new PHPMailer();
         $this->_mail->IsSMTP();              // set mailer to use SMTP
@@ -18,6 +23,8 @@ class UEmail {
         $this->_mail->Password = $config['smtp']['password']; // SMTP password
         $this->_mail->Charset = 'utf-8';
     }
+
+
     public function invia_email($email_destinatario, $nome_destinatario, $oggetto, $corpo_email, $corpo_email_testo_semplice = '', $html=false) {
         //$this->_mail->From = 'bookstore@lamjex.com';
 

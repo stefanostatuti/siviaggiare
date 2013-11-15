@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.26, created on 2013-11-09 10:16:35
+<?php /* Smarty version 2.6.26, created on 2013-11-15 14:08:50
          compiled from ricerca_menu_ricerca_laterale.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'replace', 'ricerca_menu_ricerca_laterale.tpl', 8, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'regex_replace', 'ricerca_menu_ricerca_laterale.tpl', 8, false),array('modifier', 'replace', 'ricerca_menu_ricerca_laterale.tpl', 36, false),)), $this); ?>
 <div id=tab-citta>
         <ul>
             <li><a href="#tab-1"><h6>Citt&agrave; pi&ugrave; votate</h6></a></li>
@@ -33,7 +33,7 @@ $this->_sections['nr']['first']      = ($this->_sections['nr']['iteration'] == 1
 $this->_sections['nr']['last']       = ($this->_sections['nr']['iteration'] == $this->_sections['nr']['total']);
 ?>
                 <button class="button-menu-citta" idviaggio="<?php echo $this->_tpl_vars['cittafeedback'][$this->_sections['nr']['index']]->idviaggio; ?>
-" citta="<?php echo ((is_array($_tmp=$this->_tpl_vars['cittafeedback'][$this->_sections['nr']['index']]->nome)) ? $this->_run_mod_handler('replace', true, $_tmp, ' ', '') : smarty_modifier_replace($_tmp, ' ', '')); ?>
+" citta="<?php echo ((is_array($_tmp=$this->_tpl_vars['cittafeedback'][$this->_sections['nr']['index']]->nome)) ? $this->_run_mod_handler('regex_replace', true, $_tmp, "/[\ \']/", '') : smarty_modifier_regex_replace($_tmp, "/[\ \']/", '')); ?>
 ">
                     <h6><?php echo $this->_tpl_vars['cittafeedback'][$this->_sections['nr']['index']]->nome; ?>
 </h6>
@@ -70,7 +70,7 @@ $this->_sections['nr']['first']      = ($this->_sections['nr']['iteration'] == 1
 $this->_sections['nr']['last']       = ($this->_sections['nr']['iteration'] == $this->_sections['nr']['total']);
 ?>
                 <button class="button-menu-citta" idviaggio="<?php echo $this->_tpl_vars['ultimecitta'][$this->_sections['nr']['index']]->idviaggio; ?>
-" citta="<?php echo ((is_array($_tmp=$this->_tpl_vars['ultimecitta'][$this->_sections['nr']['index']]->nome)) ? $this->_run_mod_handler('replace', true, $_tmp, ' ', '') : smarty_modifier_replace($_tmp, ' ', '')); ?>
+" citta="<?php echo ((is_array($_tmp=$this->_tpl_vars['ultimecitta'][$this->_sections['nr']['index']]->nome)) ? $this->_run_mod_handler('regex_replace', true, $_tmp, "/[\ \']/", '') : smarty_modifier_regex_replace($_tmp, "/[\ \']/", '')); ?>
 ">
                     <h6><?php echo $this->_tpl_vars['ultimecitta'][$this->_sections['nr']['index']]->nome; ?>
 </h6>
@@ -115,7 +115,7 @@ $this->_sections['nr']['first']      = ($this->_sections['nr']['iteration'] == 1
 $this->_sections['nr']['last']       = ($this->_sections['nr']['iteration'] == $this->_sections['nr']['total']);
 ?>
             <button class="button-menu-luogo" idviaggio="<?php echo $this->_tpl_vars['luogofeedback'][$this->_sections['nr']['index']]->idviaggio; ?>
-" citta="<?php echo ((is_array($_tmp=$this->_tpl_vars['luogofeedback'][$this->_sections['nr']['index']]->nomecitta)) ? $this->_run_mod_handler('replace', true, $_tmp, ' ', '') : smarty_modifier_replace($_tmp, ' ', '')); ?>
+" citta="<?php echo ((is_array($_tmp=$this->_tpl_vars['luogofeedback'][$this->_sections['nr']['index']]->nomecitta)) ? $this->_run_mod_handler('regex_replace', true, $_tmp, "/[\ \']/", '') : smarty_modifier_regex_replace($_tmp, "/[\ \']/", '')); ?>
 " luogo="<?php echo ((is_array($_tmp=$this->_tpl_vars['luogofeedback'][$this->_sections['nr']['index']]->nome)) ? $this->_run_mod_handler('replace', true, $_tmp, ' ', '') : smarty_modifier_replace($_tmp, ' ', '')); ?>
 ">
                 <h6><?php echo $this->_tpl_vars['luogofeedback'][$this->_sections['nr']['index']]->nome; ?>
@@ -153,7 +153,7 @@ $this->_sections['nr']['first']      = ($this->_sections['nr']['iteration'] == 1
 $this->_sections['nr']['last']       = ($this->_sections['nr']['iteration'] == $this->_sections['nr']['total']);
 ?>
             <button class="button-menu-luogo" idviaggio="<?php echo $this->_tpl_vars['ultimiluoghi'][$this->_sections['nr']['index']]->idviaggio; ?>
-" citta="<?php echo ((is_array($_tmp=$this->_tpl_vars['ultimiluoghi'][$this->_sections['nr']['index']]->nomecitta)) ? $this->_run_mod_handler('replace', true, $_tmp, ' ', '') : smarty_modifier_replace($_tmp, ' ', '')); ?>
+" citta="<?php echo ((is_array($_tmp=$this->_tpl_vars['ultimiluoghi'][$this->_sections['nr']['index']]->nomecitta)) ? $this->_run_mod_handler('regex_replace', true, $_tmp, "/[\ \']/", '') : smarty_modifier_regex_replace($_tmp, "/[\ \']/", '')); ?>
 " luogo="<?php echo ((is_array($_tmp=$this->_tpl_vars['ultimiluoghi'][$this->_sections['nr']['index']]->nome)) ? $this->_run_mod_handler('replace', true, $_tmp, ' ', '') : smarty_modifier_replace($_tmp, ' ', '')); ?>
 ">
                 <h6><?php echo $this->_tpl_vars['ultimiluoghi'][$this->_sections['nr']['index']]->nome; ?>

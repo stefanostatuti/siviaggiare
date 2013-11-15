@@ -1,15 +1,16 @@
-<div class="content">
+<div class="content" id="form_journey_bis">
     <div class="form_settings">
         <script type="text/javascript" src="templates/main/template/js/validation_luogo.js"></script>
-        <form method="post" action="index.php" id="form_journey">
-            <div id="form_journey" class="error" > {$errore}</div>
+
+
+        <form method="post" action="index.php" id="form_journey" enctype="multipart/form-data">
+
+            <div> {$errore}</div>
 
 
             <legend id="form_journey"><h4>Nuovo Luogo : </h4></legend>
 
             <label for="autore">Autore :</label>{$autore}
-
-            <label for="IdViaggio">IdViaggio :</label>{$idviaggio}
 
             <label for="nome">Nome Luogo* :</label>
             <input type="text" name="nome" id="nome" value="{$luogo.luogo}" {$readonly} />
@@ -35,11 +36,11 @@
             <input type="text" name="costobiglietto" id="costobiglietto" value="{$luogo.costobiglietto}"/>
             <select name="valuta" value="{$luogo.valuta}">
                 <optgroup label="Scegli il tipo di valuta" >
-                    <option value="Euro"> € </option>
-                    <option value="Yen Giapponese"> ¥ </option>
-                    <option value="Dollaro US"> $ USA </option>
-                    <option value="Dollaro AU"> $ AUS </option>
-                    <option value="HUF Ungheria"> Ft HUF </option>
+                    <option value="Euro" {if $luogo.valuta=="Euro"}selected {/if}> € </option>
+                    <option value="Yen Giapponese" {if $luogo.valuta=="Yen Giapponese"}selected {/if}> ¥ </option>
+                    <option value="Dollaro US" {if $luogo.valuta=="Dollaro US"}selected {/if}> $ USA </option>
+                    <option value="Dollaro AU" {if $luogo.valuta=="Dollaro AU"}selected {/if}> $ AUS </option>
+                    <option value="HUF Ungheria" {if $luogo.valuta=="HUF Ungheria"}selected {/if}> Ft HUF </option>
             </select>
             {if $messaggi.costobiglietto != false || $messaggi.biglietto_budget }
                 <p class="error">
@@ -58,9 +59,9 @@
 
             <label>Coda :</label>
             <select name="coda" value="{$luogo.coda}">
-                <option value="minima"> minima </option>
-                <option value="media"> media </option>
-                <option value="alta"> alta </option>
+                <option value="minima" {if $luogo.coda=="minima"}selected {/if}> minima </option>
+                <option value="media" {if $luogo.coda=="media"}selected {/if}> media </option>
+                <option value="alta" {if $luogo.coda=="alta"}selected {/if}> alta </option>
             </select>
 
             <label for="durata">Durata Della Visita :</label>
@@ -72,14 +73,23 @@
             {/if}
 
             <label for="commentolibero">Commento :</label>
-            <textarea name="commentolibero" id="commentolibero" value="{$luogo.commento}"/></textarea>
+            <textarea name="commentolibero" id="commentolibero" value="{$luogo.commento}"/>{if isset($luogo.commento)}{$luogo.commento}{/if}</textarea>
 
+            {$inserimento_foto}
+
+            {$immagine_luogo}
 
             <input type="hidden" name="controller" value= {$controller}  />
             <input type="hidden" name="task" value= {$task}  />
             <input type="submit" name="submit" class="submit" value="conferma" id="j_submit" />
             <input type="reset"  name="cancella" value="cancella" id="j_reset" />
             <input type="hidden" name="idviaggio" value= "{$idviaggio}" />
+            <input type="hidden" name="nomecitta" value= "{$nomecitta}" />
+
+            <br>
+            <br>
+
+            <div id="campo_obbligatorio">* Campo Obbligatorio</div>
 
         </form>
     </div>

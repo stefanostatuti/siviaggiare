@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: francesco
- * Date: 14/08/13
- * Time: 11.39
- * To change this template use File | Settings | File Templates.
- */            ///DA COMPLETARE
 
 class FDatabase
 {
@@ -25,6 +18,14 @@ class FDatabase
     }
 
 
+    /**
+     * inizializza la connessione tramite parametri sql per l'accesso al db
+     * @param $host
+     * @param $user
+     * @param $password
+     * @param $database
+     * @return mixed
+     */
     public function connect($host,$user,$password,$database)
     {
         $this->connessione = mysql_connect($host,$password,$user);
@@ -42,6 +43,11 @@ class FDatabase
     }
 
 
+    /**
+     * verifica il ritorno delle query
+     * @param $query
+     * @return boolean
+     */
     public function query($query)
     {
         $this->risultato=mysql_query($query);
@@ -54,6 +60,11 @@ class FDatabase
     }
 
 
+    /**
+     * dispone i risultati di una query in array
+     *
+     * @return mixed
+     */
     public function getQueryInArray()
     {
         if($this->risultato != false)
@@ -71,8 +82,13 @@ class FDatabase
     }
 
 
+    /**
+     * crea un array di oggetti data una query
+     *
+     * @return mixed
+     */
     public function getObjectInArray()
-    {   //var_dump($this->risultato);
+    {
         if($this->risultato != false)
         {
             $righe = mysql_num_rows($this->risultato);
@@ -88,6 +104,10 @@ class FDatabase
     }
 
 
+    /**
+     * chiude la sessione con il db
+     *
+     */
     public function close()
     {
         mysql_close($this->connessione);
@@ -115,6 +135,11 @@ class FDatabase
     }
 
 
+    /**
+     * salva dati in database
+     * @param $object
+     * @return mixed
+     */
     public function store($object)
     {
         $i=0;
@@ -126,11 +151,11 @@ class FDatabase
             {
                 if ($i==0)
                 {
-                    $campi.='`'.$key.'`';
-                    $valori.='\''.$value.'\'';
+                    $campi.='`'.mysql_real_escape_string($key).'`';
+                    $valori.='\''.mysql_real_escape_string($value).'\'';
                 } else {
-                    $campi.=', `'.$key.'`';
-                    $valori.=', \''.$value.'\'';
+                    $campi.=', `'.mysql_real_escape_string($key).'`';
+                    $valori.=', \''.mysql_real_escape_string($value).'\'';
                 }
                 $i++;
             }
@@ -143,33 +168,38 @@ class FDatabase
             $this->query($query);
             $risID=$this->getQueryInArray();
             return $risID[0]['id'];
-        } else {
+        } else
+        {
             return $return;
         }
     }
 
 
+    /**
+     * carica dati da database
+     * @param $key
+     * @return mixed
+     */
     public function load($key)
     {
         $query='SELECT * ' .
             'FROM `'.$this->tabella.'` ' .
-            'WHERE `'.$this->chiave.'` = \''.$key.'\'';
+            'WHERE `'.$this->chiave.'` = \''.mysql_real_escape_string($key).'\'';
         $this->query($query);
         $obj = $this->getObject();
         return $obj;
     }
+
 
     public function CaricaTutto()
     {
         $query='SELECT * ' .
             'FROM `'.$this->tabella.'`';
         $this->query($query);
-        //debug("questo è l'oggetto");
-        //debug($this->getObject());
-        //$obj = $this->getObject();
         $risultato=$this->getObjectInArray();
         return $risultato;
     }
+
 
     /**
      * Cancella dal database lo stato di un oggetto
@@ -187,10 +217,10 @@ class FDatabase
             {
                 if ($i==0)
                 {
-                    $fields.='`'.$key.'` = \''.$value.'\'';
+                    $fields.='`'.$key.'` = \''.mysql_real_escape_string($value).'\'';
                 } else
                 {
-                    $fields.=', `'.$key.'` = \''.$value.'\'';
+                    $fields.=', `'.$key.'` = \''.mysql_real_escape_string($value).'\'';
                 }
                 $i++;
             }
@@ -203,7 +233,7 @@ class FDatabase
             $j=0;
             for($i=0;$i<count($this->chiave);$i++)
             {
-                $query=$query.'`'.$this->chiave[$i].'` = \''.$arrayObject[$this->chiave[$i]].'\'';
+                $query=$query.'`'.$this->chiave[$i].'` = \''.mysql_real_escape_string($arrayObject[$this->chiave[$i]]).'\'';
                 if($j<count($this->chiave)-1)
                 {
                     $query=$query.' AND ';
@@ -213,61 +243,55 @@ class FDatabase
         }
         else
         {
-            $query='DELETE FROM `'.$this->tabella.'` WHERE `'.$this->chiave.'` = \''.$arrayObject[$this->chiave].'\'';
+            $query='DELETE FROM `'.$this->tabella.'` WHERE `'.$this->chiave.'` = \''.mysql_real_escape_string($arrayObject[$this->chiave]).'\'';
         }
         return $this->query($query);
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function loadRicerca($key,$value)//username,valore
+    /**
+     * carica dati per la ricerca, dal database
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    public function loadRicerca($key,$value)
     {
-        $query='SELECT * ' .
-        'FROM `'.$this->tabella.'` ' .
-        'WHERE `'.$key.'` = \''.$value.'\'';
-        $this->query($query);
-        $ris = $this->getObjectInArray();
-        return $ris;
+        if(count($key)==3)
+        {
+            $query='SELECT * ' .
+                'FROM `'.$this->tabella.'` ' .
+                'WHERE `'.$key[0].'` = \''.$value[0].'\' AND '.'`'.$key[1].'` = \''.$value[1].'\'AND '.'`'.$key[2].'` = \''.$value[2].'\'';
+            $this->query($query);
+            $ris = $this->getObjectInArray();
+            return $ris;
+        }
+        elseif(count($key)==2)
+        {
+            $query='SELECT * ' .
+                'FROM `'.$this->tabella.'` ' .
+                'WHERE `'.$key[0].'` = \''.$value[0].'\' AND '.'`'.$key[1].'` = \''.$value[1].'\'';
+            $this->query($query);
+            $ris = $this->getObjectInArray();
+            return $ris;
+        }
+        else{
+            $query='SELECT * ' .
+                'FROM `'.$this->tabella.'` ' .
+                'WHERE `'.$key.'` = \''.$value.'\'';
+            $this->query($query);
+            $ris = $this->getObjectInArray();
+            return $ris;
+        }
     }
 
 
-    public function loadRicercaConDueValori($key1,$value1,$key2,$value2)
-    {
-        $query='SELECT * ' .
-        'FROM `'.$this->tabella.'` ' .
-        'WHERE `'.$key1.'` = \''.$value1.'\' AND '.'`'.$key2.'` = \''.$value2.'\'';
-        $this->query($query);
-        $ris = $this->getObjectInArray();
-        return $ris;
-    }
-
-
-    public function loadRicercaConTreValori($key1,$value1,$key2,$value2,$key3,$value3)
-    {
-        $query='SELECT * ' .
-            'FROM `'.$this->tabella.'` ' .
-            'WHERE `'.$key1.'` = \''.$value1.'\' AND '.'`'.$key2.'` = \''.$value2.'\'AND '.'`'.$key3.'` = \''.$value3.'\'';
-        //var_dump($query);
-        $this->query($query);
-
-        $ris = $this->getObjectInArray();
-        return $ris;
-    }
-
-
+    /**
+     * Aggiorna sul database lo stato di un oggetto
+     *
+     * @param $count
+     * @return array
+     */
     public function loadRicercaFeedbackLimite($count)
     {
         $query='SELECT * ' .
@@ -275,19 +299,41 @@ class FDatabase
             'ORDER BY feedback DESC';
         $this->query($query);
         $ris_totale = $this->getObjectInArray();
-        for($i=0;$i<$count;$i++)
+        if($ris_totale!=false)
         {
-            $ris[$i]=$ris_totale[$i];
+            if(count($ris_totale)>=$count)
+            {
+                for($i=0;$i<$count;$i++)
+                {
+                    $ris[$i]=$ris_totale[$i];
+                }
+                return $ris;
+            }
+            elseif(count($ris_totale)<$count)
+            {
+                for($i=0;$i<count($ris_totale);$i++)
+                {
+                    $ris[$i]=$ris_totale[$i];
+                }
+                return $ris;
+            }
         }
-        return $ris;
+        else return false;
     }
 
 
+    /**
+     * carica dati dal db ordinati per feedback
+     *
+     * @param $key
+     * @param $value
+     * @return array
+     */
     public function loadRicercaFeedback($key,$value)
     {
         $query='SELECT * ' .
         'FROM `'.$this->tabella.'` ' .
-        'WHERE `'.$key.'` = \''.$value.'\'' .
+        'WHERE `'.$key.'` = \''.mysql_real_escape_string($value).'\'' .
         'ORDER BY feedback DESC';
         $this->query($query);
         $ris = $this->getObjectInArray();
@@ -311,10 +357,10 @@ class FDatabase
             {
                 if ($i==0)
                 {
-                    $fields.='`'.$key.'` = \''.$value.'\'';
+                    $fields.='`'.$key.'` = \''.mysql_real_escape_string($value).'\'';
                 } else
                 {
-                    $fields.=', `'.$key.'` = \''.$value.'\'';
+                    $fields.=', `'.$key.'` = \''.mysql_real_escape_string($value).'\'';
                 }
                 $i++;
             }
@@ -327,7 +373,7 @@ class FDatabase
             $j=0;
             for($i=0;$i<count($this->chiave);$i++)
             {
-                $query=$query.'`'.$this->chiave[$i].'` = \''.$arrayObject[$this->chiave[$i]].'\'';
+                $query=$query.'`'.$this->chiave[$i].'` = \''.mysql_real_escape_string($arrayObject[$this->chiave[$i]]).'\'';
                 if($j<count($this->chiave)-1)
                 {
                     $query=$query.' AND ';
@@ -337,49 +383,24 @@ class FDatabase
         }
         else
         {
-            $query='UPDATE `'.$this->tabella.'` SET '.$fields.' WHERE `'.$this->chiave.'` = \''.$arrayObject[$this->chiave].'\'';
+            $query='UPDATE `'.$this->tabella.'` SET '.$fields.' WHERE `'.mysql_real_escape_string($this->chiave).'` = \''.$arrayObject[$this->chiave].'\'';
         }
         return $this->query($query);
     }
 
 
-    public function JSON($param)
-    {
-        $response = $_GET["callback"] . "(" . json_encode($param) . ")";
-        echo $response;
-    }
-
-
+    /**
+     * carica dal db l'ultimo viaggio di un utente
+     *
+     * @param $user
+     * @return mixed
+     */
     public function LastViaggioUtente($user)//forse va in futente!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     {
         $query='SELECT * FROM `'.$this->tabella.'` WHERE `utenteusername` = \''.$user.'\''.'ORDER BY id DESC' ;
         $this->query($query);
         $object=$this->getObjectInArray();
         return $object[0];
-    }
-
-    function objectToArray( $object ) {
-        if( !is_object( $object ) && !is_array( $object ) ) {
-            return $object;
-        }
-        if( is_object( $object ) ) {
-            $object = (array) $object;
-        }
-        return array_map( 'objectToArray', $object );
-    }
-
-    function arrayToObject( $array, $ClasseOggettoDaRestituire ) {
-        if( !is_array( $array ) && !is_object( $array ) ) {
-            return $array;
-        }
-        if( is_array( $array ) ) {
-            $EOggetto = new $ClasseOggettoDaRestituire; //creo un oggetto della classe ricevuta come parametro
-            foreach($array[0] as $key => $value) //array[0] è necessario
-            {
-                $EOggetto->{$key} = $value;
-            }
-            return $EOggetto;
-        }
     }
 
 }

@@ -35,40 +35,19 @@ $(document).ready(function()
 		
 		'datainizio':
 		{
-			required: true//,
-			/*remote: 
-			{   //ajax sottostante servirˆ a creare un collegamento php ripartendo dall'index cambiando task e controller e accedendo  infine al databasef
-				url: "index.php?controller=aggiunta_viaggio&task=verifica_datainiziocitta",
-				type: "post",
-				data: { datainizio: function() { //nome variabile inviata
-                                                return $("#datainizio").val(); //dato inviato  
-                                               }
-                      },    
-                success:function(msg) {
-                                         alert(msg);
-                                      }                          	   
-		    } */
+			required: true
 		},
 
 		'datafine':
 		{
 			required: true,
-			datafine_regex: "#datainizio"/*,
-			remote: 
-			{   //ajax sottostante servirˆ a creare un collegamento php ripartendo dall'index cambiando task e controller e accedendo  infine al databasef
-				url: "index.php?controller=aggiunta_viaggio&task=verifica_datafinecitta",
-				type: "post",
-				data: { datafine: function() { //nome variabile inviata
-                                                return $("#datafine").val(); //dato inviato  
-                                             }
-                      }                        	   
-		    } */
+			datafine_regex: "#datainizio"
 		},
         
         'stato':
 		{
 			required: true,
-			stato_regex: true,
+			stato_regex: true
 		},
 		
 		'nome':
@@ -79,12 +58,12 @@ $(document).ready(function()
 		
 		'costoalloggio':
 		{   
-			costo_regex: true//,
-			/*remote:
-			{   //ajax sottostante servirˆ a creare un collegamento php ripartendo dall'index cambiando task e controller e accedendo  infine al databasef
-				url: "index.php?controller=aggiunta_viaggio&task=verifica_alloggio",
-				type: "post",                         	   
-		    } */
+			costo_regex: true,
+			remote:
+		    {   url: "index.php?controller=aggiunta_viaggio&task=verifica_alloggio",
+				type: "post",
+                data: { idviaggio: $('input[name="idviaggio"]').val() }
+		    }
 		}
 		},
 		
@@ -92,15 +71,13 @@ $(document).ready(function()
         {
 		'datainizio':
 		{
-			required: "Campo obbligatorio!",
-			remote: "Dato non coerente con quello del viaggio!"
+			required: "Campo obbligatorio!"
 		},
 
 		'datafine':
 		{
 			required: "Campo obbligatorio!",
-			datafine_regex: "data inizio maggiore data fine?",
-			remote: "Dato non coerente con quello del viaggio!"
+			datafine_regex: "data inizio maggiore data fine?"
 			
 		},
 		
@@ -119,10 +96,8 @@ $(document).ready(function()
 		'costoalloggio':
 		{
 			costo_regex: "dato non valido es.12 euro!",
-			remote: "costo maggiore del budget?"
+			remote: "costo alloggio maggiore del budget!"
 		}
-		},
-			onkeyup: true,
-            onblur: true
+		}
 	}); 
 });

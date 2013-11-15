@@ -1,5 +1,7 @@
-<?php /* Smarty version 2.6.26, created on 2013-11-09 10:16:42
+<?php /* Smarty version 2.6.26, created on 2013-11-15 14:23:45
          compiled from ricerca_risultati.tpl */ ?>
+<?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'regex_replace', 'ricerca_risultati.tpl', 25, false),)), $this); ?>
 <div class="luoghi-panoramica-ext">
     <h2>Luoghi Trovati:</h2>
     <div class="luoghi-panoramica-int">
@@ -40,7 +42,7 @@ $this->_sections['nr']['last']       = ($this->_sections['nr']['iteration'] == $
 </h5></a></td>
                         <?php elseif (isset ( $this->_tpl_vars['utente_luogo_logged'] )): ?>
                             <td><a class="button-profilo" href="javascript:void(0)" utente="<?php echo $this->_tpl_vars['utente_luogo_logged'][$this->_sections['nr']['index']]; ?>
-"><h5><?php echo $this->_tpl_vars['utente_luogo_logged'][$this->_sections['nr']['index']]; ?>
+" pagina="1"><h5><?php echo $this->_tpl_vars['utente_luogo_logged'][$this->_sections['nr']['index']]; ?>
 </h5></a></td>
                             <?php else: ?>
                             <td><h5><?php echo $this->_tpl_vars['utente_luogo'][$this->_sections['nr']['index']]; ?>
@@ -56,10 +58,10 @@ $this->_sections['nr']['last']       = ($this->_sections['nr']['iteration'] == $
 </h5></td>
                     </tr>
                     <tr>
-                        <td><button class="button-dettaglio-viaggio" citta="<?php echo $this->_tpl_vars['luoghi'][$this->_sections['nr']['index']]->nomecitta; ?>
-" luogo="<?php echo $this->_tpl_vars['luoghi'][$this->_sections['nr']['index']]->nome; ?>
-" idviaggio=<?php echo $this->_tpl_vars['luoghi'][$this->_sections['nr']['index']]->idviaggio; ?>
->Visualizza intero viaggio</button></td>
+                        <td><a class="link-dettaglio-viaggio" href="javascript:void(0)" citta="<?php echo ((is_array($_tmp=$this->_tpl_vars['luoghi'][$this->_sections['nr']['index']]->nomecitta)) ? $this->_run_mod_handler('regex_replace', true, $_tmp, "/[\ \']/", '') : smarty_modifier_regex_replace($_tmp, "/[\ \']/", '')); ?>
+" luogo="<?php echo ((is_array($_tmp=$this->_tpl_vars['luoghi'][$this->_sections['nr']['index']]->nome)) ? $this->_run_mod_handler('regex_replace', true, $_tmp, "/[\ \']/", '') : smarty_modifier_regex_replace($_tmp, "/[\ \']/", '')); ?>
+" idviaggio="<?php echo $this->_tpl_vars['luoghi'][$this->_sections['nr']['index']]->idviaggio; ?>
+"><h5>Visualizza viaggio</h5></a></td>
                     </tr>
                 </table>
             </div>
@@ -123,9 +125,9 @@ $this->_sections['nr']['last']       = ($this->_sections['nr']['iteration'] == $
 </h5></td>
                     </tr>
                     <tr>
-                        <td><button class="button-dettaglio-viaggio" citta="<?php echo $this->_tpl_vars['citta'][$this->_sections['nr']['index']]->nome; ?>
+                        <td><a class="link-dettaglio-viaggio" href="javascript:void(0)" citta="<?php echo ((is_array($_tmp=$this->_tpl_vars['citta'][$this->_sections['nr']['index']]->nome)) ? $this->_run_mod_handler('regex_replace', true, $_tmp, "/[\ \']/", '') : smarty_modifier_regex_replace($_tmp, "/[\ \']/", '')); ?>
 " idviaggio=<?php echo $this->_tpl_vars['citta'][$this->_sections['nr']['index']]->idviaggio; ?>
->Visualizza intero viaggio</button></td>
+><h5>Visualizza viaggio</h5></a></td>
                     </tr>
                 </table>
             </div>

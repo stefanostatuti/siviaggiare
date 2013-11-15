@@ -1,71 +1,76 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: francesco
- * Date: 14/08/13
- * Time: 10.13
- * To change this template use File | Settings | File Templates.
- */
 
 class EAdmin extends EUtente
 {
     public $stato='admin';
     public $_elenco_segnalazioni = array();
 
-    //promuove un utente prendolo come imput e modifica lo stato
-    public function PromuoviUtente(EUtente $utente) {
-    $newAdmin = clone ($utente); //copia $utente in newAdmin
-    var_dump($newAdmin);
-    debug("qui lo Aggiorno");
-    $newAdmin->stato='admin'; //modifico lo stato di newAdmin
+    /**
+     * Permette ad un utente amministratore di promuovere un utente cambiandogli lo "stato"
+     *
+     * @param EUtente
+     * @return bolean
+     */
+    public function PromuoviUtente(EUtente $utente)
+    {
+    $newAdmin = clone ($utente);
+    $newAdmin->stato='admin';
     $FAdmin = new FAdmin();
     $FAdmin->update($newAdmin);
-    debug("Aggiornato da EAdmin!");
-    debug("utente promosso, ora è amministratore");
     return 0;
-}//ok
+    }
 
-    //Toglie permessi ad un utente prendolo come imput e modifica lo stato
-    // per poi risalvarlo
-    public function TogliPermessiAmministratore(EAdmin $admin) {
-        $newUser = clone ($admin); //copia $utente in newAdmin
-        var_dump($newUser);
-        debug("qui lo Aggiorno");
-        $newUser->stato='attivo'; //modifico lo stato di newUser
+    /**
+     * Permette ad un utente amministratore di togliere permessi da amministratore ad un utente cambiandogli lo "stato"
+     *
+     * @param EAdmin
+     * @return bolean
+     */
+    public function TogliPermessiAmministratore(EAdmin $admin)
+    {
+        $newUser = clone ($admin);
+        $newUser->stato='attivo';
         $FUtente = new FUtente();
         $FUtente->update($newUser);
-        debug("Aggiornato da EAdmin!");
-        debug("Admin Degradato, ora è utente");
         return 0;
-    } //ok
+    }
 
+    /**
+     * Permette ad un utente amministratore di ottenere tutte le segnalazioni ricevute
+     *
+     * @return string
+     */
     public function getElencoSegnalazioni()
     {
         $FSegnalazioni=new FSegnalazione();
         $this->_elenco_segnalazioni=$FSegnalazioni->loadTUTTEleSegnalazioni();
-        //debug("risultati ricevuti: ".count($this->_elenco_segnalazioni)); //ok
-        //var_dump($this->_elenco_segnalazioni);
         return $this->_elenco_segnalazioni;
     }
 
+    /**
+     * Permette ad un utente amministratore di cancellare una segnalazione
+     *
+     * @param ESegnalazione
+     * @return bolean
+     */
     public function destroySegnalazione(ESegnalazione $segnalazione)
     {
-
-        //$FDatabase = new FDatabase();  boh!
-        //$FDatabase->delete($id);
-
-        $arrayObject=get_object_vars($segnalazione);//splitta la segnalazione in array
+        $arrayObject=get_object_vars($segnalazione);
         $query='DELETE ' .
             'FROM `'.$this->tabella.'` ' .
             'WHERE `'.$this->chiave.'` = \''.$arrayObject[$this->chiave].'\'';
-        //unset($object);
         unset($segnalazione);
         return $this->query($query);
     }
 
+    /**
+     * Metodo verifica se è un amministratore
+     *
+     * @return bolean
+     */
     public function getAccountAmministratore()
     {
-        if ($this->stato=='admin') //qui controllo se si è admin
+        if ($this->stato=='admin')
         return true;
         else
             return false;

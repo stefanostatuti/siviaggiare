@@ -1,26 +1,36 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: francesco
- * Date: 16/08/13
- * Time: 15.45
- * To change this template use File | Settings | File Templates.
+ * @access public
+ * @package Controller
  */
-
 class CRegistrazione
 {
 
-    //sono i campi che arrivano con il post
+    /**
+     * @var $_username Variabile usata per fare controllo sull'esistenza dell'user
+     */
     private $_username = null;
+    /**
+     * @var $_password Variabile usata per fare controllo sulla password inserita
+     */
     private $_password = null;
+    /**
+     * @var $_admin Variabile usata per fare controllo sul tipo di user
+     */
     private $_admin = null;
+    /**
+     * @var $_errore Variabile usata per la visualizzazione dei messaggi d'errore
+     */
     private $_errore = '';
-    //end
 
 
+    /**
+    * Smista le richieste ai vari metodi
+    *
+    * @return mixed
+    */
     public function smista()
     {
-        //$registrato=$this->getUtenteRegistrato();
         $view=USingleton::getInstance('VRegistrazione');
         switch ($view->getTask())
         {
@@ -44,10 +54,10 @@ class CRegistrazione
 
 
     /**
-     * Crea un utente sul database controllando che non esista già
-     *
-     * @return mixed
-     */
+    * Crea un utente sul database controllando che non esista già
+    *
+    * @return string
+    */
     public function creaUtente()
     {
         $view=USingleton::getInstance('VRegistrazione');
@@ -57,7 +67,7 @@ class CRegistrazione
         $confronto = $FUtente->load($dati_registrazione['username']);
         $dati_registrazione['confronto']=$confronto;
         $valida=USingleton::getInstance('Vvalidazione');
-        $dati_validazione=$valida->validacampi($dati_registrazione);
+        $valida->validacampi($dati_registrazione);
         if(!$valida->getErrors())
         {
             unset($dati_registrazione['password_1']);
@@ -71,6 +81,7 @@ class CRegistrazione
             }
             $utente->generaCodiceAttivazione();
             $FUtente->store($utente);
+            $utente=$FUtente->load($dati_registrazione['username']);
             $email = $this->emailAttivazione($utente);
             if($email)
             {
@@ -81,7 +92,6 @@ class CRegistrazione
             {
                 $view->setLayout('modulo');
                 $dati=$valida->getErrors();
-                //var_dump($dati);
                 $view->impostaDati('messaggi' , $dati);
                 $datiutente=$valida->getdatipersonali();
                 $view->impostaDati('persona', $datiutente);
@@ -99,7 +109,6 @@ class CRegistrazione
         {
             $view->setLayout('modulo');
             $dati=$valida->getErrors();
-            //var_dump($dati);
             $view->impostaDati('messaggi' , $dati);
             $datiutente=$valida->getdatipersonali();
             $view->impostaDati('persona', $datiutente);
@@ -113,6 +122,11 @@ class CRegistrazione
     }
 
 
+    /**
+     * Imposta la pagina con form registrazione
+     *
+     * @return string
+     */
     public function impostaPaginaRegistrazione()
     {
         $VRegistrazione=USingleton::getInstance('VRegistrazione');
@@ -153,16 +167,13 @@ class CRegistrazione
                 $this->logout();
                 $autenticato=false;
             }
-            else if($session->leggi_valore('username')==false) //quindi sono state cancellate
-            {
-                ; //non faccio nulla
-            }
             //$VRegistrazione->unsetControllerTask();
         }
         $VRegistrazione->impostaErrore($this->_errore);
         $this->_errore='';
         return $autenticato;
     }
+
 
     /**
      * Controlla se l'utente è Admin ed autenticato
@@ -175,9 +186,6 @@ class CRegistrazione
         $session=USingleton::getInstance('USession');
         $VRegistrazione= USingleton::getInstance('VRegistrazione');
         $task=$VRegistrazione->getTask();
-        //$controller=$VRegistrazione->getController(); //variabile non usata
-        //$this->_username=$VRegistrazione->getUsername();
-        //$this->_password=$VRegistrazione->getPassword();
         $this->_admin=$VRegistrazione->getAdmin();
         if ($session->leggi_valore('username')!=false)
         {   //qua controllo se è admin
@@ -192,7 +200,6 @@ class CRegistrazione
         {
             $autenticato=$this->autentica($this->_username, $this->_password);
         }
-
         if ($task=='esci' && $controller='registrazione')
         {
             //logout
@@ -204,7 +211,6 @@ class CRegistrazione
         $this->_errore='';
         return $autenticato;
     }
-
 
 
     /**
@@ -234,20 +240,13 @@ class CRegistrazione
                         return true;
                     }
                 }
-                else{
-                    $this->_errore='Username e/o password errati'; //volutamente messo questo per non aiutare il cracking
+                else
+                {
+                    $this->_errore='Username e/o password errati';
                     return false;
                 }
             }
-            else if ($utente->getAccountAmministratore()==false)//se non è un amministratore
-            {
-                //Debug("utente esistente ma NON è amministratore");
-            }
         }
-
-        //in teoria sono inutili visto che ho fatto la query sopra
-        //$FUtente=new FUtente();
-        //$utente=$FUtente->load($username);
         $FUtente=new FUtente();
         $utente=$FUtente->load($username);
         if ($utente!=false)
@@ -264,17 +263,14 @@ class CRegistrazione
                 } else
                 {
                     $this->_errore='Password errata';
-                    //username password errati
                 }
             } else
             {
                 $this->_errore='L\'account non &egrave; attivo';
-                //account non attivo
             }
         } else
         {
             $this->_errore='Username e/o password errati';
-            //account non esiste
         }
         return false;
     }
@@ -285,7 +281,6 @@ class CRegistrazione
      */
     public function logout()
     {
-        //debug("Sto in logout");
         $session=USingleton::getInstance('USession');
         if($session->leggi_valore('username'))
         {
@@ -294,13 +289,13 @@ class CRegistrazione
             $session->cancella_valore('admin');
             $session->chiudi();
         }
-        else
-        {
-            debug ("sessione gia distrutta");///dopo va cancellato !!!!!!!!!!!!!!!!!
-        }
     }
 
 
+    /**
+     * Imposta il layout per il recupero della password
+     * @return string
+     */
     public function recuperaPassword()
     {
         $VRegistrazione=USingleton::getInstance('VRegistrazione');
@@ -309,6 +304,10 @@ class CRegistrazione
     }
 
 
+    /**
+     * Verifica le credenziali per il rinvio della password tramite mail
+     * @return string
+     */
     public function verificaRinvioPassword()
     {
         $view=USingleton::getInstance('VRegistrazione');
@@ -321,7 +320,6 @@ class CRegistrazione
             if($utente->mail==$mail)
             {
                 $email=$this->emailRecuperoPassword($utente);
-                //aggiungere validazione inoltro mail!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 if($email)
                 {
                     $view->setLayout('conferma_mail_recupero_password');
@@ -343,6 +341,10 @@ class CRegistrazione
     }
 
 
+    /**
+     * Invia la mail per il recupero della password
+     * @global array $config
+     */
     public function emailRecuperoPassword(EUtente $utente)
     {
         global $config;
@@ -364,10 +366,10 @@ class CRegistrazione
      *
      * @return string
      */
-    public function attivazione() //questa parte, quando la precedente esegue il tpl email_att. e nel tpl c'e il controller e il task autentica
+    public function attivazione()
     {
         $view = USingleton::getInstance('VRegistrazione');
-        $dati_attivazione=$view->getDatiAttivazione();//getdatiattiv. è in vregistra.
+        $dati_attivazione=$view->getDatiAttivazione();
         $FUtente=new FUtente();
         $utente=$FUtente->load($dati_attivazione['username']);
         if ($dati_attivazione!=false)
@@ -375,7 +377,7 @@ class CRegistrazione
             if ($utente->getCodiceAttivazione()==$dati_attivazione['codice'])
             {
                 $utente->stato='attivo';
-                $FUtente->update($utente);//funzione del file fdatabase
+                $FUtente->update($utente);
                 $view->setLayout('attivato');
                 $view->impostaDati('messaggio' ,'ok sei attivato');
 
@@ -400,12 +402,12 @@ class CRegistrazione
      */
     public function emailAttivazione(EUtente $utente)
     {
-        global $config;//il $config e relativo alle directory di smarty:es smarty templates_c
+        global $config;
         $view=USingleton::getInstance('VRegistrazione');
-        $view->setLayout('email_attivazione');//setlayaout fa parte del file vregistrazione
-        $view->impostaDati('username',$utente->username);//impostadati serve per impostare i template da vregistrazione
+        $view->setLayout('email_attivazione');
+        $view->impostaDati('username',$utente->username);
         $view->impostaDati('nome_cognome',$utente->nome.' '.$utente->cognome);
-        $view->impostaDati('codice_attivazione',$utente->getCodiceAttivazione());//getcodiceattiva. deriva dal file Eutente
+        $view->impostaDati('codice_attivazione',$utente->getCodiceAttivazione());
         $view->impostaDati('email_webmaster',$config['email_webmaster']);
         $view->impostaDati('url',$config['url_siviaggiare']);
         $corpo_email=$view->processaTemplate();
@@ -414,26 +416,37 @@ class CRegistrazione
     }
 
 
+    /**
+     * codifica i dati per processare la chiamata ajax su richiesta del controllo dell'esistenza di un user in db
+     * @author Riccardo
+     * @return string
+     */
     public function ProcessaAjaxUser()
     {
         if(! $this->verificausername())
         {
-            echo 'true';
+            echo json_encode(true);
         }else
         {
-            echo 'false';
+            echo json_encode(false);
         }
     }
 
 
+    /**
+     * esegue il controllo dell'esistenza di un user in db
+     * @author Riccardo
+     * @return boolean
+     */
     public function verificausername()
     {
-        $username = $_POST['username'];
+        $View=USingleton::getInstance('VRegistrazione');
+        $username = $View->getUsername();
         $FUtente=USingleton::getInstance('FUtente');
         $confronto = $FUtente->load($username);
         if($confronto !=null)
         {
-            return TRUE;//esiste in db
+            return TRUE;
         }else
         {
             return FALSE;

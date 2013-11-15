@@ -1,22 +1,23 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Riso64Bit
- * Date: 20/08/13
- * Time: 16.58
- * To change this template use File | Settings | File Templates.
- */
 
 class VViaggio extends View
 {
 
+    /**
+     * @var $_layout  Variabile dove dove si impostano i i tipi di layout
+     */
     private $_layout='default';
 
 
 
-              //metodi get:
+    //metodi get:
 
 
+    /**
+     * restituisce su un array i dati del viaggio acquisiti dal template
+     * @author Riccardo
+     * @return array
+     */
     public function getDatiViaggio()
     {
         $dati_viaggio=array('datainizio','datafine','mezzotrasporto','costotrasporto', 'valutatrasporto','budget', 'valutabudget');//tolto username e citta
@@ -32,19 +33,43 @@ class VViaggio extends View
     }
 
 
+    /**
+     * restituisce su un array i dati del luogo acquisiti dal template
+     * @author Riccardo
+     * @return array
+     */
     public function getDatiLuogo()
     {
-        $dati_viaggio=array('nome','sitoweb','percorso','costobiglietto', 'valuta', 'guida','coda','durata','commentolibero');//tolto 'idviaggio',
+        $dati_viaggio=array('nome','sitoweb','percorso','costobiglietto', 'valuta', 'guida','coda','durata','commentolibero');
         $dati=array();
         foreach ($dati_viaggio as $dato)
         {
             if (isset($_REQUEST[$dato]))
                 $dati[$dato]=$_REQUEST[$dato];
         }
+        if(isset($_FILES["immagini"]['name']))
+        {
+            $session=USingleton::getInstance('USession');
+            $user=$session->leggi_valore('username');
+            $upload_dir = "templates/main/template/images/foto_luogo"; // cartella in cui il file sarà salvato
+            $file_name = str_replace(" ","",$_FILES["immagini"]['name']);
+            $file_name=$user.$file_name;
+            if(@is_uploaded_file($_FILES["immagini"]["tmp_name"]))
+            {
+                @move_uploaded_file(str_replace(" ","",$_FILES["immagini"]["tmp_name"]), "$upload_dir/$file_name");
+                $dati['immagini']=$file_name;
+            }
+        }
+
         return $dati;
     }
 
 
+    /**
+     * se è settato restituisce il task su una variabile
+     *
+     * @return mixed
+     */
     public function getTask()
     {
         if (isset($_REQUEST['task']))
@@ -54,6 +79,11 @@ class VViaggio extends View
     }
 
 
+    /**
+     * se è settato restituisce il controller su una variabile
+     *
+     * @return mixed
+     */
     public function getController()
     {
         if (isset($_REQUEST['controller']))
@@ -63,6 +93,11 @@ class VViaggio extends View
     }
 
 
+    /**
+     * se è settato restituisce l'id del viaggio su una variabile
+     *
+     * @return mixed
+     */
     public function getIdViaggio()
     {
         if (isset($_REQUEST['idviaggio']))
@@ -74,6 +109,11 @@ class VViaggio extends View
     }
 
 
+    /**
+     * se è settato restituisce il nome del luogo su una variabile
+     * @author Riccardo
+     * @return mixed
+     */
     public function getNomeLuogo()
     {
         if (isset($_REQUEST['nome']))
@@ -84,6 +124,12 @@ class VViaggio extends View
             return false;
     }
 
+
+    /**
+     * se è settato restituisce il nome dell'utente su una variabile
+     * @author Riccardo
+     * @return mixed
+     */
     public function getNomeUtente()         /////FORSE NON SERVE
     {
         if (isset($_REQUEST['username']))
@@ -93,6 +139,11 @@ class VViaggio extends View
     }
 
 
+    /**
+     * se è settato restituisce il nome della citta su una variabile
+     * @author Riccardo
+     * @return mixed
+     */
     public function getNomeCitta()
     {
         if (isset($_REQUEST['nomecitta']))
@@ -105,9 +156,34 @@ class VViaggio extends View
 
 
     /**
-     * Restituisce l'array contenente i dati di registrazione
-     *
-     * @return array();
+     * se è settato restituisce il costo dell'alloggio su una variabile
+     * @author Riccardo
+     * @return mixed
+     */
+    public function getCostoAlloggio()
+    {
+        if (isset($_REQUEST['costoalloggio']))
+            return  $costo = $_REQUEST['costoalloggio'];
+
+    }
+
+
+    /**
+     * se è settato restituisce il costo del biglietto su una variabile
+     * @author Riccardo
+     * @return mixed
+     */
+    public function getCostoBiglietto()
+    {
+        if (isset($_REQUEST['costobiglietto']))
+            return  $costo = $_REQUEST['costobiglietto'];
+    }
+
+
+    /**
+     * restituisci su un array i dati della citta acquisiti dal template
+     * @author Riccardo
+     * @return array
      */
     public function getDatiCitta()
     {
@@ -120,13 +196,15 @@ class VViaggio extends View
             if (isset($_REQUEST[$dato]))
                 $dati[$dato]=$_REQUEST[$dato];
         }
-        //questo mi scrive l'username senno me manca
-        //$session= USingleton::getInstance('USession');
-        //$dati['utenteusername']= $session->leggi_valore('username');/////NON DOVREBBE SERVIRE
         return $dati;
     }
 
 
+    /**
+     * se è settato restituisce l'id del commento su una variabile
+     *
+     * @return mixed
+     */
     public function getIdCommento()
     {
         if (isset($_REQUEST['idcommento']))
@@ -136,20 +214,29 @@ class VViaggio extends View
     }
 
 
-               //metodi set:
+    //METODI SET:
 
 
-
+    /**
+     * imposta il layout
+     * @param string $layout
+     *
+     * @return string
+     */
     public function setLayout($layout)
     {
         $this->_layout=$layout;
     }
 
 
-               //altri metodi:
+    //ALTRI METODI:
 
 
-
+    /**
+     * processa il template secondo il layout precedentemente selezionato
+     *
+     * @return string
+     */
     public function processaTemplate()
     {
         return $this->fetch('viaggio_'.$this->_layout.'.tpl');
@@ -162,7 +249,8 @@ class VViaggio extends View
      * @param string $key
      * @param mixed $valore
      */
-    public function impostaDati($key,$valore){ //chiave , valore
+    public function impostaDati($key,$valore)
+    { //chiave , valore
         $this->assign($key,$valore);
     }
 
@@ -172,11 +260,10 @@ class VViaggio extends View
      *
      * @param string $errore
      */
-    public function impostaErrore($errore){
+    public function impostaErrore($errore)
+    {
         $this->assign('errore',$errore);
     }
-
-
 
 }
 ?>

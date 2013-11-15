@@ -1,5 +1,5 @@
 <div class="sidebar">
-    <span id="logout_button"">
+    <span id="logout_button">
         <p id="error">{$errore}</p>
         <h3 class="center">Benvenuto {$username}</h3>
         <form method="post" action="index.php">

@@ -3,32 +3,7 @@
         <script type="text/javascript" src="templates/main/template/js/validation_reg.js"></script>
         <form method="post" action="index.php" id="form_register">
             <div id="form_register" class="error">{$errore}
-
-
-
-
-                {literal}<script type="text/javascript">
-                    $(function ()
-                    {
-                        $("#reg_pass1").complexify({}, function (valid, complexity)
-                        {
-                            document.getElementById("PassValue").value = complexity;
-                        });
-                    });
-                </script>{/literal}
-
-
-                {literal}<script type="text/javascript">
-                    $(function ()
-                    {
-                        $("#reg_pass1").complexify({}, function (valid, complexity)
-                        {
-                            document.getElementById("PassValue").value = complexity;
-                        });
-                    });
-                </script>{/literal}
-
-
+            
 
                 <legend id="form_register"><h4>Inserisci i seguenti dati : </h4></legend>
 
@@ -110,14 +85,18 @@
                         </p>
                     {/if}
 
-                    <h2 id="strong">Robustezza password  <meter value="0" id="PassValue" max="100"></meter><h2>
-
 
                             <input type="hidden" name="controller" value="registrazione" />
                             <input type="hidden" name="task" value="salva" />
                             <input type="submit" name="register" class="submit" value="invia dati" id="reg_submit" />
                             <input type="reset" name="cancella" value="cancella" id="reg_reset" />
                 </fieldset>
+                
+                <br>
+                <br>
+
+                <h3>* Campo Obbligatorio</h3>
+
         </form>
     </div>
 </div>

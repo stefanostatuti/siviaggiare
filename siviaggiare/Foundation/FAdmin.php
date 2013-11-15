@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: francesco
- * Date: 16/08/13
- * Time: 12.21
- * To change this template use File | Settings | File Templates.
- */
 
 class FAdmin extends FUtente
 {

@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: francesco
- * Date: 16/08/13
- * Time: 12.21
- * To change this template use File | Settings | File Templates.
- */
 
 class FUtente extends FDatabase
 {
@@ -18,17 +11,36 @@ class FUtente extends FDatabase
         USingleton::getInstance('FDatabase');
     }
 
-    public function loadUtente($id)
+
+    /**
+     * carica dal database un utente
+     *
+     * @param $user
+     * @return mixed
+     */
+    public function loadUtente($user)
     {
         $query='SELECT * ' .
             'FROM `'.$this->tabella.'` ' .
-            'WHERE `'.$this->chiave.'` = \''.$id.'\'';
+            'WHERE `'.$this->chiave.'` = \''.$user.'\'';
         $obj=parent::getObject(parent::query($query));
-        //debug("query fatta!");
-        //var_dump($obj);
-        //debug("ecco l'oggetto ricevuto".$obj);
         return $obj;
     }
 
+
+    /**
+     * Cancella dal database un utente
+     *
+     * @param $utenteusername
+     * @return mixed
+     */
+    public function deleteUtente($utenteusername)
+    {
+        $query='DELETE ' .
+            'FROM `'.$this->tabella.'` ' .
+            'WHERE `'.$this->chiave.'` = \''.$utenteusername.'\'';
+        $obj=parent::getObject(parent::query($query));
+        return $obj;
+    }
 }
 ?>

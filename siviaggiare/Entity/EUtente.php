@@ -1,17 +1,7 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: francesco
- * Date: 14/08/13
- * Time: 10.13
- * To change this template use File | Settings | File Templates.
- */
 
 class EUtente
 {
-
-    //public poiche in questo è possibile accedere agli attributi dall'esterno
-
     public $cognome;
     public $nome;
     public $username;
@@ -22,7 +12,8 @@ class EUtente
     public $telefono;
     public $sesso;
     public $datanascita;
-    public $messaggi;
+    public $foto;
+    public $galleria;
     public $password;
     public $cod_attivazione;
     public $avvertimenti;
@@ -31,18 +22,21 @@ class EUtente
 
 
 
+    /**
+     * Genera il codice di attivazione per l'utente
+     *
+     */
     public function generaCodiceAttivazione()
     {
         $this->cod_attivazione=mt_rand();
     }
 
 
-    public function addViaggio(EViaggio $viaggio)
-    {
-        $this->_elenco_viaggi[] = $viaggio;
-    }
-
-
+    /**
+     * Carica tutti i viaggi associati all'utente nell'attributo $_elenco_viaggi
+     *
+     * @return array
+     */
     public function getElencoViaggi()
     {
         $FViaggio=new FViaggio();
@@ -51,6 +45,11 @@ class EUtente
     }
 
 
+    /**
+     * Verifica se un account è stato attivato
+     *
+     * @return bool
+     */
     public function getAccountAttivo()
     {
         if ($this->stato=='attivo')
@@ -59,34 +58,47 @@ class EUtente
             return false;
     }
 
+
+    /**
+     * Prende il codice di attivazione associato all'utente
+     *
+     * @return $this->cod_attivazione
+     */
     public function getCodiceAttivazione()
     {
         return $this->cod_attivazione;
     }
 
+
+    /**
+     * Prende gli avvertimenti associati all'utente
+     *
+     * @return $this->cod_attivazione
+     */
     public function getAvvertimenti()
     {
         return $this->avvertimenti;
     }
 
+
+    /**
+     * permette ad un utente di tipo amministratore di incrementare gli avvertimenti associati all'utente
+     *
+     * @return boolean
+     */
     public function riceviAvvertimento()
     {
-        debug("Prima "+$this->getAvvertimenti()+"\n");
         $this->avvertimenti++;
-
-        var_dump($this->getAvvertimenti());
-        //aggiorno il db
         $FUtente=new FUtente();
         $ris=$FUtente->update($this);
         if ($ris==true){
-            debug("UPDATE OK!! ");
-            debug("Dopo "+$this->getAvvertimenti()+"\n");
+            //debug("UPDATE OK!! ");
+            //debug("Dopo "+$this->getAvvertimenti()+"\n");
         }
         elseif ($ris==false){
-            debug("UPDATE FALLITO!!!! ");
-            debug("Dopo "+$this->getAvvertimenti()+"\n");
-        }
+            //debug("UPDATE FALLITO!!!! ");
+            //debug("Dopo "+$this->getAvvertimenti()+"\n");
+        }return $ris;
     }
-
 }
 ?>

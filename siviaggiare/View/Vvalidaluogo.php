@@ -1,15 +1,12 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: francesco
- * Date: 16/08/13
- * Time: 15.59
- * To change this template use File | Settings | File Templates.
- */
 
 class Vvalidaluogo extends View
 {
 
+    /**
+     * @var $fields  Rappresenta l'arrray degli attributi dell'oggetto luogo inizialmente impostati a null
+     * @author Riccardo
+     */
       private $fields =
       array ( "luogo" => null,
               "sitoweb" => null,
@@ -21,7 +18,11 @@ class Vvalidaluogo extends View
               "valuta"=>null
             );
 
-  // messaggi in caso di eventuali errori di input
+
+    /**
+     * @var $errors_msg  Rappresenta l'array dei messaggi d'errore
+     * @author Riccardo
+     */
     private $errors_msg =
       array ( 
               "luogo" =>"campo non valido, solo caratteri alfanumerici!",
@@ -32,19 +33,37 @@ class Vvalidaluogo extends View
               "biglietto_budget"=>"costo biglietto maggiore costo budget???",
               "campo" => "Campo obbligatorio!"
             );
-              
+
+
+    /**
+     * @var $retrivedFields  Variabile inizialmente impostata a false, verifica se un un attributo dell'oggetto luogo è stato settato
+     * @author Riccardo
+     */
     private $retrivedFields = false;//inizialmente i dati non sono caricati
-    
-    // nomi dei campi che contengono errori di input
+
+
+    /**
+     * @var $wrong_fields  Array che identifica se un campo dell'oggetto luogo contiene errori
+     * @author Riccardo
+     */
     private $wrong_fields = array();
-    
-    //restituisce array messaggi
+
+
+    /**
+     * @var $messaggi  Array che restituisce al template i campi con i relativi messaggi di errore
+     * @author Riccardo
+     */
     private $messaggi = array();
     
     
     // ------------------------------- public methods
-    
-    
+
+
+    /**
+     * assegna agli attributi il valore passatogli da template
+     * @author Riccardo
+     * @return boolean
+     */
     public function retriveFields($dati) 
     {  
        if (!$this->retrivedFields) 
@@ -61,9 +80,14 @@ class Vvalidaluogo extends View
          
        }
        		$this->retrivedFields = true;
-    } 
-            
-     
+    }
+
+
+    /**
+     * restituisce l'array che identifica se un campo dell'oggetto luogo contiene errori, se non ci sono errori,altrimenti ritorna false
+     * @author Riccardo
+     * @return mixed
+     */
      public function validacampi($input) 
     {  
        $this->retriveFields($input);
@@ -80,8 +104,13 @@ class Vvalidaluogo extends View
           return $this->fields;
           
     }
-    
-    
+
+
+    /**
+     * restituisce array messagi di errore se ci sono errori altrimenti false
+     * @author Riccardo
+     * @return mixed
+     */
     public function getErrors() 
     {
        if ( in_array("true", $this->wrong_fields ) )
@@ -92,8 +121,13 @@ class Vvalidaluogo extends View
        else
           return false; 
     }
-    
-    
+
+
+    /**
+     * restituisce i dati usati per la validazione al template
+     * @author Riccardo
+     * @return array
+     */
     public function getdatipersonali()
     {
          $arraydata['luogo']=$this->fields['luogo'];
@@ -112,6 +146,11 @@ class Vvalidaluogo extends View
 
 
 
+    /**
+     * se il nome del luogo è settato verifica se quest'ultimo è un alfanumerico , se non è settato rilascia errore
+     * @author Riccardo
+     * @return array
+     */
    private function validaluogo()
    {  
      if($this->fields['luogo']!=null)
@@ -132,8 +171,13 @@ class Vvalidaluogo extends View
             $this->messaggi['campoluogo']= $this->errors_msg['campo']; 
       }     
    }
-    
-   
+
+
+    /**
+     * se il nome del sito web è settato verifica se quest'ultimo è corretto, se non è settato rilascia errore
+     * @author Riccardo
+     * @return array
+     */
    private function validasito()
    {
      if($this->fields['sitoweb']!=null)
@@ -153,13 +197,18 @@ class Vvalidaluogo extends View
              $this->wrong_fields['sitoweb'] = "false";
       } 
    }
-   
-   
+
+
+    /**
+     * se il costo del biglietto è settato verifica se quest'ultimo è un intero di al più 4 cifre, se non è settato rilascia errore
+     * @author Riccardo
+     * @return array
+     */
    private function validacostobiglietto($a)
    {
      if($this->fields['costobiglietto']!=null)
      {
-        $pattern = '/^[0-9]{1,3}$/';
+        $pattern = '/^[0-9]{1,4}$/';
         if ( !preg_match( $pattern, $this->fields['costobiglietto'] )) 
         {
             $this->wrong_fields['costobiglietto'] = "true";
@@ -174,8 +223,13 @@ class Vvalidaluogo extends View
              $this->wrong_fields['costobiglietto'] = "false";
       }   
     }
-    
-    
+
+
+    /**
+     * se il campo guida turistica è settata verifica se quest'ultima è alfanumerica, se non è settata rilascia errore
+     * @author Riccardo
+     * @return array
+     */
     private function validaguidaturistica()
    {
       if($this->fields['guidaturistica']!=null)
@@ -196,8 +250,13 @@ class Vvalidaluogo extends View
              $this->wrong_fields['guidaturistica'] = "false";
       }   
     }
-    
-    
+
+
+    /**
+     * se la durata della visita è settata verifica se quest'ultima è un intero di al più 3 cifre, se non è settata rilascia errore
+     * @author Riccardo
+     * @return array
+     */
     private function validadurata()
    {
       if($this->fields['duratavisita']!=null)
@@ -218,8 +277,13 @@ class Vvalidaluogo extends View
              $this->wrong_fields['duratavisita'] = "false";
       }
     }
-    
-    
+
+
+    /**
+     * se il costo del biglietto è maggiore del budget rilascia errore
+     * @author Riccardo
+     * @return array
+     */
     private function validacosti($input)
     {
       if($input['costobiglietto'] !=null)

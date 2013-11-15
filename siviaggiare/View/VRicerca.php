@@ -1,27 +1,39 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: francesco
- * Date: 18/09/13
- * Time: 11.06
- * To change this template use File | Settings | File Templates.
- */
 
-class VRicerca extends View{
+class VRicerca extends View
+{
 
     private $_layout = 'default';
     private $_layoutInterno = 'default';
 
+
+    /**
+     * Imposta il layout
+     *
+     * @param string $layout
+     */
     public function setLayout($layout)
     {
         $this->_layout=$layout;
     }
 
+
+    /**
+     * Imposta il layout interno
+     *
+     * @param string $layout interno
+     */
     public function setLayoutInterno($layout)
     {
         $this->_layoutInterno=$layout;
     }
 
+
+    /**
+     * Restituisce il nome del task richiesto tramite GET o POST
+     *
+     * @return mixed
+     */
     public function getTask()
     {
         if (isset($_REQUEST['task']))
@@ -30,6 +42,12 @@ class VRicerca extends View{
             return false;
     }
 
+
+    /**
+     * Restituisce il nome della città
+     *
+     * @return mixed
+     */
     public function getNome()
     {
         if (isset($_REQUEST['nome']))
@@ -40,6 +58,12 @@ class VRicerca extends View{
             return false;
     }
 
+
+    /**
+     * restituisce i dati relativi alla città
+     *
+     * @return array
+     */
     public function getDatiCitta()
     {
         $dati_viaggio=array('idviaggio','nomecitta','stato');
@@ -52,6 +76,12 @@ class VRicerca extends View{
         return $dati;
     }
 
+
+    /**
+     * restituisce i dati relativi al luogo
+     *
+     * @return array
+     */
     public function getDatiLuogo()
     {
         $dati_viaggio=array('idviaggio','nomecitta','nomeluogo');
@@ -64,6 +94,12 @@ class VRicerca extends View{
         return $dati;
     }
 
+
+    /**
+     * restituisce i dati relativi al commento
+     *
+     * @return array
+     */
     public function getDatiCommento()
     {
         $dati_viaggio=array('idviaggio','nomeluogo','nomecitta','testo','voto');
@@ -73,22 +109,42 @@ class VRicerca extends View{
         foreach ($dati_viaggio as $dato)
         {
             if (isset($_REQUEST[$dato]))
-                $dati[$dato]=mysql_real_escape_string($_REQUEST[$dato]);
+                $dati[$dato]=$_REQUEST[$dato];
+            // $dati[$dato]=mysql_real_escape_string($_REQUEST[$dato]);
         }
         return $dati;
     }
 
+
+    /**
+     * Imposta i dati nel template identificati da una chiave ed il relativo valore
+     *
+     * @param string $key
+     * @param mixed $valore
+     */
     public function impostaDati($key,$valore)
     {
         $this->assign($key,$valore);
     }
 
+
+    /**
+     * Processa il layout scelto nella variabile _layout
+     *
+     * @return string
+     */
     public function processaTemplate()
     {
         $contenuto=$this->fetch('ricerca_'.$this->_layout.'.tpl');
         return $contenuto;
     }
 
+
+    /**
+     * Processa il layout interno scelto nella variabile _layoutInterno
+     *
+     * @return string
+     */
     public function processaTemplateInterno()
     {
         $contenuto=$this->fetch('ricerca_'.$this->_layoutInterno.'.tpl');

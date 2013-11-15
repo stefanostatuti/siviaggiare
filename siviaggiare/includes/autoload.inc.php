@@ -3,7 +3,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.---------------------si viaggiare
 */
-function __autoload($class_name) {
+function __autoload($class_name)
+{
     switch ($class_name[0]) {
         case 'V':
             require_once ('View/'.$class_name.'.php');

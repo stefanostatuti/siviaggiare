@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Riso64Bit
- * Date: 20/08/13
- * Time: 15.57
- * To change this template use File | Settings | File Templates.
- */
 
 class FViaggio extends FDatabase
 {
@@ -13,20 +6,33 @@ class FViaggio extends FDatabase
     public function __construct()
     {
         $this->tabella='viaggio';
-        $this->chiave='id'; //verificare che la chiave sia ID
+        $this->chiave='id';
         $this->classe='EViaggio';
         $this->auto_incremento=true;
         USingleton::getInstance('FDatabase');
     }
 
+
+    /**
+     * salva sul database un Viaggio
+     *
+     * @param $object
+     * @return int
+     */
     public function store( $object )
     {
         $id = parent::store($object);
         $object->id=$id;
-        return $object->id;// forse non serve
+        return $object->id;
     }
 
 
+    /**
+     * carica dal database un Viaggio
+     *
+     * @param  $id
+     * @return boolean
+     */
     public function loadViaggio($id)
     {
         $query='SELECT * ' .
@@ -37,4 +43,20 @@ class FViaggio extends FDatabase
     }
 
 
+    /**
+     * Cancella dal database un Viaggio
+     *
+     * @param id
+     * @return boolean
+     */
+    public function deleteViaggio($id)
+    {
+        $query='DELETE ' .
+            'FROM `'.$this->tabella.'` ' .
+            'WHERE `'.$this->chiave.'` = \''.$id.'\'';
+        $obj=parent::getObject(parent::query($query));
+        return $obj;
+    }
+
 }
+?>

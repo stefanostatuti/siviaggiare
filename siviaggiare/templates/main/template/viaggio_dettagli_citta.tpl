@@ -3,10 +3,6 @@
         <h3>Citt&agrave;</h3>
         <table id="form_journey">
             <tr>
-                <td>Idviaggio:</td>
-                <td><h6>{$citta->idviaggio}</h6></td>
-            </tr>
-            <tr>
                 <td> Nome:</td>
                 <td><h6>{$citta->nome}</h6></td>
             </tr>
@@ -28,6 +24,10 @@
             <tr>
                 <td> Costo dell' alloggio:</td>
                 <td><h6>{$citta->costoalloggio} {$citta->valuta} </h6></td>
+            </tr>
+            <tr>
+                <td> Feedback:</td>
+                <td><h6> {$citta->feedback} </h6></td>
             </tr>
             <tr>
                 <td> Voto: </td>
