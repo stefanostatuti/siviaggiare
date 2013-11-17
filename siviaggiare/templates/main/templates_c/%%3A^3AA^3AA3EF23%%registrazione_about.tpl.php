@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2013-11-15 14:08:50
+<?php /* Smarty version 2.6.26, created on 2013-11-17 15:00:10
          compiled from registrazione_about.tpl */ ?>
 <div class="sidebar">
     <h3>Perch&egrave; registrarti?</h3>

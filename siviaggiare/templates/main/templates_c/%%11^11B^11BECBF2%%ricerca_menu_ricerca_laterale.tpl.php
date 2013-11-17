@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2013-11-15 14:08:50
+<?php /* Smarty version 2.6.26, created on 2013-11-17 15:00:10
          compiled from ricerca_menu_ricerca_laterale.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'regex_replace', 'ricerca_menu_ricerca_laterale.tpl', 8, false),array('modifier', 'replace', 'ricerca_menu_ricerca_laterale.tpl', 36, false),)), $this); ?>

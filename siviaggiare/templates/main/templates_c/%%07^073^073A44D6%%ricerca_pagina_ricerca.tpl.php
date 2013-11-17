@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2013-11-15 14:08:50
+<?php /* Smarty version 2.6.26, created on 2013-11-17 15:00:10
          compiled from ricerca_pagina_ricerca.tpl */ ?>
 <div class="content">
     <div id="barraricerca">

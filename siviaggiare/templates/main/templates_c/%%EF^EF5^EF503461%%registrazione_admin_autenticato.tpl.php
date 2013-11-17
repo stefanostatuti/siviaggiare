@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2013-11-15 14:08:57
+<?php /* Smarty version 2.6.26, created on 2013-11-17 15:00:19
          compiled from registrazione_admin_autenticato.tpl */ ?>
 <div class="sidebar">
     <span id="logout_button">

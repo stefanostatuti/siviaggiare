@@ -39,10 +39,10 @@ $config['smarty']['compile_dir'] =
 $config['smarty']['config_dir'] =
     '/Applications/XAMPP/xamppfiles/htdocs/siviaggiare/siviaggiare/templates/main/configs/';
 $config['smarty']['cache_dir'] =
-    '/Applications/XAMPP/xamppfiles/htdocs/siviaggiare/siviaggiare/templates/main/cache/';
-*/
+    '/Applications/XAMPP/xamppfiles/htdocs/siviaggiare/siviaggiare/templates/main/cache/';*/
 
-$config['debug']=true;
+
+$config['debug']=false;
 $config['mysql']['user'] = 'root';
 $config['mysql']['password'] = 'pippo';
 $config['mysql']['host'] = 'localhost';
@@ -50,7 +50,7 @@ $config['mysql']['database'] = 'siviaggiare';
 
 //configurazione server smtp per invio email
 // x ALICE: $config['smtp']['host'] = 'out.aliceposta.it';
-$config['smtp']['host'] ='smtp.tiscali.it'; //'out.aliceposta.it';//'out.aliceposta.it';//'smtp.tre.it';
+$config['smtp']['host'] ='smtp.tre.it'; //'out.aliceposta.it';//'out.aliceposta.it';//'smtp.tre.it';
 $config['smtp']['port'] = '25';
 $config['smtp']['smtpauth'] = false;
 $config['smtp']['username'] = '';
