@@ -53,8 +53,8 @@
 
         {if !($viaggio->id)}
             <br>
-            Viaggio GIA RIMOSSO!<br><br>
-            consiglio di eliminare la segnalazione
+            Viaggio RIMOSSO!<br><br>
+            Consiglio di eliminare la segnalazione
             <br>
             <br>
             <button id="redirect-segnalazione" class="redirect-segnalazione">Vai alla Segnalazione</button>

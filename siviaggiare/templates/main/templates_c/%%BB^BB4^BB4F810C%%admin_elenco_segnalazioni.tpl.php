@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2013-11-17 15:00:27
+<?php /* Smarty version 2.6.26, created on 2013-11-17 15:14:57
          compiled from admin_elenco_segnalazioni.tpl */ ?>
 <script type="text/javascript" src="templates/main/template/js/admin.js"></script>
 <div class="content">
@@ -49,10 +49,17 @@ $this->_sections['nr']['last']       = ($this->_sections['nr']['iteration'] == $
                             <?php echo $this->_tpl_vars['results'][$this->_sections['nr']['index']]->segnalato; ?>
 
                         </td>
-                        <td>
-                            <?php echo $this->_tpl_vars['results'][$this->_sections['nr']['index']]->idviaggio; ?>
+                        <?php if ($this->_tpl_vars['results'][$this->_sections['nr']['index']]->idviaggio != '0'): ?>
+                            <td>
+                                <?php echo $this->_tpl_vars['results'][$this->_sections['nr']['index']]->idviaggio; ?>
 
-                        </td>
+                            </td>
+                        <?php endif; ?>
+                        <?php if ($this->_tpl_vars['results'][$this->_sections['nr']['index']]->idviaggio == '0'): ?>
+                            <td>
+
+                            </td>
+                        <?php endif; ?>
                         <td>
                             <?php echo $this->_tpl_vars['results'][$this->_sections['nr']['index']]->citta; ?>
 
@@ -61,10 +68,17 @@ $this->_sections['nr']['last']       = ($this->_sections['nr']['iteration'] == $
                             <?php echo $this->_tpl_vars['results'][$this->_sections['nr']['index']]->luogo; ?>
 
                         </td>
-                        <td>
-                            <?php echo $this->_tpl_vars['results'][$this->_sections['nr']['index']]->idcommento; ?>
+                        <?php if ($this->_tpl_vars['results'][$this->_sections['nr']['index']]->idcommento != '0'): ?>
+                            <td>
+                                <?php echo $this->_tpl_vars['results'][$this->_sections['nr']['index']]->idcommento; ?>
 
-                        </td>
+                            </td>
+                        <?php endif; ?>
+                        <?php if ($this->_tpl_vars['results'][$this->_sections['nr']['index']]->idcommento == '0'): ?>
+                            <td>
+
+                            </td>
+                        <?php endif; ?>
                         <td>
                             <a href="?controller=amministrazione&task=dettaglio_segnalazione&id=<?php echo $this->_tpl_vars['results'][$this->_sections['nr']['index']]->id; ?>
 ">Vedi dettagli</a>
@@ -74,7 +88,7 @@ $this->_sections['nr']['last']       = ($this->_sections['nr']['iteration'] == $
             </table>
             <?php else: ?>
             <td class="center">
-                <h5> nessuna Segnalazione Ricevuta </h5>
+                <h5> Nessuna Segnalazione Ricevuta </h5>
             <td>
                 <?php endif; ?>
         </div>

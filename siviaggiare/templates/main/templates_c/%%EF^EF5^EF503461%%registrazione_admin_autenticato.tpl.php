@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2013-11-17 15:00:19
+<?php /* Smarty version 2.6.26, created on 2013-11-17 15:14:57
          compiled from registrazione_admin_autenticato.tpl */ ?>
 <div class="sidebar">
     <span id="logout_button">
@@ -20,6 +20,6 @@
 
         <li><a href="?controller=amministrazione&task=segnalazioni">Segnalazioni Ricevute</a></li>
         <li><a href="?controller=amministrazione&task=gestione_utenti">Gestione Utenti</a></li>
-        <li><a href="?controller=amministrazione&task=       ">Opzione 3</a></li>
+        <!--<li><a href="?controller=amministrazione&task=       ">Opzione 3</a></li>-->
     </ul>
 </div>

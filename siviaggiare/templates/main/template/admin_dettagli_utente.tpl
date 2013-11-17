@@ -1,7 +1,7 @@
 <script type="text/javascript" src="templates/main/template/js/admin.js"></script>
 
 
-<div class="content">
+<div class="content" id="danascondere">
 
     <div class=form_settings>
 
@@ -55,7 +55,7 @@
 
             {if !($utente->username)}
                 <br>
-                Utente GIA RIMOSSO!<br><br>
+                Utente <b>RIMOSSO</b> con successo!<br><br>
                 <br>
                 <br>
                 <button id="redirect-utenti" class="redirect-utenti">Lista Utenti</button>

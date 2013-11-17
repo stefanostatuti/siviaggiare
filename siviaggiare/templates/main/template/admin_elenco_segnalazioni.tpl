@@ -22,18 +22,32 @@
                         <td>
                             {$results[nr]->segnalato}
                         </td>
-                        <td>
-                            {$results[nr]->idviaggio}
-                        </td>
+                        {if $results[nr]->idviaggio != '0'}
+                            <td>
+                                {$results[nr]->idviaggio}
+                            </td>
+                        {/if}
+                        {if $results[nr]->idviaggio == '0'}
+                            <td>
+
+                            </td>
+                        {/if}
                         <td>
                             {$results[nr]->citta}
                         </td>
                         <td>
                             {$results[nr]->luogo}
                         </td>
-                        <td>
-                            {$results[nr]->idcommento}
-                        </td>
+                        {if $results[nr]->idcommento != '0'}
+                            <td>
+                                {$results[nr]->idcommento}
+                            </td>
+                        {/if}
+                        {if $results[nr]->idcommento == '0'}
+                            <td>
+
+                            </td>
+                        {/if}
                         <td>
                             <a href="?controller=amministrazione&task=dettaglio_segnalazione&id={$results[nr]->id}">Vedi dettagli</a>
                         </td>
@@ -42,7 +56,7 @@
             </table>
             {else}
             <td class="center">
-                <h5> nessuna Segnalazione Ricevuta </h5>
+                <h5> Nessuna Segnalazione Ricevuta </h5>
             <td>
                 {/if}
         </div>

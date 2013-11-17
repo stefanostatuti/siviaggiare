@@ -1956,6 +1956,7 @@ div #campo_obbligatorio
 .elimina-utente{color: red;}
 .gestisci-utente{}
 .salva-modifiche{display: none;}
+.salva_modifiche{color: red;}
 .salva{color: red;}
 .redirect{color:red;}
 .redirect-segnalazione{color:red;}

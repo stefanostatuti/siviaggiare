@@ -1,5 +1,5 @@
 <script type="text/javascript" src="templates/main/template/js/admin.js"></script>
-<div class="content">
+<div class="content" id="templatemodificaUtente">
     <div class="form_settings">
         <div id="administrator_modifiche">
 
@@ -50,8 +50,11 @@
                         <option value="non_attivo" {if $utente->stato == "non_attivo"}selected {/if}>Non Attivo</option>
                         <option value="admin" {if $utente->stato == "admin"}selected {/if}>Admin</option>
                     </select>
-
+                    <br>
+                    <br>
                 </fieldset>
+            <br>
+            <br>
                 <button id="salva_modifiche" class="salva_modifiche">Salva</button>
                 <button id="annulla_modifiche" class="annulla_modifiche">Annulla</button>
         </div>

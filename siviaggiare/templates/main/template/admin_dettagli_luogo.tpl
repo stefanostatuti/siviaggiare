@@ -7,7 +7,7 @@
 
     <div id="administrator">
 
-    <h3>luogo segnalato</h3>
+    <h3>Luogo segnalato</h3>
 
 
 
@@ -56,8 +56,8 @@
 
         {if !($luogo->idviaggio && $luogo->nome && $luogo->nomecitta)}
             <br>
-            Luogo GIA RIMOSSO!<br><br>
-            consiglio di eliminare la segnalazione
+            Luogo RIMOSSO!<br><br>
+            Consiglio di eliminare la segnalazione
             <br>
             <br>
             <button id="redirect-segnalazione" class="redirect-segnalazione">Vai alla Segnalazione</button>

@@ -7,7 +7,7 @@
     <div id="administrator">
 
     <h3>Dettagli commento segnalato:</h3>
-        <div class=form_settings>
+        <!--<div class=form_settings>-->
 
             {if ($commento->id)}
 
@@ -44,12 +44,11 @@
 
             {if !($commento->id)}
                 <br>
-                Commento GIA RIMOSSO!<br><br>
-                consiglio di eliminare la segnalazione
+                Commento RIMOSSO!<br><br>
+                Consiglio di eliminare la segnalazione
                 <br>
                 <br>
                 <button id="redirect-segnalazione" class="redirect-segnalazione">Vai alla Segnalazione</button>
-
             {/if}
         </div>
     </div>

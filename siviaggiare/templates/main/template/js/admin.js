@@ -30,11 +30,12 @@ $(document).ready(function()
                 url: 'index.php?controller=amministrazione&task=modifica_utente',
                 data: "nomeutente="+getNomeUtente(),
                 success: function(msg){
-                    $('#administrator *').hide();
+                    $('#danascondere').hide();
                     if($('#administrator_modifiche fieldset').length==0){
                     $('#site_content').append(msg);
                     }
                     event.preventDefault();
+                    //event.stopPropagation();
                         $('#salva_modifiche').on('click', function(){
                             var username=$('#adm_user').val();
                             var nome=$('#adm_nome').val();
@@ -79,13 +80,17 @@ $(document).ready(function()
                             });
                         });
 
-                        $('#annulla_modifiche').on('click', function(){
+                        $('#annulla_modifiche').on('click', function(event){
+                            event.preventDefault();
+                            event.stopPropagation();
                             alert("modifiche Annullate");
-                            $('#administrator *').show();
-                            $('#administrator_modifiche').remove();
+                            $('#danascondere').show();
+                            $('#templatemodificaUtente').remove();
                             $('#salva-modifiche').hide('fast');
                             $('#annulla-modifiche').hide('fast');
                             $('#annulla').hide('fast');
+                            $('#gestisci-utente').show('fast');
+                            $('#avvertimento').show('fast');
                             $('#modifica').show('fast');
                         });
                 }
@@ -202,7 +207,8 @@ $(document).ready(function()
                 url: 'index.php?controller=amministrazione&task=manda_avvertimento',
                 data: "nomeutente="+getNomeUtente(),
                 success: function(response){
-                    AggiornaPagina();
+                    //AggiornaPagina();
+                    $("#avvertimento").hide();
                 }
             })
         }
@@ -222,7 +228,7 @@ $(document).ready(function()
             {
                 $.ajax({
                     type: 'POST',
-                    processData: false, //obbligatorio se si spedisce del testo???
+                    processData: false,
                     url: 'index.php?controller=amministrazione&task=promuovi_utente',
                     data: "nomeutente="+getNomeUtente(),
                     success: function(response){

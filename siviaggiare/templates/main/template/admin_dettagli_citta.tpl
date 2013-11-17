@@ -52,8 +52,8 @@
 
         {if !($citta->idviaggio && $citta->nome)}
             <br>
-            Citta GIA RIMOSSA!<br><br>
-            consiglio di eliminare la segnalazione
+            Citt&agrave; RIMOSSA!<br><br>
+            Consiglio di eliminare la segnalazione
             <br>
             <br>
             <button id="redirect-segnalazione" class="redirect-segnalazione">Vai alla Segnalazione</button>
